@@ -1,0 +1,250 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>1224-浏览器缓存 | Runtus</title>
+<meta name=keywords content="FE-FrontEnd">
+<meta name=description content="浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。
+  对于数据请求来说，大致可以分为 请求 -> 处理 -> 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register('sw.js') .then(function(registration) { console.log('service worker 注册成功') }) .catch(function(err) { console.log('servcie worker 注册失败') }) } // sw.js // 监听install事件，缓存文件 self.">
+<meta name=author content="Runtus">
+<link rel=canonical href=https://examplesite.com/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/>
+<meta name=google-site-verification content="XYZabc">
+<meta name=yandex-verification content="XYZabc">
+<meta name=msvalidate.01 content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://examplesite.com/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=16x16 href=https://examplesite.com/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=32x32 href=https://examplesite.com/%3Clink%20/%20abs%20url%3E>
+<link rel=apple-touch-icon href=https://examplesite.com/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://examplesite.com/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="1224-浏览器缓存">
+<meta property="og:description" content="浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。
+  对于数据请求来说，大致可以分为 请求 -> 处理 -> 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register('sw.js') .then(function(registration) { console.log('service worker 注册成功') }) .catch(function(err) { console.log('servcie worker 注册失败') }) } // sw.js // 监听install事件，缓存文件 self.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://examplesite.com/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"><meta property="og:image" content="https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-12-24T10:35:37+00:00">
+<meta property="article:modified_time" content="2021-12-24T10:35:37+00:00"><meta property="og:site_name" content="Runtus">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG">
+<meta name=twitter:title content="1224-浏览器缓存">
+<meta name=twitter:description content="浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。
+  对于数据请求来说，大致可以分为 请求 -> 处理 -> 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register('sw.js') .then(function(registration) { console.log('service worker 注册成功') }) .catch(function(err) { console.log('servcie worker 注册失败') }) } // sw.js // 监听install事件，缓存文件 self.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://examplesite.com/posts/"},{"@type":"ListItem","position":2,"name":"1224-浏览器缓存","item":"https://examplesite.com/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"1224-浏览器缓存","name":"1224-浏览器缓存","description":"浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。\n  对于数据请求来说，大致可以分为 请求 -\u0026gt; 处理 -\u0026gt; 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register(\u0026#39;sw.js\u0026#39;) .then(function(registration) { console.log(\u0026#39;service worker 注册成功\u0026#39;) }) .catch(function(err) { console.log(\u0026#39;servcie worker 注册失败\u0026#39;) }) } // sw.js // 监听install事件，缓存文件 self.","keywords":["FE-FrontEnd"],"articleBody":" 浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。\n  对于数据请求来说，大致可以分为 请求 - 处理 - 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register('sw.js') .then(function(registration) { console.log('service worker 注册成功') }) .catch(function(err) { console.log('servcie worker 注册失败') }) } // sw.js // 监听install事件，缓存文件 self.addEventListener('install', e = { e.waitUntil( caches.open('my-cache').then(function(cache) { return cache.addAll(['./index.html', './index.js']) }) ) }) // 拦截请求，并根据请求去命中响应数据 self.addEventListener('fetch', e = { e.respondWith( caches.match(e.request).then(function(response) { if (response) { return response } console.log('fetch source') }) ) }) Memory Cache - 内存缓存  由于是内存缓存，所以速度会比后续马上讲到的磁盘缓存速度快很多，但是内存空间非常有限，所以一般内存缓存的内容都比较小，且生命周期短，会随着进程的释放而释放（关闭页面）。 内存缓存一般是css，js，svg，小图片文件等，打开浏览器的开发者工具，重新刷新网络页面，可以发现很多请求右侧都有memory cache的提示，说明这些请求就是命中内存缓存中的内容而直接返回的内容。  Disk Cache  磁盘缓存虽然速度没有内存缓存快，但是容量大，基本什么内容都可以存在磁盘中，并且可以存储内容的生命周期长。 磁盘缓存会根据HTTP Header中国呢的字段判断哪些内容需要缓存，哪些资源可以直接使用，哪些资源已经过期需要重新请求。需要注意的是，相同地址的资源一旦被磁盘缓存下来，就不会再次去请求数据，比如我直接更改博客图片链接所指向的图片内容（链接不变），重新刷新后会发现图片依然是原来的图片。  Push Cache(Http2)  push cache是HTTP/2的内容，当上面三个缓存都没有命中时，才会被使用。并且缓存的时间非常短暂，只在session中存在，一旦session结束就会被释放。由于接触的不多，这里不细讲。  缓存策略  缓存策略分为两种：强缓存和协商缓存。并且它们的缓存策略都是通过HTTP Header来实现的。需要注意的是，这两种缓存并不是互斥的，即强缓存和协商缓存在一次请求中是同时存在的，下面会细说。\n 强缓存  强缓存通过设置两种HTTP Header来实现：Expires和Cache-Control。强缓存表示的是在缓存期间内不需要请求，响应码为200.  Expires Expires: Wed, 22 Oct 2018 08:41:00 GMT  Expires是HTTP/1的响应头，它表示的是请求的资源会在上述的时间后过期。如果资源会再次过期，并且Expires是基于本地时间进行判断的，如果人为更改了本地时间，可能会造成缓存失效。  Cache-Control cache-control: public, max-age=31536000, s-maxage=31536000, immutable  Cache-Control是HTTP/1.1的请求/响应头，并且它的优先级高于Expires，该资源表示资源是可以被客户端，代理服务器缓存的，且缓存时间为一年。 上述可以看到，Cache-Control可以使用多种指令，从而达到多个目的，下面是一些常见指令的作用。  协商缓存   协商缓存一般发生在强缓存不能进行的时候，当浏览器需要命中缓存却发现缓存已经过期时，它不会立即删除缓存，而是抱着试一试的态度，带着缓存的唯一标识信息去询问后端资源有没有更改，如果没有更改，就直接返回304(Not Modified)，并更新本地缓存有效期。\n  和强缓存类似，协商缓存也需要借助HTTP Header字段的帮助，它们分别是Last-Modified和E-Tag\n  Last-Modified 和 If-Modified-Since - HTTP/1  Last-Modified 表示本地文件最后修改日期，If-Modified-Since会把Last-Modified的值发送给服务器，询问服务器在该时间段后，资源是否发生了更改，如果有更新，则会正常请求资源（200），并更新本地缓存，如果没有，则直接返回缓存资源（304）。  ETag 和 If-None-Match  ETag类似于文件id，If-None-Match会把ETag的值发送给服务器，并询问对应资源是否有更改，如果没有变动就直接返回本地缓存，如果有变动则返回新的资源，并更新本地缓存。需要注意的是，ETag的优先级比Last-Modified高。  ","wordCount":"144","inLanguage":"en","datePublished":"2021-12-24T10:35:37Z","dateModified":"2021-12-24T10:35:37Z","author":{"@type":"Person","name":"Runtus"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://examplesite.com/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"},"publisher":{"@type":"Organization","name":"Runtus","logo":{"@type":"ImageObject","url":"https://examplesite.com/%3Clink%20/%20abs%20url%3E"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://examplesite.com/ accesskey=h title="Home (Alt + H)">
+<img src=https://examplesite.com/apple-touch-icon.png alt aria-label=logo height=35>Home</a>
+<div class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</div>
+</div>
+<ul id=menu>
+<li>
+<a href=https://examplesite.com/categories/ title=categories>
+<span>categories</span>
+</a>
+</li>
+<li>
+<a href=https://examplesite.com/tags/ title=tags>
+<span>tags</span>
+</a>
+</li>
+<li>
+<a href=https://github.com/Runtus title=github>
+<span>github</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://examplesite.com/>Home</a>&nbsp;»&nbsp;<a href=https://examplesite.com/posts/>Posts</a></div>
+<h1 class=post-title>
+1224-浏览器缓存
+</h1>
+<div class=post-meta><span title="2021-12-24 10:35:37 +0000 UTC">December 24, 2021</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;144 words&nbsp;·&nbsp;Runtus
+</div>
+</header>
+<div class=post-content><blockquote>
+<p>浏览器缓存是性能优化中最<strong>直接，高效</strong>的优化方式，它可以显著减少因为网络传输而带来的损耗。</p>
+</blockquote>
+<ul>
+<li>对于数据请求来说，大致可以分为 <strong>请求 -> 处理 -> 响应</strong>这三个步骤，而浏览器缓存则主要在第一步和第三步<strong>做手脚</strong>，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。</li>
+<li>缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从<strong>缓存位置和缓存策略</strong>两个方面介绍浏览器相关缓存。</li>
+</ul>
+<h2 id=缓存位置>缓存位置<a hidden class=anchor aria-hidden=true href=#缓存位置>#</a></h2>
+<ul>
+<li>浏览器的缓存位置大概可以分为四种：
+<ol>
+<li>Service Worker</li>
+<li>Memory Cache</li>
+<li>Disk Cache</li>
+<li>Push Cache（HTTP 2）</li>
+</ol>
+</li>
+<li>他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。</li>
+</ul>
+<h3 id=service-worker>Service Worker<a hidden class=anchor aria-hidden=true href=#service-worker>#</a></h3>
+<ul>
+<li>Service Worker是浏览器背后的<strong>独立线程</strong>，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，<strong>传输协议必须是HTTPS</strong>。</li>
+<li>Service Worker实现缓存大致三个步骤。
+<ol>
+<li>注册Service Worker。</li>
+<li>监听install事件，并对需要的文件进行缓存。</li>
+<li>拦截HTTPS请求，<strong>并根据请求内容去命中缓存</strong>，如果命中，则直接使用缓存，否则请求数据。</li>
+</ol>
+</li>
+<li>下面是一串实例代码（源代码来自前端面试之道）</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=c1>// index.js
+</span><span class=c1></span><span class=k>if</span> <span class=p>(</span><span class=nx>navigator</span><span class=p>.</span><span class=nx>serviceWorker</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nx>navigator</span><span class=p>.</span><span class=nx>serviceWorker</span>
+    <span class=p>.</span><span class=nx>register</span><span class=p>(</span><span class=s1>&#39;sw.js&#39;</span><span class=p>)</span>
+    <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>registration</span><span class=p>)</span> <span class=p>{</span>
+      <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;service worker 注册成功&#39;</span><span class=p>)</span>
+    <span class=p>})</span>
+    <span class=p>.</span><span class=k>catch</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+      <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;servcie worker 注册失败&#39;</span><span class=p>)</span>
+    <span class=p>})</span>
+<span class=p>}</span>
+
+<span class=c1>// sw.js
+</span><span class=c1>// 监听install事件，缓存文件
+</span><span class=c1></span><span class=nx>self</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>(</span><span class=s1>&#39;install&#39;</span><span class=p>,</span> <span class=nx>e</span> <span class=p>=&gt;</span> <span class=p>{</span>
+  <span class=nx>e</span><span class=p>.</span><span class=nx>waitUntil</span><span class=p>(</span>
+    <span class=nx>caches</span><span class=p>.</span><span class=nx>open</span><span class=p>(</span><span class=s1>&#39;my-cache&#39;</span><span class=p>).</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>cache</span><span class=p>)</span> <span class=p>{</span>
+      <span class=k>return</span> <span class=nx>cache</span><span class=p>.</span><span class=nx>addAll</span><span class=p>([</span><span class=s1>&#39;./index.html&#39;</span><span class=p>,</span> <span class=s1>&#39;./index.js&#39;</span><span class=p>])</span>
+    <span class=p>})</span>
+  <span class=p>)</span>
+<span class=p>})</span>
+
+<span class=c1>// 拦截请求，并根据请求去命中响应数据
+</span><span class=c1></span><span class=nx>self</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>(</span><span class=s1>&#39;fetch&#39;</span><span class=p>,</span> <span class=nx>e</span> <span class=p>=&gt;</span> <span class=p>{</span>
+  <span class=nx>e</span><span class=p>.</span><span class=nx>respondWith</span><span class=p>(</span>
+    <span class=nx>caches</span><span class=p>.</span><span class=nx>match</span><span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>request</span><span class=p>).</span><span class=nx>then</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>response</span><span class=p>)</span> <span class=p>{</span>
+      <span class=k>if</span> <span class=p>(</span><span class=nx>response</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=nx>response</span>
+      <span class=p>}</span>
+      <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;fetch source&#39;</span><span class=p>)</span>
+    <span class=p>})</span>
+  <span class=p>)</span>
+<span class=p>})</span>
+
+</code></pre></div><h3 id=memory-cache---内存缓存>Memory Cache -> 内存缓存<a hidden class=anchor aria-hidden=true href=#memory-cache---内存缓存>#</a></h3>
+<ul>
+<li>由于是内存缓存，所以速度会比后续马上讲到的磁盘缓存速度快很多，但是内存空间非常有限，所以一般内存缓存的内容都比较小，且生命周期短，会随着进程的释放而释放（关闭页面）。</li>
+<li>内存缓存一般是css，js，svg，小图片文件等，打开浏览器的开发者工具，重新刷新网络页面，可以发现很多请求右侧都有<code>memory cache</code>的提示，说明这些请求就是命中内存缓存中的内容而直接返回的内容。</li>
+</ul>
+<p><img loading=lazy src=https://lao-lan-go.oss-cn-beijing.aliyuncs.com/runtu_blog/pages/%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98.png alt=内存缓存>
+</p>
+<h3 id=disk-cache>Disk Cache<a hidden class=anchor aria-hidden=true href=#disk-cache>#</a></h3>
+<ul>
+<li>磁盘缓存虽然速度没有内存缓存快，但是容量大，基本什么内容都可以存在磁盘中，并且可以存储内容的生命周期长。</li>
+<li>磁盘缓存会根据HTTP Header中国呢的字段判断哪些内容需要缓存，哪些资源可以直接使用，哪些资源已经过期需要重新请求。<strong>需要注意的是，相同地址的资源一旦被磁盘缓存下来，就不会再次去请求数据，比如我直接更改博客图片链接所指向的图片内容（链接不变），重新刷新后会发现图片依然是原来的图片。</strong></li>
+</ul>
+<h3 id=push-cachehttp2>Push Cache(Http2)<a hidden class=anchor aria-hidden=true href=#push-cachehttp2>#</a></h3>
+<ul>
+<li>push cache是HTTP/2的内容，<strong>当上面三个缓存都没有命中时，才会被使用</strong>。并且缓存的时间非常短暂，只在session中存在，一旦session结束就会被释放。由于接触的不多，这里不细讲。</li>
+</ul>
+<h2 id=缓存策略>缓存策略<a hidden class=anchor aria-hidden=true href=#缓存策略>#</a></h2>
+<blockquote>
+<p>缓存策略分为两种：<strong>强缓存和协商缓存</strong>。并且它们的缓存策略都是通过HTTP Header来实现的。需要注意的是，这两种缓存并不是互斥的，即强缓存和协商缓存在一次请求中是同时存在的，下面会细说。</p>
+</blockquote>
+<h3 id=强缓存>强缓存<a hidden class=anchor aria-hidden=true href=#强缓存>#</a></h3>
+<ul>
+<li>强缓存通过设置两种HTTP Header来实现：<code>Expires</code>和<code>Cache-Control</code>。强缓存表示的是<strong>在缓存期间内不需要请求</strong>，响应码为200.</li>
+</ul>
+<h4 id=expires>Expires<a hidden class=anchor aria-hidden=true href=#expires>#</a></h4>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-http data-lang=http><span class=err>Expires: Wed, 22 Oct 2018 08:41:00 GMT
+</span></code></pre></div><ul>
+<li>Expires是HTTP/1的响应头，它表示的是请求的资源会在上述的时间后过期。如果资源会再次过期，并且<code>Expires</code>是基于本地时间进行判断的，如果人为更改了本地时间，可能会造成缓存失效。</li>
+</ul>
+<h4 id=cache-control>Cache-Control<a hidden class=anchor aria-hidden=true href=#cache-control>#</a></h4>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-http data-lang=http><span class=err>cache-control: public, max-age=31536000, s-maxage=31536000, immutable
+</span></code></pre></div><ul>
+<li>Cache-Control是HTTP/1.1的请求/响应头，并且它的<strong>优先级高于Expires</strong>，该资源表示资源是可以被客户端，代理服务器缓存的，且缓存时间为一年。</li>
+<li>上述可以看到，Cache-Control可以使用多种指令，从而达到多个目的，下面是一些常见指令的作用。</li>
+</ul>
+<p><img loading=lazy src=https://lao-lan-go.oss-cn-beijing.aliyuncs.com/runtu_blog/pages/cache-control.png alt=cache-control指令>
+</p>
+<h3 id=协商缓存>协商缓存<a hidden class=anchor aria-hidden=true href=#协商缓存>#</a></h3>
+<ul>
+<li>
+<p>协商缓存一般发生在强缓存不能进行的时候，当浏览器需要命中缓存却发现缓存已经过期时，<strong>它不会立即删除缓存，而是抱着试一试的态度，带着缓存的唯一标识信息去询问后端资源有没有更改，如果没有更改，就直接返回304(Not Modified)，并更新本地缓存有效期</strong>。</p>
+</li>
+<li>
+<p>和强缓存类似，协商缓存也需要借助HTTP Header字段的帮助，它们分别是<code>Last-Modified</code>和<code>E-Tag</code></p>
+</li>
+</ul>
+<h4 id=last-modified-和-if-modified-since---http1>Last-Modified 和 If-Modified-Since -> HTTP/1<a hidden class=anchor aria-hidden=true href=#last-modified-和-if-modified-since---http1>#</a></h4>
+<ul>
+<li>Last-Modified 表示本地文件最后修改日期，If-Modified-Since会把Last-Modified的值发送给服务器，询问服务器<strong>在该时间段后，资源是否发生了更改</strong>，如果有更新，则会正常请求资源（200），并更新本地缓存，如果没有，则直接返回缓存资源（304）。</li>
+</ul>
+<h4 id=etag-和-if-none-match>ETag 和 If-None-Match<a hidden class=anchor aria-hidden=true href=#etag-和-if-none-match>#</a></h4>
+<ul>
+<li><code>ETag</code>类似于文件id，If-None-Match会把ETag的值发送给服务器，并询问对应资源是否有更改，如果没有变动就直接返回本地缓存，如果有变动则返回新的资源，并更新本地缓存。<strong>需要注意的是，ETag的优先级比Last-Modified高</strong>。</li>
+</ul>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://examplesite.com/tags/fe-frontend/>FE-FrontEnd</a></li>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://examplesite.com/posts/dom%E6%89%A9%E5%B1%95/>
+<span class=title>« Prev</span>
+<br>
+<span>DOM扩展</span>
+</a>
+<a class=next href=https://examplesite.com/posts/1222-dom1/>
+<span class=title>Next »</span>
+<br>
+<span>1222-DOM</span>
+</a>
+</nav>
+<div class=share-buttons>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on twitter" href="https://twitter.com/intent/tweet/?text=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98&url=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f&hashtags=FE-FrontEnd"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f&title=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98&summary=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98&source=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f&title=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on whatsapp" href="https://api.whatsapp.com/send?text=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98%20-%20https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 1224-浏览器缓存 on telegram" href="https://telegram.me/share/url?text=1224-%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98&url=https%3a%2f%2fexamplesite.com%2fposts%2f1224-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E7%25BC%2593%25E5%25AD%2598%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
+</a>
+</div>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://examplesite.com/>Runtus</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
