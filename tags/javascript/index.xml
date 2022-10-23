@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Javascript on Runtus</title>
+    <link>https://runtus.github.io/tags/javascript/</link>
+    <description>Recent content in Javascript on Runtus</description>
+    <image>
+      <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
+      <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 22 Dec 2021 13:01:26 +0000</lastBuildDate><atom:link href="https://runtus.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1222-DOM</title>
+      <link>https://runtus.github.io/posts/1222-dom1/</link>
+      <pubDate>Wed, 22 Dec 2021 13:01:26 +0000</pubDate>
+      
+      <guid>https://runtus.github.io/posts/1222-dom1/</guid>
+      <description>NodeList 和 HTMLCollection区别
+NodeList是节点的集合，而HTMLCollection是元素的集合。
+节点包括很多类型，文档节点，元素节点，属性节点，文本节点，这一点通过Node类型上的12个数值常量表示就可以看出。
+Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.CDATA_SECTION_NODE（4） Node.ENTITY_REFERENCE_NODE（5） Node.ENTITY_NODE（6） Node.PROCESSING_INSTRUCTION_NODE（7） Node.COMMENT_NODE（8） Node.DOCUMENT_NODE（9） Node.DOCUMENT_TYPE_NODE（10） Node.DOCUMENT_FRAGMENT_NODE（11） Node.NOTATION_NODE（12） // 常用的获取DOM元素的接口及其返回的数据结合类型 Node.childNodes instanceof Nodelist Node.chidren instanceof HTMLCollection document.getElementByxxxx instanceof HTMLCollection 注意：NodeList，HTMLCollection，NamedNodeMap 都是实时的，意味着文档结构的变化会实时地在它们身上反映出来。</description>
+    </item>
+    
+    <item>
+      <title>1220-客户端检测</title>
+      <link>https://runtus.github.io/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</link>
+      <pubDate>Mon, 20 Dec 2021 11:22:31 +0000</pubDate>
+      
+      <guid>https://runtus.github.io/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</guid>
+      <description>如今的浏览器虽然接口已大致统一，但是每家浏览器难免都有自己的“想法”，于是会出现个别的不统一，这些差异迫使Web开发者自己去设计兼容这些差异，客户端检测就是最常见的检测手段，通过检测结果来进一步克服和避免这些缺陷。
+客户端检测可大致分为三种：能力检测，用户代理检测，软件与硬件检测。
+能力检测 能力检测也成为特性检测，因为不同浏览器提供的接口不是完全相同，于是可以通过简单的逻辑判断来检测在该浏览器环境下能否调用特定API，同时还能间接判断出浏览器类型。 比如，在IE5之前没有document.getElementById这个DOM方法，但是可以通过document.all来实现相同的功能。于是，可以进行如下的能力检测。 const getElementById = (id) =&amp;gt; { if(document.getElementById){ return document.getElementById(id) } else if (document.all){ return document.all[id] } else { throw new Error(&amp;#39;该浏览不支持任何通过ID获取DOM元素的方法&amp;#39;) } } 需要注意的是，实现能力检测是一定要落实到具体的功能上，即某个能力的存在并不能代表其他能力也存在。 function getWindowWidth() { if (document.all) { // 假设 IE return document.documentElement.clientWidth; // 不正确的用法！ } else { return window.innerWidth; } } 比如上述例子，document.all的存在并不能说明documentElement.clientWidth的存在。其实这段代码的本意是通过document.all来判断当前浏览器是不是IE浏览器，事实document.all的存在并不能一定确认该浏览器就是IE浏览器。 基于能力检测进行浏览器分析 除了上述可以进行基本的功能检测以外，还可以通过能力检测来进行浏览器的特性支持检测，比如是否支持Netscape插件，是否具有DOM Level 1能力等等。 // 红宝书P384 // 检测浏览器是否支持 Netscape 式的插件 let hasNSPlugins = !!(navigator.plugins &amp;amp;&amp;amp; navigator.plugins.length); // 检测浏览器是否具有 DOM Level 1 能力 let hasDOM1 = !</description>
+    </item>
+    
+    <item>
+      <title>设计模式 - 观察者模式 - 发布订阅模式</title>
+      <link>https://runtus.github.io/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 18 Dec 2021 16:06:30 +0000</pubDate>
+      
+      <guid>https://runtus.github.io/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description>观察者模式和发布订阅模式是平常业务开发中最常见的设计模式，虽然网上大多数文章将二者归为一类，其实不然，它们两者之间还是有细微的差距。
+先来个观察者模式的定义 观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个目标对象，当这个目标对象的某个属性（或状态）发生变化时，会通知所有观察者对象，让它们自动更新。 现实映射 举一个🌰，高中的时候，我会经常去问老师问题，有时候遇到比较难的问题，老师一时半会解不开，老师会说**&amp;ldquo;你先去做其他的事情吧，一会儿我找到解题思路了来叫你&amp;rdquo;**。于是乎我先去做其他事情，等待老师的召唤。过了一会儿，老师叫另一个同学来叫我去办公室找他，于是我马上放下手中的活，冲向的老师的办公室&amp;hellip;&amp;hellip; 在这里例子里，我是一位观察者，而老师则是一位我观察的对象，当老师的状态发生了变化（指想出了题的思路），我就会接受到对应的信息，然后马上更新我自己的状态（指润去找老师）。 来点转换 上述例子如果在发布-订阅模式里，我则摇身一变，变成了订阅者，专门订阅老师发布的通知信息，而老师则作为了发布者。 其实，上述例子还不能完全展示出定义所说的一对多关系，因为订阅者只有我一个人，但其实稍微扩展一下，变成多位同学向老师询问同一道题目，那这就是标准的观察者模式了，多位观察者“观察”老师的状态。 来点代码 通过上述的定义和描述，大概可以知道，在观察者模式中，一共有两个类：发布者类和订阅者类。作为一个发布者，很容易可以想到它有下面几个基本方法：增加订阅者，通知订阅者，移除订阅者。思路有了，下面就直接实现。 // 发布者类 class Publisher { constructor() { this.observers = [] // Observer -&amp;gt; 观察员 } // 添加订阅者 add(observers) { this.observers.push(...observers) } // 移除订阅者 remove(observer) { this.observers.forEach((item, index) =&amp;gt; { if (item === observer) { this.observer.splice(index, 1) } }) } // 通知订阅者 notify() { this.observers.forEach((item) =&amp;gt; { item.update(); // 注意，订阅者的方法应该它们本身定义的 }) } } 发布者基本类设计完毕，下面开始设计下订阅者，其实订阅者很简单，它最核心的就一个方法：收到发布者的信息后，去进行状态更新。如下所示。 // 定义订阅者类 class Observer { constructor() { console.</description>
+    </item>
+    
+    <item>
+      <title>迭代器and生成器</title>
+      <link>https://runtus.github.io/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</link>
+      <pubDate>Sun, 21 Nov 2021 12:05:17 +0000</pubDate>
+      
+      <guid>https://runtus.github.io/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</guid>
+      <description>迭代器 -&amp;gt; Symbol.iterator 当需要对某个迭代对象进行迭代处理时，由于迭代之前需要事先知道如何使用数据结构，以及遍历顺序并不是数据结构固有的，所以想寻求某种机制去统一迭代过程，对每一种可迭代类型，都用同一种迭代方法，从而增加开发体验。（即无需事先知道如何迭代去实现迭代操作） 于是基于以上原因，诞生了迭代器概念，意在统一化所有迭代对象的处理方式。 接受可迭代对象的原生语言特性包括如下：（即迭代对象都可以用下面的任意一种方式去处理） for-of 数组解构 扩展操作符号（即...) Array.from 创建集合 创建映射 Promise.all()接受由Promise组成的可迭代对象。 Promise.rice()接受由期约组成的可迭代对象。 yield*操作符，在生成器中使用。 基于以上特性，可以得知，迭代器也可以在宏观意义上理解为类数组。 判断与使用 如何判断一个对象是否为迭代类型是看它的Symbol.iterator属性是不是迭代器的工厂函数，如果是，则调用该函数后，会生成一个迭代器对象。 const a = 1; const b = {}; const c = [5,3,4,6] console.log(a[Symbol.iterator]); console.log(b[Symbol.iterator]) const c_iter = c[Symbol.iterator]() // -&amp;gt; 生成一个临时的迭代器对象，对迭代器对象可以通过统一方法进行迭代处理 // undefined // undefined // Object [Array Iterator] {} -&amp;gt; 迭代器对象 想对迭代器整体进行一个迭代处理，那么不需要显示去获取迭代器对象，直接调用上述的一系列方法去处理即可。 但如果是想对这个迭代过程进行更细节的处理，即控制每一个元素，那么需要获得迭代器对象，并调用next()方法去获取每一次迭代的值。 const c = [5,3,4,6] const c_iter = c[Symbol.iterator]() console.log(c_iter.next()); // -&amp;gt; { value: 5, done: false } 可以从上述代码发现，调用next返回的值是一个对象，value为当前迭代元素的值，done则标记本次获取值后是否迭代完成。</description>
+    </item>
+    
+  </channel>
+</rss>
