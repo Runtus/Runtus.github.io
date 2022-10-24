@@ -1,4 +1,4 @@
-baseURL: "https://runtus.github.io/"
+baseURL: "https://runtus.top/"
 title: Runtus
 paginate: 5
 publishDir: "docs"
@@ -78,13 +78,13 @@ params:
     - name: github
       url: "https://github.com/Runtus"
 
-  analytics:
-    google:
-      SiteVerificationTag: "XYZabc"
-    bing:
-      SiteVerificationTag: "XYZabc"
-    yandex:
-      SiteVerificationTag: "XYZabc"
+  # analytics:
+  #   google:
+  #     SiteVerificationTag: "XYZabc"
+  #   bing:
+  #     SiteVerificationTag: "XYZabc"
+  #   yandex:
+  #     SiteVerificationTag: "XYZabc"
 
   cover:
     hidden: false # hide everywhere but not in structured data
@@ -103,18 +103,22 @@ params:
     keys: ["title", "permalink", "summary", "content"]
 menu:
   main:
-    - identifier: categories
-      name: categories
-      url: /categories/
+    - identifier: archives
+      name: archives
+      url: /archives/
       weight: 10
     - identifier: tags
       name: tags
       url: /tags/
       weight: 20
+    - identifier: friends
+      name: friends
+      url: /friends
+      weight: 30
     - identifier: github
       name: github
       url: https://github.com/Runtus
-      weight: 30
+      weight: 40
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
