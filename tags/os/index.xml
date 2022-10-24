@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>OS on Runtus</title>
-    <link>https://runtus.github.io/tags/os/</link>
+    <link>https://runtus.top/tags/os/</link>
     <description>Recent content in OS on Runtus</description>
     <image>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 09 Sep 2021 15:19:46 +0000</lastBuildDate><atom:link href="https://runtus.github.io/tags/os/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Sep 2021 15:19:46 +0000</lastBuildDate><atom:link href="https://runtus.top/tags/os/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>操作系统-2</title>
-      <link>https://runtus.github.io/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://runtus.top/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Thu, 09 Sep 2021 15:19:46 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://runtus.top/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>本章主要总结操作系统中的内存管理
 随着技术的发展，内存的容量再不断增大，但是也不能把所有用户数据和程序一起装入内存，因此操作系统需要对内存空间进行合理的划分和有效的动态分配，从而提高系统的资源利用率。对内存的合理划分以及有效的动态划分就是内存管理的概念。 程序执行过程 每段程序执行前大致需要经过三个过程：编译 -&amp;gt; 链接 -&amp;gt; 装入 编译：将源代码通过编译器编译为一个个目标模块。 链接：将每个目标模块和所需库函数链接起来，形成一个完整的装入模块。 静态链接（装入前链接），即在装入内存之前把所有的模块和对应的库函数进行链接从而形成一个可执行程序，以后不会再拆开。 装入时动态链接，即在装入内存时，一边装入一边链接。 运行时动态链接，即在执行对应模块代码时，实时链接。 装入：将链接后形成的模块装入内存中。 绝对装入 =&amp;gt; 程序相对地址和实际装入的物理地址相同。 可重定位装入 =&amp;gt; 程序相对地址加一个重定位地址形成实际的物理地址。 动态运行时装入 =&amp;gt; 在执行对应的模块时，才开始执行地址转换，地址转换的偏移量则从重定位寄存器中取出。 内存分配管理方式 连续分配方式：用户程序被分配进一个连续的内存空间 单一连续分配方式: 整个内存中只运行一道用户程序。 固定分区分配 内存被划分为若干个固定大小的区域。当有程序需要装入内存时，从分区说明表上寻找合适的内存区域并分配给它。 动态分区分配 =&amp;gt; 不预先对内存进行分区，而是等程序装入内存时动态分区。 首次适应算法 最佳适应算法 最坏适应算法 邻近适应算法（首次适应算法的改进，即下一次分配内存是从上一次分配内存结束位置开始） 区分内部碎片还是外部碎片的关键在于：内存分区是提前分好还是运行时实时分配的。
 对于前者，很容易理解每个内存分区就可以称之为“内”，所以就有了内部碎片的说话。
@@ -30,10 +30,10 @@
     
     <item>
       <title>操作系统-1</title>
-      <link>https://runtus.github.io/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://runtus.top/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Wed, 08 Sep 2021 11:02:13 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://runtus.top/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>在复试时，很少问及计算题，大多数都是的问题都是和概念直接相关，所以要深刻理解操作系统各个组成部分的概念。
 本篇主要归纳操作系统的基本概念以及进程相关概念和算法
 操作系统基本概念 首先需要知道操作系统在整个计算机系统中的定位：
