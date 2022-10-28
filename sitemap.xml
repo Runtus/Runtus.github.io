@@ -2,16 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://runtus.top/tags/docker/</loc>
-    <lastmod>2022-01-29T11:10:01+00:00</lastmod>
-  </url><url>
     <loc>https://runtus.top/posts/</loc>
-    <lastmod>2022-01-29T11:10:01+00:00</lastmod>
+    <lastmod>2022-10-26T22:54:43+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/</loc>
-    <lastmod>2022-01-29T11:10:01+00:00</lastmod>
+    <lastmod>2022-10-26T22:54:43+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/rust/</loc>
+    <lastmod>2022-10-26T22:54:43+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/posts/rust-%E5%80%9F%E7%94%A8%E5%92%8C%E5%BC%95%E7%94%A8/</loc>
+    <lastmod>2022-10-26T22:54:43+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/tags/</loc>
+    <lastmod>2022-10-26T22:54:43+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/docker/</loc>
     <lastmod>2022-01-29T11:10:01+00:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/%E5%86%8D%E6%8B%BEdocker/</loc>
