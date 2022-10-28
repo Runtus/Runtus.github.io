@@ -46,9 +46,9 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
+    favicon: "/avatar.png"
+    favicon16x16: "/avatar.png"
+    favicon32x32: "/avatar.png"
     apple_touch_icon: "<link / abs url>"
     safari_pinned_tab: "<link / abs url>"
 
@@ -62,7 +62,7 @@ params:
     enabled: true # needs to be explicitly set
     title: Runtus blog
     subtitle: "Record Daily Life"
-    imageUrl: "/img/avatar.png"
+    imageUrl: "/avatar.png"
     imageWidth: 120
     imageHeight: 120
     imageTitle: Avatar
