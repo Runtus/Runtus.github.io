@@ -2,6 +2,13 @@
 title: "Rust-所有权"
 date: 2022-10-26T22:54:43+08:00
 tags: ['rust']
+cover:
+    image: "https://lao-lan-go.oss-cn-beijing.aliyuncs.com/hugo-server/images/pixiv8.jpg"
+    # can also paste direct link from external site
+    # ex. https://i.ibb.co/K0HVPBd/paper-mod-profilemode.png
+    alt: "cover"
+    caption: "cover"
+    relative: false # To use relative pa
 ---
 
 > 所有权系统和引用在Rust中是至关重要的，它的设计使得rust的GC机制与众不同，也让rust获得了性能上的回报。
@@ -30,7 +37,7 @@ fn main(){
 
 * 还是上述例子，在内存里表示出来，如下图所示。
 
-![rust图示](/content/images/rust-借用1.jpg)
+![rust图示](/images/rust-借用1.jpg)
 
 * 可以看出，再进行变量绑定时，s2实际上是s1的浅拷贝结果，但唯一不同的是指针的移交操作，即**指针不是单纯的拷贝，而是从s1上“移交”给了s2，这也是一个move的过程。**
 
