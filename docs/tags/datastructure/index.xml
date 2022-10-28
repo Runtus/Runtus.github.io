@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>DataStructure on Runtus</title>
-    <link>https://runtus.github.io/tags/datastructure/</link>
+    <link>https://runtus.top/tags/datastructure/</link>
     <description>Recent content in DataStructure on Runtus</description>
     <image>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 20 Sep 2021 10:03:52 +0000</lastBuildDate><atom:link href="https://runtus.github.io/tags/datastructure/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Sep 2021 10:03:52 +0000</lastBuildDate><atom:link href="https://runtus.top/tags/datastructure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>数据结构-杂记</title>
-      <link>https://runtus.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</link>
+      <link>https://runtus.top/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</link>
       <pubDate>Mon, 20 Sep 2021 10:03:52 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</guid>
+      <guid>https://runtus.top/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</guid>
       <description> 这是一篇不成体系的记录，只是为了记录一些零散的容易忘记的概念知识点
  线性表  具有相同数据类型的n（n &amp;gt;= 0）个数据元素的有限序列。  顺序表  线性表的顺序存储又称为顺序表， 即用一组连续的存储空间来存储线性表中的元素。 顺序表特点：逻辑顺序和物理顺序相同。 高级语言中，顺序表的代表为数组。  线性表的链式存储  地址没有要求连续，即要求逻辑上相邻的数据在物理存储上没有要求，数据与数据之间通过指针来进行联系。   线性表一般有两种表现方式（根据存储方式的不同）：顺序表和链表
  栈  一种特殊的线性表，不过要求只能在一端进行数据的读写（推入push和弹出pop）。  堆  计算机中一种特殊的数据结构，它通常被看作是用一棵树的数组对象。 它有两个特性：  堆一定是一颗完全二叉树（所以才可以用数组来表示） 二叉树里所有的子树的根节点都大于（或小于）它的子节点，即大根堆和小根堆的区别。    </description>

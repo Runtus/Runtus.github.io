@@ -2,20 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Runtus</title>
-    <link>https://runtus.github.io/posts/</link>
+    <link>https://runtus.top/posts/</link>
     <description>Recent content in Posts on Runtus</description>
     <image>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 29 Jan 2022 11:10:01 +0000</lastBuildDate><atom:link href="https://runtus.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Oct 2022 22:54:43 +0800</lastBuildDate><atom:link href="https://runtus.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust-所有权</title>
+      <link>https://runtus.top/posts/rust-%E5%80%9F%E7%94%A8%E5%92%8C%E5%BC%95%E7%94%A8/</link>
+      <pubDate>Wed, 26 Oct 2022 22:54:43 +0800</pubDate>
+      
+      <guid>https://runtus.top/posts/rust-%E5%80%9F%E7%94%A8%E5%92%8C%E5%BC%95%E7%94%A8/</guid>
+      <description> 所有权系统和引用在Rust中是至关重要的，它的设计使得rust的GC机制与众不同，也让rust获得了性能上的回报。
+ 所有权  所有权：一个数值只能被一个变量所拥有，即该变量唯一拥有该数值，若变量离开了其作用域，数值也会被释放掉。 如果将一个变量赋值给另一个变量，则意味着对应的值的所有权会被移交出去，那么原先的变量将不再拥有值的所有权，这也是为什么在rust中，变量的赋值也叫变量的绑定。  // 例子 fn main(){lets1=String::from(&amp;#34;Hello&amp;#34;);lets2=s1;// 所有权移交 -&amp;gt; 即move println!(&amp;#34;{}&amp;#34;,s1);// 报错 } 可以看到，上述例子的s1将所有权移交给s2后，自己便不再拥有对字符串Hello的控制。  从内存的视角观察  还是上述例子，在内存里表示出来，如下图所示。    可以看出，再进行变量绑定时，s2实际上是s1的浅拷贝结果，但唯一不同的是指针的移交操作，即指针不是单纯的拷贝，而是从s1上“移交”给了s2，这也是一个move的过程。
+  如果不想让s1的所有权移交出去，则可以调用String的clone方法来实现深拷贝 ，在堆内存上再开辟一个空间，这样两个变量都有对应的值，这样就不会发生变量无法使用的情况了。
+  lets1=String::from(&amp;#34;hello&amp;#34;);lets2=s1.clone();// 直接重新开辟一个空间，尽量少用，会影响rust性能 println!(&amp;#34;s1 = {}, s2 = {}&amp;#34;,s1,s2); 需要注意的是，这并不能说明存储在堆内存中的数据只能有一个引用（即指针），这里只强调了move这个操作，即所有权的移交过程，而没有说明堆数据只能有一个引用。  Copy类型  之所以提到copy类型是因为它与上述的String类型有所不同，具有Copy属性的数据类型的数据都是直接存储于栈内存中的，即具有copy特征的数据在进行赋值时，旧变量依然可以使用。  fn main(){leta=1;letb=a;// 将 a 赋值给 b }  当赋值时，进行了浅拷贝操作，由于简单类型直接在栈上进行浅拷贝，开销小，两个1时存储在不同的栈内存空间里，所以两个变量都有与之对应的数值，所以不会像刚才的String类型一样，发生s1不可使用的情况。
+  下面是一些具有Copy属性的类型：
+ 整数类型 布尔类型 浮点数类型 字符类型 元祖 不可变引用 &amp;amp;T    好处: 避免内存二次释放以及开发上不必要的困扰  Rust垃圾回收比较特殊，它是在每个作用域结束时会调用一次drop函数来清理对内存。拿上述的String的例子来说，两个String变量指向同一个位置，如果没有所有权的限制，那么s1和s2离开作用域时，gc会对同一块堆内存进行二次释放，这样会导致内存的泄漏问题。 所以一旦有了所有权的移交，Rust认为s1已经不再拥有对数据的所有权，所以不会对s1处理任何东西，而只对s2的堆内存进行释放处理。 同时，所有权还能保证开发时产生不必要的困扰，假如有多个变量对同一块内存进行引用，那么当其中一个变量一不小心对内存进行修改时，其产生的副作用就会波及到所有与之相关的变量上，造成令人匪夷所思的结果。显然，有了所有权的限制，我们不会有上述的担忧。  </description>
+    </item>
+    
     <item>
       <title>再拾docker</title>
-      <link>https://runtus.github.io/posts/%E5%86%8D%E6%8B%BEdocker/</link>
+      <link>https://runtus.top/posts/%E5%86%8D%E6%8B%BEdocker/</link>
       <pubDate>Sat, 29 Jan 2022 11:10:01 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E5%86%8D%E6%8B%BEdocker/</guid>
+      <guid>https://runtus.top/posts/%E5%86%8D%E6%8B%BEdocker/</guid>
       <description> 记录docker的基本概念和用法，系统的再认识一次docker
  docker是什么   Docker是对Linux容器的一种封装，并提供简单易用的接口，同时它也是目前最流行的Linux容器解决方案。
   在docker出现之前，环境移植一直是非常麻烦的事情，当我们需要把项目从一台机器迁移到另一台机器时，不仅仅是迁移源代码，更重要的是要保证环境的一致性，而一次次环境的搭建则显得冗余且效率极低，所以在思考有没有一种方式能够把环境一起进行迁移。
@@ -27,20 +41,20 @@
     
     <item>
       <title>go-learning-1</title>
-      <link>https://runtus.github.io/posts/go-learning-1/</link>
+      <link>https://runtus.top/posts/go-learning-1/</link>
       <pubDate>Fri, 28 Jan 2022 09:13:38 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/go-learning-1/</guid>
+      <guid>https://runtus.top/posts/go-learning-1/</guid>
       <description>Golang学习记录
  关于swtich  Golang中的switch的每个case自带break关键字，即不用手动去设置break关键字。  import ( &amp;#34;fmt&amp;#34; ) func main(){ variables := 12 switch variables { case 24: fmt.Println(&amp;#39;24&amp;#39;) case 12: fmt.Println(&amp;#39;12&amp;#39;) case 36: fmt.Println(&amp;#39;36&amp;#39;) default: fmt.Println(&amp;#39;114514&amp;#39;) } } // 12  如果在其他语言中这样编写switch代码块，36和default代码块中的输出也会执行。  fallthrough关键字  当然，golang也提供了能够无视掉默认break的关键字，即fallthrough，在指定的case最后一行加上fallthrough，则对应的case代码块将会忽视掉默认的break操作。  // 接上 func main(){ variables := 12 switch variables { case 24: fmt.Println(&amp;#39;24&amp;#39;) case 12: fmt.Println(&amp;#39;12&amp;#39;) fallthrough case 36: fmt.Println(&amp;#39;36&amp;#39;) default: fmt.Println(&amp;#39;114514&amp;#39;) } } // 12 // 36 关于数组  在golang中的数组和c一样，一旦定义了大小就不可更改，且声明方式有多种，如下:  // var variable_name [SIZE] variable_type func main(){ var balance = [3]float32{100, 2.</description>
     </item>
     
     <item>
       <title>0120-浏览器事件</title>
-      <link>https://runtus.github.io/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/</link>
+      <link>https://runtus.top/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/</link>
       <pubDate>Thu, 20 Jan 2022 10:30:44 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/</guid>
+      <guid>https://runtus.top/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/</guid>
       <description>Javascript和HTML的交互都是通过事件来实现的，而事件的产生与执行则是遵循着传统软件工程领域中的观察者模式，其能够做到页面行为和页面展示的解耦合。
 本节内容会从事件流谈起，然后逐一介绍几种注册事件的方式以及他们其中的一些细节，最后还会提到关于**事件委托（代理）**的概念。
  事件流  事件流描述了页面接受事件的顺序。因为一个事件的触发可能会影响好几处地方，这很容易理解，比如在页面上嵌套着写了几个div元素，同时在最里层的div元素上进行事件触发，那这不仅仅是最内层的div对事件进行响应，任意一层的嵌套的div都会对事件进行相应处理。（其实通过上述的观察者模式也可以推断出其合理性，因为一个对象可以由多个观察者进行观察） 所以多个监听事件的元素响应顺序需要进行统一，因为一些历史原因，事件的响应顺序有两种模式：冒泡和捕获。  事件冒泡  顾名思义，事件的冒泡就如水底下的气泡一下，从内到外，同理，事件冒泡规定的事件流顺序也是从内而外，事件会从最深层的节点开始触发，然后向外传播到document（文档）。 代码如下所示。  &amp;lt;html&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;ddd&amp;#34;&amp;gt; click me &amp;lt;/div&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt;  此时我如果对id=ddd的div元素进行click事件触发，那么该事件会以如下顺序发生:   div body html document   现代的浏览器的事件会一直冒泡到window对象。  事件捕获  事件捕获则和事件冒泡相反，事件的响应顺序是从外到内的，还是以上一个例子为例，那么对应click事件讲会以如下顺序发生:   document html body div  DOM事件流  DOM2 Events规范里规定里事件流为分三个部分：事件捕获，到达目标和事件冒泡。   需要注意的是，div元素（即直接触发元素）是不会响应捕获事件的，因为通常认为直接触发事件是冒泡阶段发生的，所以它也是冒泡阶段第一个发生的事件。 但现在大多数支持DOM事件流的浏览器都实现了一个小小的拓展，即在捕获阶段在事件目标上触发事件。最终结果表现为有两个机会来处理事件。  事件处理程序  事件意味着用户或浏览器执行的某种动作，而为响应事件而调用的函数被称为事件处理程序（事件监听器）。  HTML事件处理程序  HTML事件处理程序是以HTML属性的形式来进行指定的。该属性的值必须是能够执行的javascript代码。 比如下面这个例子，就是按钮在被点击时执行一段代码。  &amp;lt;button onclick=&amp;#34;console.log(&amp;#39;click&amp;#39;)&amp;#34;&amp;gt; click me &amp;lt;/button&amp;gt;  当然也可以以函数的形式来进行响应事件定义。  &amp;lt;script&amp;gt; function click(event){ console.</description>
@@ -48,10 +62,10 @@
     
     <item>
       <title>DOM扩展</title>
-      <link>https://runtus.github.io/posts/dom%E6%89%A9%E5%B1%95/</link>
+      <link>https://runtus.top/posts/dom%E6%89%A9%E5%B1%95/</link>
       <pubDate>Sun, 26 Dec 2021 10:22:54 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/dom%E6%89%A9%E5%B1%95/</guid>
+      <guid>https://runtus.top/posts/dom%E6%89%A9%E5%B1%95/</guid>
       <description>虽然原生DOM API已经能做许多事情了，但是仍然不断有标准或专有的扩展出现，以支持更多的功能，由于各个浏览器对DOM扩展的支持是专有的，为了统一这些专有的DOM API，W3C开始着手将这些专有扩展转变为标准规范。
  Selectors API  Selectors APIs 是浏览器原生支持的CSS查询API，由于是原生支持，解析和遍历DOM树可以通过底层编译语言实现，相比其他Javascript库（比如jQuery），性能有数量级的提升。 Selectors API Level 1 主要是两个API：querySelector() 和 querySelectorAll()  querySelector()  该方法接受CSS选择符参数，返回匹配到的第一个后代元素，如果没有匹配元素则返回null。  // 匹配 class 为 list 的第一个DOM元素 document.querySelector(&amp;#39;.list&amp;#39;) // 匹配 id 为 myDiv 的第一个DOM元素 document.querySelector(&amp;#39;#myDiv&amp;#39;) // 匹配 class=header DOM元素子元素中 id为someDiv的元素 const header = querySelector(&amp;#39;.header&amp;#39;); header.querySelector(&amp;#39;#someDiv&amp;#39;)  如果直接在document上使用querySelector方法，会从文档元素开始搜索（前两个例子）；在Element上使用querySelector方法，则只会在该元素的后代中查询（第三个例子）。  querySelectorAll()   该方法和querySelector类似，接受CSS选择符参数，只不过它会返回匹配的所有节点。即返回的是一个NodeList的静态实例。
   ⚠️注意：无论是querySelector还是querySelectorAll返回的都是DOM元素的静态快照，即和之前提到的getElementById获取的动态实例不同，更改静态快照是不会影响DOM元素在页面上的渲染。
@@ -60,20 +74,20 @@
     
     <item>
       <title>1224-浏览器缓存</title>
-      <link>https://runtus.github.io/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/</link>
+      <link>https://runtus.top/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/</link>
       <pubDate>Fri, 24 Dec 2021 10:35:37 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/</guid>
+      <guid>https://runtus.top/posts/1224-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/</guid>
       <description>浏览器缓存是性能优化中最直接，高效的优化方式，它可以显著减少因为网络传输而带来的损耗。
   对于数据请求来说，大致可以分为 请求 -&amp;gt; 处理 -&amp;gt; 响应这三个步骤，而浏览器缓存则主要在第一步和第三步做手脚，即请求发出时寻找合适的缓存，拿到新的响应数据时做新的缓存。 缓存带给我们最直观的感受就是，每次加载页面，第二次之后加载总是比第一次加载的更快，这就是缓存的功劳，下面讲从缓存位置和缓存策略两个方面介绍浏览器相关缓存。  缓存位置  浏览器的缓存位置大概可以分为四种：  Service Worker Memory Cache Disk Cache Push Cache（HTTP 2）   他们有各自的优先级，当发出请求时，浏览器会依次去寻找缓存，如果都没有命中，才会发出请求。  Service Worker  Service Worker是浏览器背后的独立线程，可以用来实现缓存功能，但是需要注意，如果要使用Service Worker，传输协议必须是HTTPS。 Service Worker实现缓存大致三个步骤。  注册Service Worker。 监听install事件，并对需要的文件进行缓存。 拦截HTTPS请求，并根据请求内容去命中缓存，如果命中，则直接使用缓存，否则请求数据。   下面是一串实例代码（源代码来自前端面试之道）  // index.js if (navigator.serviceWorker) { navigator.serviceWorker .register(&amp;#39;sw.js&amp;#39;) .then(function(registration) { console.log(&amp;#39;service worker 注册成功&amp;#39;) }) .catch(function(err) { console.log(&amp;#39;servcie worker 注册失败&amp;#39;) }) } // sw.js // 监听install事件，缓存文件 self.</description>
     </item>
     
     <item>
       <title>1222-DOM</title>
-      <link>https://runtus.github.io/posts/1222-dom1/</link>
+      <link>https://runtus.top/posts/1222-dom1/</link>
       <pubDate>Wed, 22 Dec 2021 13:01:26 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/1222-dom1/</guid>
+      <guid>https://runtus.top/posts/1222-dom1/</guid>
       <description>NodeList 和 HTMLCollection区别
 NodeList是节点的集合，而HTMLCollection是元素的集合。
 节点包括很多类型，文档节点，元素节点，属性节点，文本节点，这一点通过Node类型上的12个数值常量表示就可以看出。
@@ -82,10 +96,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>1220-客户端检测</title>
-      <link>https://runtus.github.io/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</link>
+      <link>https://runtus.top/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</link>
       <pubDate>Mon, 20 Dec 2021 11:22:31 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</guid>
+      <guid>https://runtus.top/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</guid>
       <description>如今的浏览器虽然接口已大致统一，但是每家浏览器难免都有自己的“想法”，于是会出现个别的不统一，这些差异迫使Web开发者自己去设计兼容这些差异，客户端检测就是最常见的检测手段，通过检测结果来进一步克服和避免这些缺陷。
 客户端检测可大致分为三种：能力检测，用户代理检测，软件与硬件检测。
  能力检测  能力检测也成为特性检测，因为不同浏览器提供的接口不是完全相同，于是可以通过简单的逻辑判断来检测在该浏览器环境下能否调用特定API，同时还能间接判断出浏览器类型。 比如，在IE5之前没有document.getElementById这个DOM方法，但是可以通过document.all来实现相同的功能。于是，可以进行如下的能力检测。  const getElementById = (id) =&amp;gt; { if(document.getElementById){ return document.getElementById(id) } else if (document.all){ return document.all[id] } else { throw new Error(&amp;#39;该浏览不支持任何通过ID获取DOM元素的方法&amp;#39;) } }  需要注意的是，实现能力检测是一定要落实到具体的功能上，即某个能力的存在并不能代表其他能力也存在。  function getWindowWidth() { if (document.all) { // 假设 IE  return document.documentElement.clientWidth; // 不正确的用法！  } else { return window.innerWidth; } }  比如上述例子，document.all的存在并不能说明documentElement.clientWidth的存在。其实这段代码的本意是通过document.all来判断当前浏览器是不是IE浏览器，事实document.all的存在并不能一定确认该浏览器就是IE浏览器。  基于能力检测进行浏览器分析  除了上述可以进行基本的功能检测以外，还可以通过能力检测来进行浏览器的特性支持检测，比如是否支持Netscape插件，是否具有DOM Level 1能力等等。  // 红宝书P384 // 检测浏览器是否支持 Netscape 式的插件 let hasNSPlugins = !</description>
@@ -93,38 +107,38 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>设计模式 - 观察者模式 - 发布订阅模式</title>
-      <link>https://runtus.github.io/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <link>https://runtus.top/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
       <pubDate>Sat, 18 Dec 2021 16:06:30 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <guid>https://runtus.top/posts/1218-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
       <description>观察者模式和发布订阅模式是平常业务开发中最常见的设计模式，虽然网上大多数文章将二者归为一类，其实不然，它们两者之间还是有细微的差距。
  先来个观察者模式的定义  观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个目标对象，当这个目标对象的某个属性（或状态）发生变化时，会通知所有观察者对象，让它们自动更新。  现实映射  举一个🌰，高中的时候，我会经常去问老师问题，有时候遇到比较难的问题，老师一时半会解不开，老师会说**&amp;ldquo;你先去做其他的事情吧，一会儿我找到解题思路了来叫你&amp;rdquo;**。于是乎我先去做其他事情，等待老师的召唤。过了一会儿，老师叫另一个同学来叫我去办公室找他，于是我马上放下手中的活，冲向的老师的办公室&amp;hellip;&amp;hellip; 在这里例子里，我是一位观察者，而老师则是一位我观察的对象，当老师的状态发生了变化（指想出了题的思路），我就会接受到对应的信息，然后马上更新我自己的状态（指润去找老师）。  来点转换  上述例子如果在发布-订阅模式里，我则摇身一变，变成了订阅者，专门订阅老师发布的通知信息，而老师则作为了发布者。 其实，上述例子还不能完全展示出定义所说的一对多关系，因为订阅者只有我一个人，但其实稍微扩展一下，变成多位同学向老师询问同一道题目，那这就是标准的观察者模式了，多位观察者“观察”老师的状态。  来点代码  通过上述的定义和描述，大概可以知道，在观察者模式中，一共有两个类：发布者类和订阅者类。作为一个发布者，很容易可以想到它有下面几个基本方法：增加订阅者，通知订阅者，移除订阅者。思路有了，下面就直接实现。  // 发布者类 class Publisher { constructor() { this.observers = [] // Observer -&amp;gt; 观察员  } // 添加订阅者  add(observers) { this.observers.push(...observers) } // 移除订阅者  remove(observer) { this.observers.forEach((item, index) =&amp;gt; { if (item === observer) { this.observer.splice(index, 1) } }) } // 通知订阅者  notify() { this.observers.forEach((item) =&amp;gt; { item.</description>
     </item>
     
     <item>
       <title>迭代器and生成器</title>
-      <link>https://runtus.github.io/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</link>
+      <link>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</link>
       <pubDate>Sun, 21 Nov 2021 12:05:17 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</guid>
+      <guid>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</guid>
       <description>迭代器 -&amp;gt; Symbol.iterator  当需要对某个迭代对象进行迭代处理时，由于迭代之前需要事先知道如何使用数据结构，以及遍历顺序并不是数据结构固有的，所以想寻求某种机制去统一迭代过程，对每一种可迭代类型，都用同一种迭代方法，从而增加开发体验。（即无需事先知道如何迭代去实现迭代操作） 于是基于以上原因，诞生了迭代器概念，意在统一化所有迭代对象的处理方式。 接受可迭代对象的原生语言特性包括如下：（即迭代对象都可以用下面的任意一种方式去处理）   for-of 数组解构 扩展操作符号（即...) Array.from 创建集合 创建映射 Promise.all()接受由Promise组成的可迭代对象。 Promise.rice()接受由期约组成的可迭代对象。 yield*操作符，在生成器中使用。   基于以上特性，可以得知，迭代器也可以在宏观意义上理解为类数组。  判断与使用  如何判断一个对象是否为迭代类型是看它的Symbol.iterator属性是不是迭代器的工厂函数，如果是，则调用该函数后，会生成一个迭代器对象。  const a = 1; const b = {}; const c = [5,3,4,6] console.log(a[Symbol.iterator]); console.log(b[Symbol.iterator]) const c_iter = c[Symbol.iterator]() // -&amp;gt; 生成一个临时的迭代器对象，对迭代器对象可以通过统一方法进行迭代处理 // undefined // undefined // Object [Array Iterator] {} -&amp;gt; 迭代器对象  想对迭代器整体进行一个迭代处理，那么不需要显示去获取迭代器对象，直接调用上述的一系列方法去处理即可。 但如果是想对这个迭代过程进行更细节的处理，即控制每一个元素，那么需要获得迭代器对象，并调用next()方法去获取每一次迭代的值。  const c = [5,3,4,6] const c_iter = c[Symbol.iterator]() console.</description>
     </item>
     
     <item>
       <title>vuepress开发遇到的一些问题</title>
-      <link>https://runtus.github.io/posts/vuepress%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</link>
+      <link>https://runtus.top/posts/vuepress%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</link>
       <pubDate>Sat, 13 Nov 2021 16:31:09 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/vuepress%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://runtus.top/posts/vuepress%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</guid>
       <description> vuepress是SSR渲染，即vue挂载之前是在服务端进行的，所以尽量不要在before Mounted之前的hooks中调用浏览器API，否则打包时会报错。 关于css中的 mix-blender滤镜模式，和 z-index关联比较多，具体体现在我在使用darkmodejs时，如何避免图片被mix-blender渲染，虽然官方给的方法是加入isolation：isolate属性（另启层叠上下文），但是并没有什么用，感觉是哪个地方出问题了，关于层叠上下文还有上述提到的属性需要重新学习下。  另外，层叠上下文z-index和position关联很大，这个也要去做深究，我如果只是给image加z-index，则无法避免被滤镜覆盖的事实，应该是需要把他们纳入统一个层叠上下文才行，所以需要position：relative（注意，position默认是static）。这一块儿的知识也要重点去温习。    const testFn = async () =&amp;gt; { const a = 2; for(let i = 0; i &amp;lt; a; i++){ // xxxxxx  } return new Promise((res) =&amp;gt; { res(); }) } A-.-&amp;gt;B </description>
     </item>
     
     <item>
       <title>初入数据可视化</title>
-      <link>https://runtus.github.io/posts/%E5%88%9D%E5%85%A5%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
+      <link>https://runtus.top/posts/%E5%88%9D%E5%85%A5%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
       <pubDate>Sun, 17 Oct 2021 10:56:45 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E5%88%9D%E5%85%A5%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
+      <guid>https://runtus.top/posts/%E5%88%9D%E5%85%A5%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
       <description>视图编码（可视化编码） = 标记 + 视觉通道
 可视化设计的三部曲 可展示数据的筛选 -&amp;gt; 可视化编码映射（视图编码） -&amp;gt; 视图与交互设计
 数据可视化设计的注意事项 在对数据可视化之前，要选择合适的标记和视觉通道，选择合适的视觉通道编码能够更加清晰，直观地展现出数据的特点，同时能够使用户更加容易地分析数据特征。
@@ -141,19 +155,19 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>保研说明</title>
-      <link>https://runtus.github.io/posts/0907-%E5%BC%80%E7%AF%87%E8%AF%B4%E6%98%8E/</link>
+      <link>https://runtus.top/posts/0907-%E5%BC%80%E7%AF%87%E8%AF%B4%E6%98%8E/</link>
       <pubDate>Fri, 15 Oct 2021 11:30:03 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0907-%E5%BC%80%E7%AF%87%E8%AF%B4%E6%98%8E/</guid>
+      <guid>https://runtus.top/posts/0907-%E5%BC%80%E7%AF%87%E8%AF%B4%E6%98%8E/</guid>
       <description>保研</description>
     </item>
     
     <item>
       <title>谈谈保研经历</title>
-      <link>https://runtus.github.io/posts/%E8%B0%88%E8%B0%88%E4%BF%9D%E7%A0%94%E7%BB%8F%E5%8E%86/</link>
+      <link>https://runtus.top/posts/%E8%B0%88%E8%B0%88%E4%BF%9D%E7%A0%94%E7%BB%8F%E5%8E%86/</link>
       <pubDate>Mon, 04 Oct 2021 10:05:44 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E8%B0%88%E8%B0%88%E4%BF%9D%E7%A0%94%E7%BB%8F%E5%8E%86/</guid>
+      <guid>https://runtus.top/posts/%E8%B0%88%E8%B0%88%E4%BF%9D%E7%A0%94%E7%BB%8F%E5%8E%86/</guid>
       <description>这篇博客主要记录的是保研的大概过程以及作者今年从六月份到九月份的保研经历，希望能够让未来保研的学弟学妹们更清晰地了解保研的整个过程以及其中的一些避坑指南。
  本人基本情况📖   本科院校：电子科技大学/信息与软件工程学院
   均分：87.5
@@ -173,10 +187,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>数据结构-杂记</title>
-      <link>https://runtus.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</link>
+      <link>https://runtus.top/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</link>
       <pubDate>Mon, 20 Sep 2021 10:03:52 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</guid>
+      <guid>https://runtus.top/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9D%82%E8%AE%B0/</guid>
       <description> 这是一篇不成体系的记录，只是为了记录一些零散的容易忘记的概念知识点
  线性表  具有相同数据类型的n（n &amp;gt;= 0）个数据元素的有限序列。  顺序表  线性表的顺序存储又称为顺序表， 即用一组连续的存储空间来存储线性表中的元素。 顺序表特点：逻辑顺序和物理顺序相同。 高级语言中，顺序表的代表为数组。  线性表的链式存储  地址没有要求连续，即要求逻辑上相邻的数据在物理存储上没有要求，数据与数据之间通过指针来进行联系。   线性表一般有两种表现方式（根据存储方式的不同）：顺序表和链表
  栈  一种特殊的线性表，不过要求只能在一端进行数据的读写（推入push和弹出pop）。  堆  计算机中一种特殊的数据结构，它通常被看作是用一棵树的数组对象。 它有两个特性：  堆一定是一颗完全二叉树（所以才可以用数组来表示） 二叉树里所有的子树的根节点都大于（或小于）它的子节点，即大根堆和小根堆的区别。    </description>
@@ -184,10 +198,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>计算机网络-网络层</title>
-      <link>https://runtus.github.io/posts/0913-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <link>https://runtus.top/posts/0913-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
       <pubDate>Mon, 13 Sep 2021 10:49:53 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0913-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <guid>https://runtus.top/posts/0913-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
       <description>网络层被设计成“向上提供简单灵活的，无连接的，尽最大努力交付的数据报服务”的特性，即所传输的分组没有保证，可能出错，丢失，重复，失序，或超时。
 但这样设置好处是：网络的造价大大降低（比如路由器），运行方式灵活，能够适应多种应用（即在网络层之上的传输层可以基于灵活的网络层作很多拓展工作）
  异构网络互联  不同协议的网络子系统通过**中间设备（中继设备）**相互连接起来，形成更大的系统。（P135）  中继设备：  物理层：中继器，集线器（Hub） 数据链路层：网桥或交换机 网络层：路由器 网络层之上：网关      路由与转发  路由器的两功能：路由选择（确定哪一条路径 =&amp;gt; 构建和维护路由表）和分组转发（当一个分组到达时要完成的动作 =&amp;gt; 查询，转发以及队列管理和任务调度等）。  拥塞控制  网络进入拥塞状态的方法：观察网络吞吐量和负载的关系。  如果随着网络负载的增加，网络的吞吐量明显小于正常吞吐量（或者不增反降），则说明可能（一定）进入了拥塞状态。（注意：正常情况下，负载越高，吞吐量越大）    拥塞控制和流量控制（联系到链路层的流量控制）的区别  流量控制是在发送端和接受端点对点通信时的数据传输控制，它数局部性控制，且是接收端来控制发送端 而拥塞控制则是一个全局性的问题，它确保的是一个子网内的数据能够成功传输到彼此。  拥塞控制的方法  开环控制：静态的预防方法，系统启动后，设置的控制调度算法不能改版。 闭环控制：动态方法，采用监测网络系统去监视，及时检测哪里发生了拥塞，然后将拥塞的信息传输到合适的地方，以便调整网络系统的运行。  路由算法  静态路由算法 =&amp;gt; 网络管理员手动配置的路由信息，它不能适应网络状态的变化。 动态路由算法 =&amp;gt; 通过路由器之间相互传递信息并且根据一定的算法，实时更新路由表的信息。  动态路由算法的两个主要算法  距离-向量路由算法 =&amp;gt; 实现协议RIP（路由信息协议） =&amp;gt; 应用层协议，使用了UDP传送数据  所有结点定期地将它们的**整个路由选择表（下面统称为路由表）**传送给其所有的相邻结点。 每个结点从相邻结点拿到路由表信息后，迭代计算到每个结点的最短距离，并实时更新自己的路由表。   链路状态路由算法 =&amp;gt; 实现协议OSPF（开放最短路径优先） =&amp;gt; 网络层协议，使用ip数据包传递数据  每个结点（路由器）向本自治系统的所有节点发送自己和自己相邻路由器之间的链路状态，即先把信 息发送给相邻的路由器，然后通过相邻的路由器再次发送给它的相邻路由器，这样不断迭代传递，最终所有结点都能获得发送结点的相邻链路状态。 =&amp;gt; 泛洪法 最后每个路由器都能获得自治系统内所有节点的相邻链路状态，然后按照一定的算法，更新自己的路由转发表。 所以该算法要求每个参与算法的结点都具有完全的网络拓扑信息。    层次路由  设想一下，如果对网络中众多的路由不分层次，则会使得每次转发的路由表（或链路信息）异常庞大，无论是更新还是查阅都会非常消耗性能，其次灵活性也不高，因为没有分层，导致整个路由系统必须统一协议标准，而不能“因地制宜”。 所以考虑把整个互联网划分为较小的自治系统（每个自治系统有多个局域网），每个较小的自治系统可以设置自己的路由协议，同时也需要自治系统间的协议来屏蔽不同路由协议自治系统的通信。 自治系统内使用的路由选择协议叫做内部网关协议（IGP） =&amp;gt; 例如RIP，OSPF等 自治系统间使用的路由选择协议叫做外部网关协议（EGP） =&amp;gt; 例如BGP等。  ipv4  ipv4分组格式如下所示   注意：有些描述存储大小的字段是有单位的，比如首部长度，总长度等，这些会在下面单独说明</description>
@@ -195,10 +209,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>计算机网络-链路层</title>
-      <link>https://runtus.github.io/posts/0910-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-1/</link>
+      <link>https://runtus.top/posts/0910-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-1/</link>
       <pubDate>Fri, 10 Sep 2021 14:37:48 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0910-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-1/</guid>
+      <guid>https://runtus.top/posts/0910-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-1/</guid>
       <description>链路层重点：组帧，流量控制与可靠传输机制，介质访问控制
   数据链路层是在物理层提供服务的基础上为网络层提供相关服务，它能够加强物理层中比特流的传输，也能将物理层上可能会出错的物理链路改造为逻辑上无差错的数据链路，然后为网络层提供对应服务。  为网络层提供的连接服务  无确认，无连接服务。 有确认，无连接服务。 有确认，有连接服务。   需要注意的是：只要是能够连接，则一定会有确认，即不存在无确认，有连接的服务。  帧定界   数据帧的长度由首部，尾部，以及数据三者决定，而首部和尾部包含了许多控制信息，其中就包含了帧边界的标识，这就是所谓的帧定界。（注意：链路层封装的数据帧也称为组帧，它的作用就是解决帧定界，帧同步，透明传输等问题）
  透明传输：接受方能够正确识别帧尾部，而不会因为数据段有和尾部相同的标识而提前结束帧识别。    下面列举几种帧定界的方法。
@@ -208,10 +222,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>操作系统-2</title>
-      <link>https://runtus.github.io/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://runtus.top/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Thu, 09 Sep 2021 15:19:46 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://runtus.top/posts/0909-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>本章主要总结操作系统中的内存管理
   随着技术的发展，内存的容量再不断增大，但是也不能把所有用户数据和程序一起装入内存，因此操作系统需要对内存空间进行合理的划分和有效的动态分配，从而提高系统的资源利用率。对内存的合理划分以及有效的动态划分就是内存管理的概念。  程序执行过程  每段程序执行前大致需要经过三个过程：编译 -&amp;gt; 链接 -&amp;gt; 装入  编译：将源代码通过编译器编译为一个个目标模块。 链接：将每个目标模块和所需库函数链接起来，形成一个完整的装入模块。  静态链接（装入前链接），即在装入内存之前把所有的模块和对应的库函数进行链接从而形成一个可执行程序，以后不会再拆开。 装入时动态链接，即在装入内存时，一边装入一边链接。 运行时动态链接，即在执行对应模块代码时，实时链接。   装入：将链接后形成的模块装入内存中。  绝对装入 =&amp;gt; 程序相对地址和实际装入的物理地址相同。 可重定位装入 =&amp;gt; 程序相对地址加一个重定位地址形成实际的物理地址。 动态运行时装入 =&amp;gt; 在执行对应的模块时，才开始执行地址转换，地址转换的偏移量则从重定位寄存器中取出。      内存分配管理方式 连续分配方式：用户程序被分配进一个连续的内存空间  单一连续分配方式: 整个内存中只运行一道用户程序。 固定分区分配  内存被划分为若干个固定大小的区域。当有程序需要装入内存时，从分区说明表上寻找合适的内存区域并分配给它。   动态分区分配 =&amp;gt; 不预先对内存进行分区，而是等程序装入内存时动态分区。  首次适应算法 最佳适应算法 最坏适应算法 邻近适应算法（首次适应算法的改进，即下一次分配内存是从上一次分配内存结束位置开始）     区分内部碎片还是外部碎片的关键在于：内存分区是提前分好还是运行时实时分配的。
 对于前者，很容易理解每个内存分区就可以称之为“内”，所以就有了内部碎片的说话。
@@ -222,10 +236,10 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     
     <item>
       <title>操作系统-1</title>
-      <link>https://runtus.github.io/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://runtus.top/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Wed, 08 Sep 2021 11:02:13 +0000</pubDate>
       
-      <guid>https://runtus.github.io/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://runtus.top/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>在复试时，很少问及计算题，大多数都是的问题都是和概念直接相关，所以要深刻理解操作系统各个组成部分的概念。
 本篇主要归纳操作系统的基本概念以及进程相关概念和算法
  操作系统基本概念 首先需要知道操作系统在整个计算机系统中的定位：

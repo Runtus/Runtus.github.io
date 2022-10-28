@@ -1,7 +1,6 @@
 ---
 title: "Rust-所有权"
 date: 2022-10-26T22:54:43+08:00
-draft: true
 tags: ['rust']
 ---
 
