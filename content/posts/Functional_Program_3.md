@@ -1,7 +1,7 @@
 ---
 title: "Functional_Program_3"
 date: 2023-03-23T09:28:58+08:00
-draft: true
+tags: ["FP"]
 ---
 
 > 关于副作用以及外部引用与函数式编程的关系

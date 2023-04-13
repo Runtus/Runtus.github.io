@@ -1,7 +1,7 @@
 ---
 title: "Functional_Program"
 date: 2023-03-21T21:34:36+08:00
-draft: true
+tags: ["FP"]
 ---
 
 > 读 Professor Frisby's Mostly Adequate Guide to Functional Programming 记录
