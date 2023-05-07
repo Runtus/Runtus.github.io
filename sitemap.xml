@@ -2,19 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://runtus.top/posts/node-typescript%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83/</loc>
+    <lastmod>2023-05-07T11:21:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/posts/</loc>
+    <lastmod>2023-05-07T11:21:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/</loc>
+    <lastmod>2023-05-07T11:21:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/</loc>
+    <lastmod>2023-05-07T11:21:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/typescript/</loc>
+    <lastmod>2023-05-07T11:21:13+08:00</lastmod>
+  </url><url>
     <loc>https://runtus.top/tags/fp/</loc>
     <lastmod>2023-03-23T09:28:58+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/functional_program_3/</loc>
-    <lastmod>2023-03-23T09:28:58+08:00</lastmod>
-  </url><url>
-    <loc>https://runtus.top/posts/</loc>
-    <lastmod>2023-03-23T09:28:58+08:00</lastmod>
-  </url><url>
-    <loc>https://runtus.top/</loc>
-    <lastmod>2023-03-23T09:28:58+08:00</lastmod>
-  </url><url>
-    <loc>https://runtus.top/tags/</loc>
     <lastmod>2023-03-23T09:28:58+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/functional_program_2/</loc>
