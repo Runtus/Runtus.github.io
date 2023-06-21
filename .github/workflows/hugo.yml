@@ -55,8 +55,7 @@ jobs:
           HUGO_ENV: production
         run: |
           hugo \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --minify 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -67,7 +66,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-          scp_source: /public
+          scp_source: /docs
           scp_target: ~/
           before_script: |
             df -h
