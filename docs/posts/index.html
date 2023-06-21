@@ -9,9 +9,9 @@
 <meta name=author content="Runtus">
 <link rel=canonical href=https://runtus.top/posts/>
 <link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
-<link rel=icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=16x16 href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=32x32 href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
+<link rel=icon href=https://runtus.top/avatar.png>
+<link rel=icon type=image/png sizes=16x16 href=https://runtus.top/avatar.png>
+<link rel=icon type=image/png sizes=32x32 href=https://runtus.top/avatar.png>
 <link rel=apple-touch-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
 <link rel=mask-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
@@ -76,6 +76,45 @@ Posts
 </header>
 <article class=post-entry>
 <header class=entry-header>
+<h2>Node Typescript打包发布
+</h2>
+</header>
+<div class=entry-content>
+<p>使用rollup打包typscript-node项目为第三方库 tsc和rollup对比 tsc是Typescript官方的编译器，本身也具有打包功能，但是其本质只是编译器，它适合于打包直接运行的大型项目文件，并不适合构建独立的第三方库或组件。 rollup则是javascript打包器，它可以将ES6模块打包称单个javascript文件，同时它本身也采用了Tree Shaking优化算法，能使得打包文件大小得到进一步的优化。 另一方面，rollup支持插件功能，通过设置插件能满足大部分时候的打包需求，在下面即将要讲解的打包中，插件提供了很大的帮助。RollUp插件集合网站 rollup打包流程 本地安装 rollup 就我个人而言，不推荐安装全局的rollup包，因为在协同工作时，这样会导致rollup版本得不到统一而产生打包错误，所以推荐在本地安装rollup，本文使用的包管理工具为yarn，安装命令如下: yarn add rollup 安装完毕后，在package.json文件里设置对应的脚本，用于快速启动打包。 // package.json { "scripts": { "build": "rollup -c" } } -c的意思是按照配置文件中设置的内容进行打包。 设置rollup.config.js文件 就如同tsconfig.json一样，rollup也是有一个对应的配置文件名为rollup.config.js，虽然其不是必须的，但配置文件强大且方便，所以在配置项目打包时基本都要用到配置文件。 在项目根目录创建对应的配置文件，在文件里根据自己的需求来编写对应的配置代码。 rollup.config.js是一个ES模块，它会根据文件内导出的内容来进行打包上的设置，如下所示。 // rollup.config.js export default { // 这里也可以是一个数组 input: [], output: [], external: [], plugins: [], // .... } 安装插件 需要三个插件： rollup-plugin-typescript2 => 将typescript转移为javascript的插件 rollup/plugin-commonjs => 将commonjs语法转换为es6 rollup-plugin-dts => 生成声明文件d....</p>
+</div>
+<footer class=entry-footer><span title="2023-05-07 11:21:13 +0800 CST">May 7, 2023</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;259 words&nbsp;·&nbsp;Runtus</footer>
+<a class=entry-link aria-label="post link to Node Typescript打包发布" href=https://runtus.top/posts/node-typescript%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Functional_Program_3
+</h2>
+</header>
+<div class=entry-content>
+<p> 关于副作用以及外部引用与函数式编程的关系
+Pure Happiness with Pure Functions 禁止与外界交互 在第二章中也有说到，保持纯函数的关键在于不能与外界有直接交互，即直接引用。 这样有个好处是能让函数能够自给自足，从而能够只看函数本身就能更加轻松了解到函数本身的功能，而不需要借助外部变量来理解，例如以下的例子。 let minimum = 21 const checkAge = age => age => minium checkage依赖与外部变量minium，假如该变量声明的位置很远，当后续维护时会对这段代码返回的结果感到匪夷所思，不知道其值到底从何而来。 副作用 对于函数而言，函数的副作用就是函数执行时对外界环境产生了影响（无论是依赖还是修改）。 上述的与外界交互也算是副作用的一种，副作用在计算机领域并不是贬义的含义，只是对代码执行过程的一种结果的描述，只不过在函数式编程中，副作用被视为不好的程序过程执行。 下面列举了一些副作用的例子。 更改文件fs 数据库访问 发起http请求 DOM控制 获取系统状态 获取用户的输入 so on….. 并不是说在函数式编程中，我们要完全拒绝以上操作，而是要能控制这一系列操作。后续会介绍如何去进行这一个控制过程（柯里化），下面先介绍如何将纯函数从一个普通的函数中分离出来。 纯函数的分离 一个对外界依赖的函数要分离成纯函数，就必须要显式告知函数要依赖的对象是谁，即把要依赖的对象作为参数传递，从而将外部依赖改为内部依赖。 // 不纯函数，其没有显示告知函数依赖的对象是谁。 const signUp = (attrs) => { const user = saveUser(attrs); welcomeUser(user); }; // pure -> 将DB，Email显示告知 const signUp = (Db, Email, attrs) => () => { const user = saveUser(Db, attrs); welcomeUser(Email, user); }; 这样做的好处不仅仅是让函数的依赖关系更加明确从而使得函数可读性增强，而且还让函数的复用性增强，一旦Db或Email有变化，只需要重新设置这两参数，再获取一个SignUp即可。 </p>
+</div>
+<footer class=entry-footer><span title="2023-03-23 09:28:58 +0800 CST">March 23, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;74 words&nbsp;·&nbsp;Runtus</footer>
+<a class=entry-link aria-label="post link to Functional_Program_3" href=https://runtus.top/posts/functional_program_3/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Functional_Program
+</h2>
+</header>
+<div class=entry-content>
+<p>读 Professor Frisby’s Mostly Adequate Guide to Functional Programming 记录
+Functional Programming原文链接
+本章主要简单介绍函数式编程中的一等公民，以及函数式编程的一些注意事项和好处。
+第二章: First Class Functions 在函数式编程中，函数是作为一等公民存在的，应该把函数和其他变量等同，即函数也是变量，变量的类型也可以是函数，函数的参数也可以是函数。 const hi = name => `Hi, ${name}` const greeting = hi hi("小明"); 常见的回调函数，其实就是把函数当作参数传递。 const callback = (...args) => { // balabala } ajax("/xianbei114514/1919810", callback) 不要做无所谓的函数返回 在写代码时，有时会做无意义的操作，在一个函数中，将另一个函数返回。其实它们的功能都没有变化，只是换了个变量名而已。 // 不好的操作 const getServerStuff = callback => ajaxCall(json => callback(json)); 对于上述代码，getServerStuff本质就是想传递一个回调函数，并在回调函数中获取ajax请求得到的值，但完全没必要写那么多，它等同于下面代码实现。 // 好的操作 const getServerStuff = ajaxCall; 此时getServerStuff的功能也是传递一个回调函数并获取到ajax的值，这和上面有区别吗？没有区别。 减少代码冗余，增强代码可读性以及可维护性 继续拿上述的ajaxCall例子来说，假如我们传递的回调函数如下所示。 ajaxCall((json) => callback(json)) 这只是一个调用，如果说有多处的ajaxCall都要进行如此的回调函数的传递，那么一旦我们的业务发生改变时，就会去修改每一处代码，并且每次都要写一遍回调函数的形式，显得非常冗余。 所以考虑将函数作为变量来传递。 const cb = (json) => callback(json) ajaxCall(cb) 此时一旦遇到上述情况，直接去修改cb的内容即可，并且代码量也会减少。 禁止this的出现 在函数式编程中，要保证函数是够**“纯”（1，5！）的，即不能让函数内的任何行为影响到函数外，而this指针便是一个例子，this指向的是执行函数的作用域，一旦使用了this，便会导致函数和外界进行交互，从而不纯**。 但在实际生产过程中，有时的业务情况又不得不这样操作，所以不能完全循规蹈矩，而是要懂随机应变，少量的交互并不会影响整体的代码质量。再说一句，若要调用含有this指针的函数，最好先使用bind函数改变this指针指向，这样不仅能让代码更加易读，还能减少一些未来执行时可能遇见的错误。 // 借用网上的例子 // scary fs....</p>
+</div>
+<footer class=entry-footer><span title="2023-03-21 21:34:36 +0800 CST">March 21, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;91 words&nbsp;·&nbsp;Runtus</footer>
+<a class=entry-link aria-label="post link to Functional_Program" href=https://runtus.top/posts/functional_program_2/></a>
+</article>
+<article class=post-entry>
+<figure class=entry-cover><img loading=lazy src=https://lao-lan-go.oss-cn-beijing.aliyuncs.com/hugo-server/images/pixiv8.jpg alt=cover>
+</figure>
+<header class=entry-header>
 <h2>Rust-所有权
 </h2>
 </header>
@@ -107,45 +146,6 @@ docker镜像（image文件） docker把应用程序及其依赖打包在image文
 <footer class=entry-footer><span title="2022-01-29 11:10:01 +0000 UTC">January 29, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;47 words&nbsp;·&nbsp;Runtus</footer>
 <a class=entry-link aria-label="post link to 再拾docker" href=https://runtus.top/posts/%E5%86%8D%E6%8B%BEdocker/></a>
 </article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>go-learning-1
-</h2>
-</header>
-<div class=entry-content>
-<p>Golang学习记录
-关于swtich Golang中的switch的每个case自带break关键字，即不用手动去设置break关键字。 import ( "fmt" ) func main(){ variables := 12 switch variables { case 24: fmt.Println('24') case 12: fmt.Println('12') case 36: fmt.Println('36') default: fmt.Println('114514') } } // 12 如果在其他语言中这样编写switch代码块，36和default代码块中的输出也会执行。 fallthrough关键字 当然，golang也提供了能够无视掉默认break的关键字，即fallthrough，在指定的case最后一行加上fallthrough，则对应的case代码块将会忽视掉默认的break操作。 // 接上 func main(){ variables := 12 switch variables { case 24: fmt.Println('24') case 12: fmt.Println('12') fallthrough case 36: fmt.Println('36') default: fmt.Println('114514') } } // 12 // 36 关于数组 在golang中的数组和c一样，一旦定义了大小就不可更改，且声明方式有多种，如下: // var variable_name [SIZE] variable_type func main(){ var balance = [3]float32{100, 2....</p>
-</div>
-<footer class=entry-footer><span title="2022-01-28 09:13:38 +0000 UTC">January 28, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;384 words&nbsp;·&nbsp;Runtus</footer>
-<a class=entry-link aria-label="post link to go-learning-1" href=https://runtus.top/posts/go-learning-1/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>0120-浏览器事件
-</h2>
-</header>
-<div class=entry-content>
-<p>Javascript和HTML的交互都是通过事件来实现的，而事件的产生与执行则是遵循着传统软件工程领域中的观察者模式，其能够做到页面行为和页面展示的解耦合。
-本节内容会从事件流谈起，然后逐一介绍几种注册事件的方式以及他们其中的一些细节，最后还会提到关于**事件委托（代理）**的概念。
-事件流 事件流描述了页面接受事件的顺序。因为一个事件的触发可能会影响好几处地方，这很容易理解，比如在页面上嵌套着写了几个div元素，同时在最里层的div元素上进行事件触发，那这不仅仅是最内层的div对事件进行响应，任意一层的嵌套的div都会对事件进行相应处理。（其实通过上述的观察者模式也可以推断出其合理性，因为一个对象可以由多个观察者进行观察） 所以多个监听事件的元素响应顺序需要进行统一，因为一些历史原因，事件的响应顺序有两种模式：冒泡和捕获。 事件冒泡 顾名思义，事件的冒泡就如水底下的气泡一下，从内到外，同理，事件冒泡规定的事件流顺序也是从内而外，事件会从最深层的节点开始触发，然后向外传播到document（文档）。 代码如下所示。 &lt;html> &lt;body> &lt;div id="ddd"> click me &lt;/div> &lt;/body> &lt;/html> 此时我如果对id=ddd的div元素进行click事件触发，那么该事件会以如下顺序发生: div body html document 现代的浏览器的事件会一直冒泡到window对象。 事件捕获 事件捕获则和事件冒泡相反，事件的响应顺序是从外到内的，还是以上一个例子为例，那么对应click事件讲会以如下顺序发生: document html body div DOM事件流 DOM2 Events规范里规定里事件流为分三个部分：事件捕获，到达目标和事件冒泡。 需要注意的是，div元素（即直接触发元素）是不会响应捕获事件的，因为通常认为直接触发事件是冒泡阶段发生的，所以它也是冒泡阶段第一个发生的事件。 但现在大多数支持DOM事件流的浏览器都实现了一个小小的拓展，即在捕获阶段在事件目标上触发事件。最终结果表现为有两个机会来处理事件。 事件处理程序 事件意味着用户或浏览器执行的某种动作，而为响应事件而调用的函数被称为事件处理程序（事件监听器）。 HTML事件处理程序 HTML事件处理程序是以HTML属性的形式来进行指定的。该属性的值必须是能够执行的javascript代码。 比如下面这个例子，就是按钮在被点击时执行一段代码。 &lt;button onclick="console.log('click')"> click me &lt;/button> 当然也可以以函数的形式来进行响应事件定义。 &lt;script> function click(event){ console....</p>
-</div>
-<footer class=entry-footer><span title="2022-01-20 10:30:44 +0000 UTC">January 20, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;260 words&nbsp;·&nbsp;Runtus</footer>
-<a class=entry-link aria-label="post link to 0120-浏览器事件" href=https://runtus.top/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>DOM扩展
-</h2>
-</header>
-<div class=entry-content>
-<p>虽然原生DOM API已经能做许多事情了，但是仍然不断有标准或专有的扩展出现，以支持更多的功能，由于各个浏览器对DOM扩展的支持是专有的，为了统一这些专有的DOM API，W3C开始着手将这些专有扩展转变为标准规范。
-Selectors API Selectors APIs 是浏览器原生支持的CSS查询API，由于是原生支持，解析和遍历DOM树可以通过底层编译语言实现，相比其他Javascript库（比如jQuery），性能有数量级的提升。 Selectors API Level 1 主要是两个API：querySelector() 和 querySelectorAll() querySelector() 该方法接受CSS选择符参数，返回匹配到的第一个后代元素，如果没有匹配元素则返回null。 // 匹配 class 为 list 的第一个DOM元素 document.querySelector('.list') // 匹配 id 为 myDiv 的第一个DOM元素 document.querySelector('#myDiv') // 匹配 class=header DOM元素子元素中 id为someDiv的元素 const header = querySelector('.header'); header.querySelector('#someDiv') 如果直接在document上使用querySelector方法，会从文档元素开始搜索（前两个例子）；在Element上使用querySelector方法，则只会在该元素的后代中查询（第三个例子）。 querySelectorAll() 该方法和querySelector类似，接受CSS选择符参数，只不过它会返回匹配的所有节点。即返回的是一个NodeList的静态实例。
-⚠️注意：无论是querySelector还是querySelectorAll返回的都是DOM元素的静态快照，即和之前提到的getElementById获取的动态实例不同，更改静态快照是不会影响DOM元素在页面上的渲染。
-matches() matches方法接受一个css选择符参数，用于判断是否存在对应css选择符的DOM元素，如果存在返回true，否则返回false。 if(document.body.matches("body.header")){ // true } CSS类扩展 HTML5增加了一些特性以方便使用CSS类。 getElementsByClassName() 该方法接受一个参数，包含一个或多个类名的字符串，返回类名中包含对应类的元素的NodeList。 // 返回 class 包含 username 和 current 的类 document....</p>
-</div>
-<footer class=entry-footer><span title="2021-12-26 10:22:54 +0000 UTC">December 26, 2021</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;114 words&nbsp;·&nbsp;Runtus</footer>
-<a class=entry-link aria-label="post link to DOM扩展" href=https://runtus.top/posts/dom%E6%89%A9%E5%B1%95/></a>
-</article>
 <footer class=page-footer>
 <nav class=pagination>
 <a class=next href=https://runtus.top/posts/page/2/>Next&nbsp;&nbsp;»
@@ -154,7 +154,7 @@ matches() matches方法接受一个css选择符参数，用于判断是否存在
 </footer>
 </main>
 <footer class=footer>
-<span>&copy; 2022 <a href=https://runtus.top/>Runtus</a></span>
+<span>&copy; 2023 <a href=https://runtus.top/>Runtus</a></span>
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
