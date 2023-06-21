@@ -62,7 +62,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-          scp_source: /docs
+          scp_source: docs/
           scp_target: ~/
           before_script: |
             df -h
