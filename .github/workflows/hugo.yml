@@ -56,10 +56,6 @@ jobs:
         run: |
           hugo \
             --minify 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./public
       - name: SSH Server Deploy
         uses: kostya-ten/ssh-server-deploy@v4
         with:
