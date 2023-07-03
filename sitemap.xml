@@ -113,12 +113,14 @@
     <loc>https://runtus.top/posts/0908-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2021-09-08T11:02:13+00:00</lastmod>
   </url><url>
-    <loc>https://runtus.top/archives/</loc>
-  </url><url>
     <loc>https://runtus.top/friends/</loc>
   </url><url>
     <loc>https://runtus.top/posts/packagejson%E6%95%B0%E6%8D%AE%E9%A1%B9/</loc>
   </url><url>
+    <loc>https://runtus.top/archives/</loc>
+  </url><url>
     <loc>https://runtus.top/categories/</loc>
+  </url><url>
+    <loc>https://runtus.top/search/</loc>
   </url>
 </urlset>

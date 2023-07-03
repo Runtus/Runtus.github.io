@@ -295,14 +295,13 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
 进程管理 基本概念 在多道程序运行的系统中，由于程序直接“暴露在内存里”，所以导致程序没有封闭性，它们能够彼此看见对方内部的结构，甚至调用，这显然是不行的。于是为了方便描述程序和控制程序的并发，体现操作系统的并发性和共享性，所以引入了进程的概念。 进程（动态的）：是程序的一次执行过程（进程实体的运行过程），是CPU资源分配和调度的基本单位（引入线程之前） PCB（Process Control Block） 程序段 相关数据段 状态 创建态 就绪态 运行态 终止态 阻塞态 它们各自的定义这里不再描述。 需要说明的是，当进程从运行态变换到阻塞态时，是一个主动的行为（即自己需要去请求某个外设资源或等待某一事件发生而引起的阻塞），这是一种特殊的，由运行的用户态程序去调用操作系统内核过程的形式。 而从阻塞态转移到就绪态，这是一个被动过程，因为它需要外界信号进行触发。例如请求的外设已经完成了对应的任务，或是请求的某个资源已经空闲出来等。 进程通信 共享存储空间通信 -&amp;gt; 多个进程共享内存中的某块空间，当需要通信时，在内存中进行读写即可。 消息传递 -&amp;gt; 调用操作系统提供的消息传递方法进行进程通信，即通过发送消息和接受消息两个原语进行通信。 直接通信，即发送进程直接把消息发送给接收消息进程。 间接通信，即发送进程把消息发送给某个中间实体，使其成为一个信箱，而接受进程直接从实体中取消息即可，反之亦然。 管道通信 -&amp;gt; 由pipe文件来连接发消息进程和接受消息进程从而达到通信的目的。（消息查看2022王道考研操作系统P35） 线程 由于进程的切换会有较大的时空开销，于是考虑引入线程，从而提高系统的并发性能（因为线程切换所引起的时空开销要远远小于进程）。</description>
     </item>
     
-    
     <item>
       <title></title>
       <link>https://runtus.top/friends/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://runtus.top/friends/</guid>
-      <description></description>
+      <description>123 </description>
     </item>
     
     <item>
@@ -314,6 +313,8 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
       <description>npm发包相关的packagejson配置说明 将自己的项目上传至npm上时，需要正确设置packagejson中的相关字段，否则会导致上传的项目无法正确在其他地方引用，甚至无法上传至npm官网。
 1. name name是整个项目的名称，也是在npm仓库中的唯一索引，当别人下载自己上传的npm包时，其关键字索引便是项目名称。 yarn add axios # axios 便是项目名称 2. version version是版本号，它是一个字符串，每次发版时都要更新该字段。 版本号的编写遵循语义化版本 2.0.0 规范，即**「主版本号. 次版本号. 修订号」** 3. main 指定加载的入口文件，node端和web端都可以使用，当外部使用require来引入npm包时，main指定的文件将以module.export的形式对外暴露。 所以一般情况下，main文件都会指向commonjs规范的文件，如下所示。 mjs文件代表commonjs规范的js文件。 { &amp;#34;main&amp;#34;: &amp;#34;dist/index.cjs&amp;#34; } 4. module 与main不同的是，module指定的是ESM规范的文件入口，web端和node端都可以使用，如果npm包导出的是ESM规范的包，则需要该字段来指定入口文件。 mjs代表是ESM规范的js文件。 { &amp;#34;module&amp;#34;: &amp;#34;dist/index.mjs&amp;#34; } 5. type type用于指定该node项目遵循ESM规范还是Commonjs规范，默认为commonjs项目，若要设置项目为ESM规范，则需要赋值module。 { &amp;#34;type&amp;#34;: &amp;#34;module&amp;#34; } 同时当项目是ESM规范时，需要指定入口文件，即设置module字段。 6. types 指定声明文件位置，即d.ts文件。 7. files files字段接收一个数组，用来指明在发布npm包时，哪些文件需要上传至npm服务器上。或者说，用来描述当把 npm 包作为依赖包安装时需要说明的文件列表。 需要说明的是，如果有文件不想上传到npm服务器上，可以用.npmignore来说明哪些文件不需要上传（和.gitignore类似） </description>
     </item>
+    
+    
     
   </channel>
 </rss>
