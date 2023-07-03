@@ -8,7 +8,7 @@ enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-
+disqusShortname: goruntu
 # googleAnalytics: UA-123-45
 
 minify:
@@ -37,7 +37,7 @@ params:
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
-  comments: false
+  comments: true
   hidemeta: false
   hideSummary: false
   showtoc: false
@@ -68,9 +68,9 @@ params:
     imageTitle: Avatar
     buttons:
       - name: Posts
-        url: posts
-      - name: Tags
-        url: tag
+        url: /posts
+      - name: Search
+        url: /search
 
   socialIcons:
     - name: twitter
@@ -101,6 +101,7 @@ params:
     threshold: 0.4
     minMatchCharLength: 0
     keys: ["title", "permalink", "summary", "content"]
+
 menu:
   main:
     - identifier: archives
@@ -111,6 +112,10 @@ menu:
       name: tags
       url: /tags/
       weight: 20
+    - identifier: search
+      name: search
+      url: /search
+      weight: 30
     - identifier: friends
       name: friends
       url: /friends
@@ -128,3 +133,9 @@ markup:
     # codeFences: true
     # guessSyntax: true
     # lineNos: true
+
+outputs:
+  home: 
+    - HTML
+    - RSS
+    - JSON
