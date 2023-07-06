@@ -10,7 +10,17 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 May 2023 11:21:13 +0800</lastBuildDate><atom:link href="https://runtus.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Jul 2023 17:33:19 +0800</lastBuildDate><atom:link href="https://runtus.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust包管理</title>
+      <link>https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 05 Jul 2023 17:33:19 +0800</pubDate>
+      
+      <guid>https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/</guid>
+      <description>本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。
+Rust中代码组织相关概念 在Rust中，代码的组织大致可以分为四个层次： 项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module） Package 项目 Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。 二进制Package 直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。 库Package 库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。 Package文件结构 需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。 . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.rs │ └── main2.rs ├── tests │ └── some_integration_tests.rs ├── benches │ └── simple_bench.</description>
+    </item>
+    
     <item>
       <title>Node Typescript打包发布</title>
       <link>https://runtus.top/posts/node-typescript%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83/</link>
