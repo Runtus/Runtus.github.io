@@ -101,6 +101,22 @@ params:
     threshold: 0.4
     minMatchCharLength: 0
     keys: ["title", "permalink", "summary", "content"]
+  
+
+  # 自定义 friends
+  friends:  
+    - name: Lehr
+      url: https://blog.imlehr.com
+      avatar: https://lao-lan-go.oss-cn-beijing.aliyuncs.com/runtu_blog/Lehr.jpg
+    - name: 何先森
+      url: https://www.kevinmatt.top
+      avatar: https://lao-lan-go.oss-cn-beijing.aliyuncs.com/runtu_blog/MrHe.png
+    - name: 胡佬
+      url: https://www.bencorn.com/
+      avatar: https://lao-lan-go.oss-cn-beijing.aliyuncs.com/runtu_blog/shuisong.png
+    - name: Yiyang Sun - 孙哥
+      url: https://blog.syy11.cn/
+      avatar: xxx
 
 menu:
   main:
@@ -139,3 +155,7 @@ outputs:
     - HTML
     - RSS
     - JSON
+
+
+
+  

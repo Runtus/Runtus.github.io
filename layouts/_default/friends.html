@@ -13,10 +13,56 @@
     {{- end }}
 </header>
 
-<div>
-    test
-</div>
+<ul>
+    {{- range  $.Site.Params.friends }}
+    <li class="friends_li">
+        <a class="search-title" href="{{ .url }}">
+            <img src="{{ .avatar }}" >
+            {{- .name -}}
+        </a>
+    </li>
+    {{- end }}
+</ul>
 
+<style>
+
+    body {
+        background: var(--code-bg);
+    }
+    .friends_li {
+        list-style: none;
+        float: left;
+    }
+
+    .friends_li a {
+        padding: 15px 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 17px;
+        text-decoration: none;
+        background-color: rgba(6,129,208,.1);
+        color: #000;
+        border-radius: 6px;
+        margin-right: 40px;
+        margin-bottom: 20px;
+        transition:background-color 0.5s ease-in-out;
+    }
+
+    .friends_li a:hover {
+        background-color: rgba(6, 129, 208, .3);
+    }
+
+    
+
+    .friends_li a img {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+</style>
 
 
 {{- end }}{{/* end main */}}
