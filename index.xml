@@ -5,12 +5,27 @@
     <link>https://runtus.top/</link>
     <description>Recent content on Runtus</description>
     <image>
+      <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Jul 2023 20:09:43 +0800</lastBuildDate><atom:link href="https://runtus.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Aug 2023 10:12:13 +0800</lastBuildDate><atom:link href="https://runtus.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web components</title>
+      <link>https://runtus.top/posts/webcomponents/</link>
+      <pubDate>Thu, 03 Aug 2023 10:12:13 +0800</pubDate>
+      
+      <guid>https://runtus.top/posts/webcomponents/</guid>
+      <description>Web-Components Web-Components是一项标准，规范，目前它包含了三项主要技术：
+Custom Elements自定义元素：（标签）它是一组JavaScript API，能够自定义Element以及其行为。 Shadow DOM影子DOM。 HTML templatesHTML模板：通过&amp;lt;template&amp;gt;和&amp;lt;slot&amp;gt;元素编写不在呈现页面中显示的标记模板。 通过这三个特性的共同作用能够创建封装功能的定制元素，在说明Web-Component的用法之前，先简单说明上述三项特性。
+Custom Elements 自定义元素是Web Components中的一个重要特性，它能够让开发者将HTML页面（或者页面中的某个功能）封装为custom elements，从而达到复用的目的。目前支持custom elements的浏览器有FireFox，Chrome，Opera。
+Custom Elements的管理是通过CustomElementRegistry接口进行操作的，其用于处理Web文档中的custom elements，同时它还提供注册自定义元素和查询已注册元素的方法，它的实例通过window.customElements属性来获得。
+CustomElementRegistry接口有四个方法：
+CustomElementRegistry.define()：定义一个新的自定义元素。 CustomElementRegistry.get()：返回指定自定义元素的构造函数，如果未自定义元素，则返回undefined。 CustomElementRegistry.upgrade(): 更新一个自定义元素。 CustomElementRegistry.whenDefined()：执行并返回一个已经定义的自定义元素的promise，即如果定义了这么一个元素，那么返回对应的promise。 CustomElementRegistry.define() 该方法是四个方法中最重要的方法，用于创建自定义元素，它接受三个参数： 自定义元素的名称，且其必须符合元素名称的DOMString标准字符串。 用于定义元素行为的类。 一个包含 extends 属性的配置对象，是可选参数。它指定了所创建的元素继承自哪个内置元素，可以继承任何内置元素。 // 自定义Div class SelfDiv extends HTMLElement { constructor(){ // super方法的调用是必须得 super() // 元素的相关业务代码 } } // 使用customElements实例(CustomElementRegistry接口)来完成注册功能 customElements.define(&amp;#34;word-count&amp;#34;, SelfDiv, { extends: &amp;#34;div&amp;#34; }); 上述代码便是自定义元素注册的简单演示。 shadow DOM shadown DOM也叫影子DOM，它最主要的功能是做封装，将元素的标记结构，样式以及行为隐藏起来，与外界隔离，这样能够保证封装的代码既不会被外界影响，同时也能保证内部的代码不会影响到外部的元素，这样便实现了Web Component的解耦合。 Shadow DOM接口可以将一个隐藏的，独立的DOM附加到一个元素上，目前为止FireFox,Chrome,Opera,Safari默认支持Shadow DOM，Chromium内核的Edge也支持。 Shadow DOM允许将隐藏的DOM树附加到常规的DOM树中 =&amp;gt; 以shadow root节点为起始根节点（Shadow Root的创建后续会说明），在这根节点的下方可以添加任何DOM元素，和普通的DOM元素没有任何区别。 下面有个示意图可以帮助理解。 上图的一些概念下面做一些解释： Shadow host：常规的DOM节点，Shadow DOM将会挂载到此处。 Shadow Tree：Shadow DOM内部的DOM树。 Shadow root: Shadow tree 的根节点。 注：Shadow DOM的操作方式和普通DOM操作方式没有任何区别，包括添加元素，设置属性等等，只不过Shadow DOM内部的任何改变都影响不了外部的DOM元素。 Shadow DOM的创建和挂载通过方法ElementShadow()来实现。 Element.</description>
+    </item>
+    
     <item>
       <title>Rust Trait</title>
       <link>https://runtus.top/posts/rust-trait/</link>
