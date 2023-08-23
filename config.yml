@@ -140,6 +140,10 @@ menu:
       name: github
       url: https://github.com/Runtus
       weight: 40
+    - identifier: 网易云
+      name: 网易云转换
+      url: /ncm
+      weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
