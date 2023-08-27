@@ -91,6 +91,11 @@ import {
             Object.assign(draft[data.id], data.payload);
           });
         });
+
+        this.clickHandler = (e) => {
+          e.preventDefault();
+          this.tracks = [];
+        }
   
         this.fileHandler = /** @param {FileList} fileList */ fileList => {
           const files = [...fileList]
@@ -179,6 +184,8 @@ import {
             @change=${e => this.fileHandler(e.target.files)}
             hidden
           />
+
+          <back-button ?hidden=${this.tracks.length === 0} .tracks=${this.tracks} @click=${this.clickHandler}></back-button>
         `;
       }
     }
@@ -221,9 +228,12 @@ import {
   
       constructor() {
         super();
+
+   
         this.playHandler = e => {
           e.preventDefault();
           document.dispatchEvent(
+            // customEvent -> 因为某个目的而挂载的响应事件
             new CustomEvent("play-track", {
               detail: { url: this.track.url }
             })
@@ -312,7 +322,6 @@ import {
   
       render() {
         if (this.track === undefined) return;
-  
         return html`
           <section class="main" style="background-image:url('${this.albumPic}')">
             <div class="button-group">
@@ -332,7 +341,6 @@ import {
               >
             </div>
           </section>
-  
           <section class="info">
             <p>${this.name}</p>
             <p>${this.album}</p>
@@ -341,5 +349,99 @@ import {
       }
     }
   );
+
+
+customElements.define(
+  "back-button",
+  class extends LitElement {
+    static get properties() {
+      return { tracks: {type: Object} }
+    }
+
+    constructor() {
+      super();
+      this.back = (e) => {
+        e.preventDefault();
+        console.log(this.tracks)
+        this.tracks = []
+      }
+    }
+
+    static get styles() {
+      return css`
+        #back-button-style {
+          position: absolute;
+          right: -60px;
+          bottom: 0;
+          width: 60px;
+          height: 40px;
+          border-style: none;
+          cursor: pointer;
+          overflow: hidden;
+          user-select: none;
+          transition: all 150ms linear;
+          text-align: center;
+          white-space: nowrap;
+          text-decoration: none !important;
+          text-transform: none;
+          text-transform: capitalize;
+
+          color: #fff;
+          border: 0 none;
+          border-radius: 4px;
+
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 1.3;
+
+          -webkit-appearance: none;
+          -moz-appearance:    none;
+          appearance:         none;
+        
+          justify-content: center;
+          align-items: center;
+          color: #FFF;
+          background: #161616;
+        }
+
+        #back-button-style:hover {
+          transition: all 150ms linear;
+          opacity: .85;
+        }
+
+        #back-button-style:focus {
+          outline: 1px dotted white;
+          outline-offset: -4px;
+        }
+
+        #back-button-style:active {
+          transition: all 150ms linear;
+          opacity: .75;
+        }
+
+        #back-button-style:focus {
+          outline: 1px dotted #959595;
+          outline-offset: -4px;
+        }
+
+      
+      `
+    }
+
+
+    
+    render() {
+      console.log(this.tracks);
+
+      return html`
+      <button id="back-button-style">
+        返回
+      </button>
+      
+      `
+    }
+  }
   
-  console.log(window.location.href)
+)
+
+
