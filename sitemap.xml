@@ -2,11 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://runtus.top/tags/javascript/</loc>
+    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+  </url><url>
     <loc>https://runtus.top/posts/</loc>
-    <lastmod>2023-08-03T10:12:13+08:00</lastmod>
+    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/</loc>
-    <lastmod>2023-08-03T10:12:13+08:00</lastmod>
+    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/</loc>
+    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</loc>
+    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/webcomponents/</loc>
     <lastmod>2023-08-03T10:12:13+08:00</lastmod>
@@ -15,9 +24,6 @@
     <lastmod>2023-07-17T20:09:43+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/rust-trait/</loc>
-    <lastmod>2023-07-17T20:09:43+08:00</lastmod>
-  </url><url>
-    <loc>https://runtus.top/tags/</loc>
     <lastmod>2023-07-17T20:09:43+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/</loc>
@@ -66,9 +72,6 @@
     <lastmod>2021-12-24T10:35:37+00:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/1222-dom1/</loc>
-    <lastmod>2021-12-22T13:01:26+00:00</lastmod>
-  </url><url>
-    <loc>https://runtus.top/tags/javascript/</loc>
     <lastmod>2021-12-22T13:01:26+00:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/1220-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B/</loc>

@@ -10,7 +10,18 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Dec 2021 13:01:26 +0000</lastBuildDate><atom:link href="https://runtus.top/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Aug 2023 10:12:13 +0800</lastBuildDate><atom:link href="https://runtus.top/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>迭代器and生成器</title>
+      <link>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</link>
+      <pubDate>Wed, 23 Aug 2023 10:12:13 +0800</pubDate>
+      
+      <guid>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</guid>
+      <description>很多的数据结构都具备迭代的性质，但是不同的数据结构的迭代方法有所不同，往往需要知道具体的数据结构来选择对应的迭代方法，例如数组的迭代可以通过索引来进行迭代。
+为了统一迭代接口，使得我们可以不了解具体的数据结构的前提下也能进行迭代，所以有了迭代器这么一个概念，而生成器则是基于迭代器的一种能够控制函数流程的方法，生成器基于迭代器的原理运行，反过来生成器也能够快速构建迭代器。
+迭代器 当需要对某个迭代对象进行迭代处理时，由于迭代之前需要事先知道如何使用数据结构，以及遍历顺序并不是数据结构固有的，所以想寻求某种机制去统一迭代过程，对每一种可迭代类型，都用同一种迭代方法，从而增加开发体验。（即无需事先知道如何迭代去实现迭代操作） 于是基于以上原因，诞生了迭代器概念，意在统一化所有迭代对象的处理方式。 可迭代协议 一个对象是可迭代对象，则需要暴露一个属性作为默认迭代器，并且该属性的key为Symbol.iterator，它的value是一个工厂函数，用于返回一个新迭代器。 js提供了一系列可以对可迭代对象进行操作的原生结构，如下图所示。 for-of 数组解构 扩展操作符号（即...) Array.from 创建集合 创建映射 Promise.all()接受由Promise组成的可迭代对象。 Promise.rice()接受由期约组成的可迭代对象。 yield*操作符，在生成器中使用。 上述谈到的原生结构在对可迭代对象进行操作时，会默认调用工厂函数生成一个迭代器，然后对迭代器进行操作。 迭代器协议 1. next和IteratorResult 可迭代协议描述了一个对象具有可迭代性质的要求和前提，而迭代器协议则是用于规范迭代器具有的性质和方法。 迭代器对象具有一个方法next，通过迭代器APInext()能够在可迭代对象中遍历数据，每次调用next都能获取到一个IteratorResult对象，其中包含迭代器返回的下一个值，如下所示。 const array = [1, 2, 4]; // 迭代器对象 const iter = array[Symbol.iterator](); console.log(iter.next()) console.log(iter.next()) console.log(iter.next()) console.log(iter.next()) console.log(iter.next()) // output // { value: 1, done: false } // { value: 2, done: false } // { value: 4, done: false } // { value: undefined, done: true } // { value: undefined, done: true } 如上的输出结果所示，IteratorResult包含两个属性value和done，value表示本次迭代获取的值，而done则表示迭代是否结束，这从另一个角度也说明迭代器只能通过next方法来获取迭代器的当前位置。 2.</description>
+    </item>
+    
     <item>
       <title>1222-DOM</title>
       <link>https://runtus.top/posts/1222-dom1/</link>
