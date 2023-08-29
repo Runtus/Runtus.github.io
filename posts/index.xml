@@ -180,15 +180,6 @@ Node.ELEMENT_NODE（1） Node.ATTRIBUTE_NODE（2） Node.TEXT_NODE（3） Node.C
     </item>
     
     <item>
-      <title>迭代器and生成器</title>
-      <link>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</link>
-      <pubDate>Sun, 21 Nov 2021 12:05:17 +0000</pubDate>
-      
-      <guid>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</guid>
-      <description>迭代器 -&amp;gt; Symbol.iterator 当需要对某个迭代对象进行迭代处理时，由于迭代之前需要事先知道如何使用数据结构，以及遍历顺序并不是数据结构固有的，所以想寻求某种机制去统一迭代过程，对每一种可迭代类型，都用同一种迭代方法，从而增加开发体验。（即无需事先知道如何迭代去实现迭代操作） 于是基于以上原因，诞生了迭代器概念，意在统一化所有迭代对象的处理方式。 接受可迭代对象的原生语言特性包括如下：（即迭代对象都可以用下面的任意一种方式去处理） for-of 数组解构 扩展操作符号（即...) Array.from 创建集合 创建映射 Promise.all()接受由Promise组成的可迭代对象。 Promise.rice()接受由期约组成的可迭代对象。 yield*操作符，在生成器中使用。 基于以上特性，可以得知，迭代器也可以在宏观意义上理解为类数组。 判断与使用 如何判断一个对象是否为迭代类型是看它的Symbol.iterator属性是不是迭代器的工厂函数，如果是，则调用该函数后，会生成一个迭代器对象。 const a = 1; const b = {}; const c = [5,3,4,6] console.log(a[Symbol.iterator]); console.log(b[Symbol.iterator]) const c_iter = c[Symbol.iterator]() // -&amp;gt; 生成一个临时的迭代器对象，对迭代器对象可以通过统一方法进行迭代处理 // undefined // undefined // Object [Array Iterator] {} -&amp;gt; 迭代器对象 想对迭代器整体进行一个迭代处理，那么不需要显示去获取迭代器对象，直接调用上述的一系列方法去处理即可。 但如果是想对这个迭代过程进行更细节的处理，即控制每一个元素，那么需要获得迭代器对象，并调用next()方法去获取每一次迭代的值。 const c = [5,3,4,6] const c_iter = c[Symbol.iterator]() console.log(c_iter.next()); // -&amp;gt; { value: 5, done: false } 可以从上述代码发现，调用next返回的值是一个对象，value为当前迭代元素的值，done则标记本次获取值后是否迭代完成。</description>
-    </item>
-    
-    <item>
       <title>vuepress开发遇到的一些问题</title>
       <link>https://runtus.top/posts/vuepress%E5%BC%80%E5%8F%91%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</link>
       <pubDate>Sat, 13 Nov 2021 16:31:09 +0000</pubDate>
