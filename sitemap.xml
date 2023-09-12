@@ -2,16 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://runtus.top/tags/javascript/</loc>
-    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+    <loc>https://runtus.top/tags/node/</loc>
+    <lastmod>2023-09-09T10:34:09+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/posts/node-packages/</loc>
+    <lastmod>2023-09-09T10:34:09+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/</loc>
-    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+    <lastmod>2023-09-09T10:34:09+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/</loc>
-    <lastmod>2023-08-23T10:12:13+08:00</lastmod>
+    <lastmod>2023-09-09T10:34:09+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/tags/</loc>
+    <lastmod>2023-09-09T10:34:09+08:00</lastmod>
+  </url><url>
+    <loc>https://runtus.top/tags/javascript/</loc>
     <lastmod>2023-08-23T10:12:13+08:00</lastmod>
   </url><url>
     <loc>https://runtus.top/posts/%E8%BF%AD%E4%BB%A3%E5%99%A8and%E7%94%9F%E6%88%90%E5%99%A8/</loc>
