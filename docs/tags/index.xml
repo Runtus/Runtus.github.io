@@ -5,11 +5,40 @@
     <link>https://runtus.top/tags/</link>
     <description>Recent content in Tags on Runtus</description>
     <image>
+      <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 07 May 2023 11:21:13 +0800</lastBuildDate><atom:link href="https://runtus.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 09 Sep 2023 10:34:09 +0800</lastBuildDate><atom:link href="https://runtus.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>node</title>
+      <link>https://runtus.top/tags/node/</link>
+      <pubDate>Sat, 09 Sep 2023 10:34:09 +0800</pubDate>
+      
+      <guid>https://runtus.top/tags/node/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>https://runtus.top/tags/javascript/</link>
+      <pubDate>Wed, 23 Aug 2023 10:12:13 +0800</pubDate>
+      
+      <guid>https://runtus.top/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rust</title>
+      <link>https://runtus.top/tags/rust/</link>
+      <pubDate>Mon, 17 Jul 2023 20:09:43 +0800</pubDate>
+      
+      <guid>https://runtus.top/tags/rust/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>typescript</title>
       <link>https://runtus.top/tags/typescript/</link>
@@ -25,15 +54,6 @@
       <pubDate>Thu, 23 Mar 2023 09:28:58 +0800</pubDate>
       
       <guid>https://runtus.top/tags/fp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rust</title>
-      <link>https://runtus.top/tags/rust/</link>
-      <pubDate>Wed, 26 Oct 2022 22:54:43 +0800</pubDate>
-      
-      <guid>https://runtus.top/tags/rust/</guid>
       <description></description>
     </item>
     
@@ -61,15 +81,6 @@
       <pubDate>Thu, 20 Jan 2022 10:30:44 +0000</pubDate>
       
       <guid>https://runtus.top/tags/fe-frontend/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Javascript</title>
-      <link>https://runtus.top/tags/javascript/</link>
-      <pubDate>Wed, 22 Dec 2021 13:01:26 +0000</pubDate>
-      
-      <guid>https://runtus.top/tags/javascript/</guid>
       <description></description>
     </item>
     

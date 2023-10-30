@@ -5,9 +5,11 @@
     <link>https://runtus.top/categories/</link>
     <description>Recent content in Categories on Runtus</description>
     <image>
+      <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
       <link>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://runtus.top/categories/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://runtus.top/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
