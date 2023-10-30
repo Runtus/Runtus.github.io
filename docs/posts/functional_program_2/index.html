@@ -11,7 +11,7 @@
  第二章: First Class Functions  在函数式编程中，函数是作为一等公民存在的，应该把函数和其他变量等同，即函数也是变量，变量的类型也可以是函数，函数的参数也可以是函数。  const hi = name => `Hi, ${name}` const greeting = hi hi(&#34;小明&#34;);  常见的回调函数，其实就是把函数当作参数传递。  const callback = (...args) => { // balabala } ajax(&#34;/xianbei114514/1919810&#34;, callback) 不要做无所谓的函数返回  在写代码时，有时会做无意义的操作，在一个函数中，将另一个函数返回。其实它们的功能都没有变化，只是换了个变量名而已。  // 不好的操作 const getServerStuff = callback => ajaxCall(json => callback(json));  对于上述代码，getServerStuff本质就是想传递一个回调函数，并在回调函数中获取ajax请求得到的值，但完全没必要写那么多，它等同于下面代码实现。  // 好的操作 const getServerStuff = ajaxCall;  此时getServerStuff的功能也是传递一个回调函数并获取到ajax的值，这和上面有区别吗？没有区别。  减少代码冗余，增强代码可读性以及可维护性  继续拿上述的ajaxCall例子来说，假如我们传递的回调函数如下所示。  ajaxCall((json) => callback(json))  这只是一个调用，如果说有多处的ajaxCall都要进行如此的回调函数的传递，那么一旦我们的业务发生改变时，就会去修改每一处代码，并且每次都要写一遍回调函数的形式，显得非常冗余。 所以考虑将函数作为变量来传递。  const cb = (json) => callback(json) ajaxCall(cb)  此时一旦遇到上述情况，直接去修改cb的内容即可，并且代码量也会减少。  禁止this的出现  在函数式编程中，要保证函数是够**“纯”（1，5！）的，即不能让函数内的任何行为影响到函数外，而this指针便是一个例子，this指向的是执行函数的作用域，一旦使用了this，便会导致函数和外界进行交互，从而不纯**。 但在实际生产过程中，有时的业务情况又不得不这样操作，所以不能完全循规蹈矩，而是要懂随机应变，少量的交互并不会影响整体的代码质量。再说一句，若要调用含有this指针的函数，最好先使用bind函数改变this指针指向，这样不仅能让代码更加易读，还能减少一些未来执行时可能遇见的错误。  // 借用网上的例子 // scary fs.">
 <meta name=author content="Runtus">
 <link rel=canonical href=https://runtus.top/posts/functional_program_2/>
-<link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U+6hYRq/Ez/nm5vg=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://runtus.top/avatar.png>
 <link rel=icon type=image/png sizes=16x16 href=https://runtus.top/avatar.png>
@@ -20,6 +20,9 @@
 <link rel=mask-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
+<link href=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css rel=stylesheet>
+<script src=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js></script>
+<script>const ap=new Aplayer({container:document.getElementById("aplayer"),audio:[{name:"踊り子",artist:"Vaundy",url:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy%20-%20%E8%B8%8A%E3%82%8A%E5%AD%90.mp3",cover:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy.jpg"}]})</script>
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
@@ -68,6 +71,16 @@
 <li>
 <a href=https://runtus.top/friends title=friends>
 <span>friends</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/search title="search (Alt + /)" accesskey=/>
+<span>search</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/ncm title=网易云转换>
+<span>网易云转换</span>
 </a>
 </li>
 <li>
@@ -181,8 +194,13 @@ Functional_Program
 </a>
 <a target=_blank rel="noopener noreferrer" aria-label="share Functional_Program on telegram" href="https://telegram.me/share/url?text=Functional_Program&url=https%3a%2f%2fruntus.top%2fposts%2ffunctional_program_2%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
 </a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Functional_Program on ycombinator" href="https://news.ycombinator.com/submitlink?t=Functional_Program&u=https%3a%2f%2fruntus.top%2fposts%2ffunctional_program_2%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg>
+</a>
 </div>
-</footer>
+</footer><div id=disqus_thread /div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://runtus-top.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<script id=dsq-count-scr src=//runtus-top.disqus.com/count.js async></script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 </article>
 </main>
 <footer class=footer>
@@ -190,7 +208,8 @@ Functional_Program
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a> &
+        <a href=https://beian.miit.gov.cn/ target=_blank>蜀ICP备2021023118号-1</a>
 </span>
 </footer>
 <a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

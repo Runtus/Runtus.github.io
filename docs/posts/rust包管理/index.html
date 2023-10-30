@@ -1,0 +1,369 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Rust包管理 | Runtus</title>
+<meta name=keywords content>
+<meta name=description content="本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。
+ Rust中代码组织相关概念  在Rust中，代码的组织大致可以分为四个层次：  项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module）    Package 项目  Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。  二进制Package  直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。  库Package  库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。  Package文件结构  需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。  . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.">
+<meta name=author content="Runtus">
+<link rel=canonical href=https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U+6hYRq/Ez/nm5vg=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://runtus.top/avatar.png>
+<link rel=icon type=image/png sizes=16x16 href=https://runtus.top/avatar.png>
+<link rel=icon type=image/png sizes=32x32 href=https://runtus.top/avatar.png>
+<link rel=apple-touch-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<link href=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css rel=stylesheet>
+<script src=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js></script>
+<script>const ap=new Aplayer({container:document.getElementById("aplayer"),audio:[{name:"踊り子",artist:"Vaundy",url:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy%20-%20%E8%B8%8A%E3%82%8A%E5%AD%90.mp3",cover:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy.jpg"}]})</script>
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="Rust包管理">
+<meta property="og:description" content="本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。
+ Rust中代码组织相关概念  在Rust中，代码的组织大致可以分为四个层次：  项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module）    Package 项目  Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。  二进制Package  直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。  库Package  库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。  Package文件结构  需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。  . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/"><meta property="og:image" content="https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-07-05T17:33:19+08:00">
+<meta property="article:modified_time" content="2023-07-05T17:33:19+08:00"><meta property="og:site_name" content="Runtus">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG">
+<meta name=twitter:title content="Rust包管理">
+<meta name=twitter:description content="本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。
+ Rust中代码组织相关概念  在Rust中，代码的组织大致可以分为四个层次：  项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module）    Package 项目  Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。  二进制Package  直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。  库Package  库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。  Package文件结构  需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。  . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://runtus.top/posts/"},{"@type":"ListItem","position":2,"name":"Rust包管理","item":"https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Rust包管理","name":"Rust包管理","description":"本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。\n Rust中代码组织相关概念  在Rust中，代码的组织大致可以分为四个层次：  项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module）    Package 项目  Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。  二进制Package  直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。  库Package  库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。  Package文件结构  需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。  . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.","keywords":[],"articleBody":" 本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。\n Rust中代码组织相关概念  在Rust中，代码的组织大致可以分为四个层次：  项目（Package） 工作空间（Workspace） 包（Crate） 模块（Module）    Package 项目  Package其实就是通过命令cargo new创建的项目文件，其显著特征便是包含了cargo.toml文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。 一个Package由一个或多个包（Crate）组成，但是它最多只能包含一个库类型的包（即名为lib.rs的文件）。 Package还可以分为二进制Package和库Package。  二进制Package  直接使用命令cargo new package-name的Package-项目即为二进制项目，虽然在cargo.toml中没有显示指出Package的入口文件，但Cargo的惯例是：src/main.rs即为二进制包的根文件，即入口文件，所有的代码的执行都是从src/main.rs中的fn main()中开始执行的。 输入cargo run可以直接编译运行。  库Package  库Package在创建时需要增加--lib命令行参数选项，即cargo new package-lib-name --lib在，这样获得的Package是一个库Package，它只能作为一个第三方库被其他项目引用，而不能单独编译运行。 与 src/main.rs 一样，Cargo 知道，如果一个 Package 包含有 src/lib.rs，意味它包含有一个库类型的同名包 my-lib，该包的根文件是 src/lib.rs。  Package文件结构  需要注意的是，main.rs和lib.rs不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 package-name —— 都与 Package 同名。 下面是一个Package的文件结构。  . ├── Cargo.toml ├── Cargo.lock ├── src │ ├── main.rs │ ├── lib.rs │ └── bin │ └── main1.rs │ └── main2.rs ├── tests │ └── some_integration_tests.rs ├── benches │ └── simple_bench.rs └── examples └── simple_example.rs  默认的二进制包：src/main.rs，编译后的包名称和Package名称相同。 其余的二进制包: src/bin/main1.rs和src/bin/main2.rs，编译后是一个自身文件名相同的二进制包。 唯一的库包：src/lib.rs 测试文件: test/some_integration_tests.rs 基准性能测试benchmarks: benches/simple_bench.rs  模块Module  一个Package内有一个或者多个包（Crack），而一个包（Crack）里又可以有一个或者多个模块（Module）。 模块Module是用关键字mod实现的，并且模块之中可以直接嵌套模块，示例代码如下所示。  mod front_of_house{mod hosting{fn add_to_waitlist(){}fn seat_at_table(){}}mod serving{fn take_order(){}fn serve_order(){}fn take_payment(){}}} 模块front_of_house中嵌套了子模块hosting和serving。  模块的引用  调用模块内的函数的方式都是通过路径应用的方式来调用的，为何要称其为路径引用的方式，是因为模块的组织结构本身就是一棵树，称之为模块树，而模块树的组织方式和文件的组织方式相同，那么就可以把文件引用的方式来类比模块中函数的引用方式，所以称其为路径引用的方式。 路径应用方式有两种：绝对路径引用和相对路径引用。  绝对路径引用  绝对路径应用以根包开头，即crate。例如下所示：  mod front_of_house{mod hosting{fn add_to_waitlist(){}}}pubfn eat_at_restaurant(){// 绝对路径 crate::front_of_house::hosting::add_to_waitlist();} 需要注意的是：根包的名称是crate，并且每层的调用符号为::。  相对路径  相对路径的起点便是以当前文件所对应的模块位置为起点进行调用，代码如下所示。  mod front_of_house{mod hosting{fn add_to_waitlist(){}}}pubfn eat_at_restaurant(){// 相对路径 front_of_house::hosting::add_to_waitlist();} 由于调用函数和模块定义在同一个文件中，所以可以直接引用模块名进行调用，如果模块声明定义和函数调用不在一个文件下，需要在该文件中进行声明（类似于Javascript的import语法），具体的例子会在后续的例子中介绍。  模块中的可见性  如果直接将上述路径引用的代码进行编译，会发现编译错误。具体原因便是Rust出于安全考虑，默认情况下所有的类型都是私有化的，包括模块本身，函数，方法，结构体等等。所以说在上述的例子中，除了能引用顶层模块front_of_house（因为它们的作用域在同一层中），其内层的模块以及方法都是无法调用的。 ⚠️这里需要说明一点的是：在Rust中子模块可以完全访问父模块的内容，但是父模块无法访问子模块的任何信息，子模块访问父模块信息通过super关键字进行调用。 所以为了让模块以及其内部的方法能被外界调用，需要关键字pub进行声明，更改后的代码如下所示。  mod front_of_house{pubmod hosting{pubfn add_to_waitlist(){}}}pubfn eat_at_restaurant(){// 相对路径 front_of_house::hosting::add_to_waitlist();} 这样便能使得编译顺利通过。  super和self关键字  super关键字在上述可见性一章已经谈到，用于子模块引用父模块的关键字。 关键字self则类似于this关键词，用于引用自身模块的项，例如刚才的相对路径例子中的调用，front_of_house::hosting::add_to_waitlist();，其本质是self::hosting::add_to_waitlist()。  模块与文件分离  为了代码合理组织，在大多数情况下最好把多个模块拆到多个文件中，正如刚才所言，多个模块组合在一起其实就形成了一个模块树，而模块树是类似于文件组织的结构，所以便可以参考模块树将模块分离到各个文件中。 现在将模块[Module]章节代码中的模块树画出，如下所示。  crate └── front_of_house ├── hosting │ ├── add_to_waitlist │ └── seat_at_table └── serving ├── take_order ├── serve_order └── take_payment  先创建一个文件src/front_of_house.rs，并把front_of_house模块的定义放进去，如下代码所示。  // src/front_of_house.rs pubmod front_of_house{pubmod hosting{pubfn add_to_waitlist(){}pubfn seat_at_table(){}}pubmod serving{pubfn take_order(){}pubfn serve_order(){}pubfn take_payment(){}}} 然后在src/lib.rs下进行引用。  // src/lib.rs mod front_of_house;// 声明 pubusecrate::front_of_house::hosting;pubfn eat_at_restaurant(){hosting::add_to_waitlist();hosting::add_to_waitlist();hosting::add_to_waitlist();} 注意第一行代码mod front_of_house，这就是之前提到的模块声明，它的意思是告诉Rust从另一个和模块front_of_house同名的文件中加载该模块的内容，类似于import的功能。 此时front_of_house依然是个嵌套模块，所以可以考虑继续将嵌套模块拆分。  拆分子模块到文件中  创建一个同名的文件夹，然后在文件夹中创建与子模块同名的文件，如src/front_of_house/hosting.rs。 然后将hosting模块的函数定义放到该文件下，如下所示。  // src/front_of_house/hosting.rs pubfn add_to_waitlist(){}pubfn seat_at_table(){} 其余子模块的创建方式与之类似，这里不再赘述。 但是此时如果直接编译还是会出现错误，因为需要显示指定暴露了哪些子模块，在如今Rust版本下，有两种方法可以选择：  在父模块目录里（本节中指的就是front_of_house文件夹）创建mod.rs，在里面指定要暴露的子模块。(此方法是Rust1.30版本之前的唯一暴露子模块的方法) 与父模块目录同级的目录里（本节中指的就是src文件夹）创建front_of_house.rs，在里面指定要暴露的子模块。   无论是哪种方式，它们其中要填写的内容都是需要暴露的子模块的名称，如下所示。  pubmod hosting;// 暴露hosting子模块 pubmod serving;// 暴露serving子模块 ","wordCount":"201","inLanguage":"en","datePublished":"2023-07-05T17:33:19+08:00","dateModified":"2023-07-05T17:33:19+08:00","author":{"@type":"Person","name":"Runtus"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://runtus.top/posts/rust%E5%8C%85%E7%AE%A1%E7%90%86/"},"publisher":{"@type":"Organization","name":"Runtus","logo":{"@type":"ImageObject","url":"https://runtus.top/avatar.png"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://runtus.top/ accesskey=h title="Home (Alt + H)">
+<img src=https://runtus.top/apple-touch-icon.png alt aria-label=logo height=35>Home</a>
+<div class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</div>
+</div>
+<ul id=menu>
+<li>
+<a href=https://runtus.top/archives/ title=archives>
+<span>archives</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/tags/ title=tags>
+<span>tags</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/friends title=friends>
+<span>friends</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/search title="search (Alt + /)" accesskey=/>
+<span>search</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/ncm title=网易云转换>
+<span>网易云转换</span>
+</a>
+</li>
+<li>
+<a href=https://github.com/Runtus title=github>
+<span>github</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://runtus.top/>Home</a>&nbsp;»&nbsp;<a href=https://runtus.top/posts/>Posts</a></div>
+<h1 class=post-title>
+Rust包管理
+</h1>
+<div class=post-meta><span title="2023-07-05 17:33:19 +0800 CST">July 5, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;201 words&nbsp;·&nbsp;Runtus
+</div>
+</header>
+<div class=post-content><blockquote>
+<p>本文参考了Rust语言圣经中有关Rust包的介绍，攥写本章的目的是为了更好的掌握rust中包和模块的关系以及它们的代码组织方式，方便于未来的项目开发。</p>
+</blockquote>
+<h2 id=rust中代码组织相关概念>Rust中代码组织相关概念<a hidden class=anchor aria-hidden=true href=#rust中代码组织相关概念>#</a></h2>
+<ul>
+<li>在Rust中，代码的组织大致可以分为四个层次：
+<ol>
+<li>项目（Package）</li>
+<li>工作空间（Workspace）</li>
+<li>包（Crate）</li>
+<li>模块（Module）</li>
+</ol>
+</li>
+</ul>
+<h3 id=package-项目>Package 项目<a hidden class=anchor aria-hidden=true href=#package-项目>#</a></h3>
+<ul>
+<li>Package其实就是通过命令<code>cargo new</code>创建的项目文件，其<strong>显著特征</strong>便是包含了<strong>cargo.toml</strong>文件，该文件标注了该Package的一些基本信息：例如名称，版本号，依赖等等。</li>
+<li>一个Package由<strong>一个或多个包（Crate）<strong>组成，但是它最多只能包含一个</strong>库类型的包（即名为lib.rs的文件）。</strong></li>
+<li>Package还可以分为<strong>二进制Package和库Package</strong>。</li>
+</ul>
+<h4 id=二进制package>二进制Package<a hidden class=anchor aria-hidden=true href=#二进制package>#</a></h4>
+<ul>
+<li>直接使用命令<code>cargo new package-name</code>的Package-项目即为二进制项目，虽然在<strong>cargo.toml</strong>中没有显示指出Package的入口文件，但Cargo的惯例是：<strong>src/main.rs</strong>即为二进制<strong>包</strong>的根文件，即入口文件，所有的代码的执行都是从<strong>src/main.rs</strong>中的<code>fn main()</code>中开始执行的。</li>
+<li>输入<code>cargo run</code>可以直接编译运行。</li>
+</ul>
+<h4 id=库package>库Package<a hidden class=anchor aria-hidden=true href=#库package>#</a></h4>
+<ul>
+<li>库Package在创建时需要增加<code>--lib</code>命令行参数选项，即<code>cargo new package-lib-name --lib</code>在，这样获得的Package是一个库Package，<strong>它只能作为一个第三方库被其他项目引用，而不能单独编译运行。</strong></li>
+<li>与 <code>src/main.rs</code> 一样，Cargo 知道，如果一个 <code>Package</code> 包含有 <code>src/lib.rs</code>，意味它包含有一个库类型的同名包 <code>my-lib</code>，该包的根文件是 <code>src/lib.rs</code>。</li>
+</ul>
+<h4 id=package文件结构>Package文件结构<a hidden class=anchor aria-hidden=true href=#package文件结构>#</a></h4>
+<ul>
+<li>需要注意的是，<code>main.rs</code>和<code>lib.rs</code>不是互斥关系，二者是可以共存的。当二者共存时，那就意味着它包含两个包：库包和二进制包，这两个包名也都是 <code>package-name</code> —— 都与 <code>Package</code> 同名。</li>
+<li>下面是一个Package的文件结构。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-css data-lang=css><span class=o>.</span>
+<span class=err>├──</span> <span class=nt>Cargo</span><span class=p>.</span><span class=nc>toml</span>
+<span class=err>├──</span> <span class=nt>Cargo</span><span class=p>.</span><span class=nc>lock</span>
+<span class=err>├──</span> <span class=nt>src</span>
+<span class=err>│</span>   <span class=err>├──</span> <span class=nt>main</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>│</span>   <span class=err>├──</span> <span class=nt>lib</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>│</span>   <span class=err>└──</span> <span class=nt>bin</span>
+<span class=err>│</span>       <span class=err>└──</span> <span class=nt>main1</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>│</span>       <span class=err>└──</span> <span class=nt>main2</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>├──</span> <span class=nt>tests</span>
+<span class=err>│</span>   <span class=err>└──</span> <span class=nt>some_integration_tests</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>├──</span> <span class=nt>benches</span>
+<span class=err>│</span>   <span class=err>└──</span> <span class=nt>simple_bench</span><span class=p>.</span><span class=nc>rs</span>
+<span class=err>└──</span> <span class=nt>examples</span>
+    <span class=err>└──</span> <span class=nt>simple_example</span><span class=p>.</span><span class=nc>rs</span>
+</code></pre></div><ul>
+<li>默认的二进制包：<code>src/main.rs</code>，编译后的包名称和Package名称相同。</li>
+<li>其余的二进制包: <code>src/bin/main1.rs</code>和<code>src/bin/main2.rs</code>，编译后是一个自身文件名相同的二进制包。</li>
+<li>唯一的库包：<code>src/lib.rs</code></li>
+<li>测试文件: <code>test/some_integration_tests.rs</code></li>
+<li>基准性能测试benchmarks: <code>benches/simple_bench.rs</code></li>
+</ul>
+<h3 id=模块module>模块Module<a hidden class=anchor aria-hidden=true href=#模块module>#</a></h3>
+<ul>
+<li>一个<strong>Package</strong>内有一个或者多个<strong>包（Crack）</strong>，而一个<strong>包（Crack）<strong>里又可以有一个或者多个</strong>模块（Module）</strong>。</li>
+<li>模块Module是用关键字<code>mod</code>实现的，并且模块之中可以直接嵌套模块，示例代码如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=k>mod</span> <span class=nn>front_of_house</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=k>mod</span> <span class=nn>hosting</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>seat_at_table</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span><span class=w>    </span><span class=k>mod</span> <span class=nn>serving</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>take_order</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>serve_order</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>take_payment</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span></code></pre></div><ul>
+<li>模块<code>front_of_house</code>中嵌套了子模块<code>hosting</code>和<code>serving</code>。</li>
+</ul>
+<h4 id=模块的引用>模块的引用<a hidden class=anchor aria-hidden=true href=#模块的引用>#</a></h4>
+<ul>
+<li>调用模块内的函数的方式都是通过<strong>路径应用</strong>的方式来调用的，为何要称其为<strong>路径引用</strong>的方式，是因为模块的组织结构本身就是<strong>一棵树</strong>，称之为<strong>模块树</strong>，而<strong>模块树</strong>的组织方式和文件的组织方式相同，那么就可以把文件引用的方式来类比模块中函数的引用方式，所以称其为<strong>路径引用</strong>的方式。</li>
+<li>路径应用方式有两种：<strong>绝对路径引用</strong>和<strong>相对路径引用</strong>。</li>
+</ul>
+<h5 id=绝对路径引用>绝对路径引用<a hidden class=anchor aria-hidden=true href=#绝对路径引用>#</a></h5>
+<ul>
+<li>绝对路径应用以根包开头，即<code>crate</code>。例如下所示：</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=k>mod</span> <span class=nn>front_of_house</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=k>mod</span> <span class=nn>hosting</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>eat_at_restaurant</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=c1>// 绝对路径
+</span><span class=c1></span><span class=w>    </span><span class=k>crate</span>::<span class=n>front_of_house</span>::<span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span></code></pre></div><ul>
+<li>需要注意的是：根包的名称是<code>crate</code>，并且每层的调用符号为<code>::</code>。</li>
+</ul>
+<h5 id=相对路径>相对路径<a hidden class=anchor aria-hidden=true href=#相对路径>#</a></h5>
+<ul>
+<li>相对路径的起点便是以<strong>当前文件所对应的模块位置为起点</strong>进行调用，代码如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=k>mod</span> <span class=nn>front_of_house</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=k>mod</span> <span class=nn>hosting</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>eat_at_restaurant</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=c1>// 相对路径
+</span><span class=c1></span><span class=w>    </span><span class=n>front_of_house</span>::<span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span></code></pre></div><ul>
+<li>由于调用函数和模块定义在同一个文件中，所以可以直接引用模块名进行调用，<strong>如果模块声明定义和函数调用不在一个文件下，需要在该文件中进行声明（类似于Javascript的import语法）</strong>，具体的例子会在后续的例子中介绍。</li>
+</ul>
+<h4 id=模块中的可见性>模块中的可见性<a hidden class=anchor aria-hidden=true href=#模块中的可见性>#</a></h4>
+<ul>
+<li>如果直接将上述路径引用的代码进行编译，会发现编译错误。具体原因便是<strong>Rust出于安全考虑，默认情况下所有的类型都是私有化的，包括模块本身，函数，方法，结构体等等</strong>。所以说在上述的例子中，除了能引用顶层模块<code>front_of_house</code>（因为它们的作用域在同一层中），其内层的模块以及方法都是无法调用的。</li>
+<li>⚠️这里需要说明一点的是：<strong>在Rust中子模块可以完全访问父模块的内容，但是父模块无法访问子模块的任何信息，子模块访问父模块信息通过<code>super</code>关键字进行调用</strong>。</li>
+<li>所以为了让模块以及其内部的方法能被外界调用，需要关键字<code>pub</code>进行声明，更改后的代码如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=k>mod</span> <span class=nn>front_of_house</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>hosting</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>eat_at_restaurant</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=c1>// 相对路径
+</span><span class=c1></span><span class=w>    </span><span class=n>front_of_house</span>::<span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span></code></pre></div><ul>
+<li>这样便能使得编译顺利通过。</li>
+</ul>
+<h4 id=super和self关键字>super和self关键字<a hidden class=anchor aria-hidden=true href=#super和self关键字>#</a></h4>
+<ul>
+<li><code>super</code>关键字在上述可见性一章已经谈到，用于<strong>子模块引用父模块</strong>的关键字。</li>
+<li>关键字<code>self</code>则类似于<code>this</code>关键词，用于引用<strong>自身模块</strong>的项，例如刚才的<strong>相对路径例子中的调用</strong>，<code>front_of_house::hosting::add_to_waitlist();</code>，其本质是<code>self::hosting::add_to_waitlist()</code>。</li>
+</ul>
+<h3 id=模块与文件分离>模块与文件分离<a hidden class=anchor aria-hidden=true href=#模块与文件分离>#</a></h3>
+<ul>
+<li>为了代码合理组织，在大多数情况下最好把多个模块拆到多个文件中，正如刚才所言，多个模块组合在一起其实就形成了一个<strong>模块树</strong>，而模块树是类似于文件组织的结构，所以便可以<strong>参考模块树将模块分离到各个文件中。</strong></li>
+<li>现在将<strong>模块[Module]章节</strong>代码中的模块树画出，如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-console data-lang=console><span class=go>crate
+</span><span class=go> └── front_of_house
+</span><span class=go>     ├── hosting
+</span><span class=go>     │   ├── add_to_waitlist
+</span><span class=go>     │   └── seat_at_table
+</span><span class=go>     └── serving
+</span><span class=go>         ├── take_order
+</span><span class=go>         ├── serve_order
+</span><span class=go>         └── take_payment
+</span></code></pre></div><ul>
+<li>先创建一个文件<code>src/front_of_house.rs</code>，并把<code>front_of_house</code>模块的定义放进去，如下代码所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=c1>// src/front_of_house.rs
+</span><span class=c1></span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>front_of_house</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>hosting</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>seat_at_table</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w>
+</span><span class=w>    </span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>serving</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>take_order</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>serve_order</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>
+</span><span class=w>        </span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>take_payment</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w>    </span><span class=p>}</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span></code></pre></div><ul>
+<li>然后在<code>src/lib.rs</code>下进行引用。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=c1>// src/lib.rs
+</span><span class=c1></span><span class=k>mod</span> <span class=nn>front_of_house</span><span class=p>;</span><span class=w> </span><span class=c1>// 声明
+</span><span class=c1></span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>use</span><span class=w> </span><span class=k>crate</span>::<span class=n>front_of_house</span>::<span class=n>hosting</span><span class=p>;</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>eat_at_restaurant</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span><span class=w>    </span><span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w>    </span><span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w>    </span><span class=n>hosting</span>::<span class=n>add_to_waitlist</span><span class=p>();</span><span class=w>
+</span><span class=w></span><span class=p>}</span><span class=w>
+</span></code></pre></div><ul>
+<li>注意第一行代码<code>mod front_of_house</code>，这就是之前提到的模块声明，它的意思是<strong>告诉Rust从另一个和模块<code>front_of_house</code>同名的文件中加载该模块的内容，类似于<code>import</code>的功能</strong>。</li>
+<li>此时front_of_house依然是个嵌套模块，所以可以考虑继续<strong>将嵌套模块拆分</strong>。</li>
+</ul>
+<h4 id=拆分子模块到文件中>拆分子模块到文件中<a hidden class=anchor aria-hidden=true href=#拆分子模块到文件中>#</a></h4>
+<ul>
+<li>创建一个同名的文件夹，然后在文件夹中创建与子模块同名的文件，如<code>src/front_of_house/hosting.rs</code>。</li>
+<li>然后将<code>hosting</code>模块的函数定义放到该文件下，如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=c1>// src/front_of_house/hosting.rs
+</span><span class=c1></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>add_to_waitlist</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>seat_at_table</span><span class=p>()</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span></code></pre></div><ul>
+<li>其余子模块的创建方式与之类似，这里不再赘述。</li>
+<li>但是此时如果直接编译还是会出现错误，因为需要<strong>显示指定暴露了哪些子模块</strong>，在如今Rust版本下，有两种方法可以选择：
+<ol>
+<li>在父模块目录里（本节中指的就是<code>front_of_house</code>文件夹）创建<code>mod.rs</code>，在里面指定要暴露的子模块。(此方法是Rust1.30版本之前的唯一暴露子模块的方法)</li>
+<li>与父模块目录同级的目录里（本节中指的就是<code>src</code>文件夹）创建<code>front_of_house.rs</code>，在里面指定要暴露的子模块。</li>
+</ol>
+</li>
+<li>无论是哪种方式，它们其中要填写的内容都是需要暴露的子模块的名称，如下所示。</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>hosting</span><span class=p>;</span><span class=w> </span><span class=c1>// 暴露hosting子模块
+</span><span class=c1></span><span class=k>pub</span><span class=w> </span><span class=k>mod</span> <span class=nn>serving</span><span class=p>;</span><span class=w> </span><span class=c1>// 暴露serving子模块
+</span></code></pre></div>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://runtus.top/posts/rust-trait/>
+<span class=title>« Prev</span>
+<br>
+<span>Rust Trait</span>
+</a>
+<a class=next href=https://runtus.top/posts/node-typescript%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83/>
+<span class=title>Next »</span>
+<br>
+<span>Node Typescript打包发布</span>
+</a>
+</nav>
+<div class=share-buttons>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on twitter" href="https://twitter.com/intent/tweet/?text=Rust%e5%8c%85%e7%ae%a1%e7%90%86&url=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f&hashtags="><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f&title=Rust%e5%8c%85%e7%ae%a1%e7%90%86&summary=Rust%e5%8c%85%e7%ae%a1%e7%90%86&source=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f&title=Rust%e5%8c%85%e7%ae%a1%e7%90%86"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on whatsapp" href="https://api.whatsapp.com/send?text=Rust%e5%8c%85%e7%ae%a1%e7%90%86%20-%20https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on telegram" href="https://telegram.me/share/url?text=Rust%e5%8c%85%e7%ae%a1%e7%90%86&url=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Rust包管理 on ycombinator" href="https://news.ycombinator.com/submitlink?t=Rust%e5%8c%85%e7%ae%a1%e7%90%86&u=https%3a%2f%2fruntus.top%2fposts%2frust%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg>
+</a>
+</div>
+</footer><div id=disqus_thread /div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://runtus-top.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<script id=dsq-count-scr src=//runtus-top.disqus.com/count.js async></script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2023 <a href=https://runtus.top/>Runtus</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a> &
+        <a href=https://beian.miit.gov.cn/ target=_blank>蜀ICP备2021023118号-1</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>

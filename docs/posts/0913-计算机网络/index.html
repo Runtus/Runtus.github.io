@@ -10,7 +10,7 @@
  异构网络互联  不同协议的网络子系统通过**中间设备（中继设备）**相互连接起来，形成更大的系统。（P135）  中继设备：  物理层：中继器，集线器（Hub） 数据链路层：网桥或交换机 网络层：路由器 网络层之上：网关      路由与转发  路由器的两功能：路由选择（确定哪一条路径 => 构建和维护路由表）和分组转发（当一个分组到达时要完成的动作 => 查询，转发以及队列管理和任务调度等）。  拥塞控制  网络进入拥塞状态的方法：观察网络吞吐量和负载的关系。  如果随着网络负载的增加，网络的吞吐量明显小于正常吞吐量（或者不增反降），则说明可能（一定）进入了拥塞状态。（注意：正常情况下，负载越高，吞吐量越大）    拥塞控制和流量控制（联系到链路层的流量控制）的区别  流量控制是在发送端和接受端点对点通信时的数据传输控制，它数局部性控制，且是接收端来控制发送端 而拥塞控制则是一个全局性的问题，它确保的是一个子网内的数据能够成功传输到彼此。  拥塞控制的方法  开环控制：静态的预防方法，系统启动后，设置的控制调度算法不能改版。 闭环控制：动态方法，采用监测网络系统去监视，及时检测哪里发生了拥塞，然后将拥塞的信息传输到合适的地方，以便调整网络系统的运行。  路由算法  静态路由算法 => 网络管理员手动配置的路由信息，它不能适应网络状态的变化。 动态路由算法 => 通过路由器之间相互传递信息并且根据一定的算法，实时更新路由表的信息。  动态路由算法的两个主要算法  距离-向量路由算法 => 实现协议RIP（路由信息协议） => 应用层协议，使用了UDP传送数据  所有结点定期地将它们的**整个路由选择表（下面统称为路由表）**传送给其所有的相邻结点。 每个结点从相邻结点拿到路由表信息后，迭代计算到每个结点的最短距离，并实时更新自己的路由表。   链路状态路由算法 => 实现协议OSPF（开放最短路径优先） => 网络层协议，使用ip数据包传递数据  每个结点（路由器）向本自治系统的所有节点发送自己和自己相邻路由器之间的链路状态，即先把信 息发送给相邻的路由器，然后通过相邻的路由器再次发送给它的相邻路由器，这样不断迭代传递，最终所有结点都能获得发送结点的相邻链路状态。 => 泛洪法 最后每个路由器都能获得自治系统内所有节点的相邻链路状态，然后按照一定的算法，更新自己的路由转发表。 所以该算法要求每个参与算法的结点都具有完全的网络拓扑信息。    层次路由  设想一下，如果对网络中众多的路由不分层次，则会使得每次转发的路由表（或链路信息）异常庞大，无论是更新还是查阅都会非常消耗性能，其次灵活性也不高，因为没有分层，导致整个路由系统必须统一协议标准，而不能“因地制宜”。 所以考虑把整个互联网划分为较小的自治系统（每个自治系统有多个局域网），每个较小的自治系统可以设置自己的路由协议，同时也需要自治系统间的协议来屏蔽不同路由协议自治系统的通信。 自治系统内使用的路由选择协议叫做内部网关协议（IGP） => 例如RIP，OSPF等 自治系统间使用的路由选择协议叫做外部网关协议（EGP） => 例如BGP等。  ipv4  ipv4分组格式如下所示   注意：有些描述存储大小的字段是有单位的，比如首部长度，总长度等，这些会在下面单独说明">
 <meta name=author content="Runtus">
 <link rel=canonical href=https://runtus.top/posts/0913-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/>
-<link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U+6hYRq/Ez/nm5vg=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://runtus.top/avatar.png>
 <link rel=icon type=image/png sizes=16x16 href=https://runtus.top/avatar.png>
@@ -19,6 +19,9 @@
 <link rel=mask-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
+<link href=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css rel=stylesheet>
+<script src=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js></script>
+<script>const ap=new Aplayer({container:document.getElementById("aplayer"),audio:[{name:"踊り子",artist:"Vaundy",url:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy%20-%20%E8%B8%8A%E3%82%8A%E5%AD%90.mp3",cover:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy.jpg"}]})</script>
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
@@ -65,6 +68,16 @@
 <li>
 <a href=https://runtus.top/friends title=friends>
 <span>friends</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/search title="search (Alt + /)" accesskey=/>
+<span>search</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/ncm title=网易云转换>
+<span>网易云转换</span>
 </a>
 </li>
 <li>
@@ -247,8 +260,13 @@
 </a>
 <a target=_blank rel="noopener noreferrer" aria-label="share 计算机网络-网络层 on telegram" href="https://telegram.me/share/url?text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c-%e7%bd%91%e7%bb%9c%e5%b1%82&url=https%3a%2f%2fruntus.top%2fposts%2f0913-%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25BD%2591%25E7%25BB%259C%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
 </a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 计算机网络-网络层 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c-%e7%bd%91%e7%bb%9c%e5%b1%82&u=https%3a%2f%2fruntus.top%2fposts%2f0913-%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25BD%2591%25E7%25BB%259C%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg>
+</a>
 </div>
-</footer>
+</footer><div id=disqus_thread /div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://runtus-top.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<script id=dsq-count-scr src=//runtus-top.disqus.com/count.js async></script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 </article>
 </main>
 <footer class=footer>
@@ -256,7 +274,8 @@
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a> &
+        <a href=https://beian.miit.gov.cn/ target=_blank>蜀ICP备2021023118号-1</a>
 </span>
 </footer>
 <a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

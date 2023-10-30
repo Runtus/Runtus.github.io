@@ -10,7 +10,7 @@
  事件流  事件流描述了页面接受事件的顺序。因为一个事件的触发可能会影响好几处地方，这很容易理解，比如在页面上嵌套着写了几个div元素，同时在最里层的div元素上进行事件触发，那这不仅仅是最内层的div对事件进行响应，任意一层的嵌套的div都会对事件进行相应处理。（其实通过上述的观察者模式也可以推断出其合理性，因为一个对象可以由多个观察者进行观察） 所以多个监听事件的元素响应顺序需要进行统一，因为一些历史原因，事件的响应顺序有两种模式：冒泡和捕获。  事件冒泡  顾名思义，事件的冒泡就如水底下的气泡一下，从内到外，同理，事件冒泡规定的事件流顺序也是从内而外，事件会从最深层的节点开始触发，然后向外传播到document（文档）。 代码如下所示。  <html> <body> <div id=&#34;ddd&#34;> click me </div> </body> </html>  此时我如果对id=ddd的div元素进行click事件触发，那么该事件会以如下顺序发生:   div body html document   现代的浏览器的事件会一直冒泡到window对象。  事件捕获  事件捕获则和事件冒泡相反，事件的响应顺序是从外到内的，还是以上一个例子为例，那么对应click事件讲会以如下顺序发生:   document html body div  DOM事件流  DOM2 Events规范里规定里事件流为分三个部分：事件捕获，到达目标和事件冒泡。   需要注意的是，div元素（即直接触发元素）是不会响应捕获事件的，因为通常认为直接触发事件是冒泡阶段发生的，所以它也是冒泡阶段第一个发生的事件。 但现在大多数支持DOM事件流的浏览器都实现了一个小小的拓展，即在捕获阶段在事件目标上触发事件。最终结果表现为有两个机会来处理事件。  事件处理程序  事件意味着用户或浏览器执行的某种动作，而为响应事件而调用的函数被称为事件处理程序（事件监听器）。  HTML事件处理程序  HTML事件处理程序是以HTML属性的形式来进行指定的。该属性的值必须是能够执行的javascript代码。 比如下面这个例子，就是按钮在被点击时执行一段代码。  <button onclick=&#34;console.log('click')&#34;> click me </button>  当然也可以以函数的形式来进行响应事件定义。  <script> function click(event){ console.">
 <meta name=author content="Runtus">
 <link rel=canonical href=https://runtus.top/posts/0120-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BA%8B%E4%BB%B6/>
-<link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U+6hYRq/Ez/nm5vg=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://runtus.top/avatar.png>
 <link rel=icon type=image/png sizes=16x16 href=https://runtus.top/avatar.png>
@@ -19,6 +19,9 @@
 <link rel=mask-icon href=https://runtus.top/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
+<link href=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css rel=stylesheet>
+<script src=https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js></script>
+<script>const ap=new Aplayer({container:document.getElementById("aplayer"),audio:[{name:"踊り子",artist:"Vaundy",url:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy%20-%20%E8%B8%8A%E3%82%8A%E5%AD%90.mp3",cover:"https://lao-lan-go.oss-accelerate.aliyuncs.com/hugo-server/audios/Vaundy.jpg"}]})</script>
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
@@ -65,6 +68,16 @@
 <li>
 <a href=https://runtus.top/friends title=friends>
 <span>friends</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/search title="search (Alt + /)" accesskey=/>
+<span>search</span>
+</a>
+</li>
+<li>
+<a href=https://runtus.top/ncm title=网易云转换>
+<span>网易云转换</span>
 </a>
 </li>
 <li>
@@ -315,8 +328,13 @@
 </a>
 <a target=_blank rel="noopener noreferrer" aria-label="share 0120-浏览器事件 on telegram" href="https://telegram.me/share/url?text=0120-%e6%b5%8f%e8%a7%88%e5%99%a8%e4%ba%8b%e4%bb%b6&url=https%3a%2f%2fruntus.top%2fposts%2f0120-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E4%25BA%258B%25E4%25BB%25B6%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
 </a>
+<a target=_blank rel="noopener noreferrer" aria-label="share 0120-浏览器事件 on ycombinator" href="https://news.ycombinator.com/submitlink?t=0120-%e6%b5%8f%e8%a7%88%e5%99%a8%e4%ba%8b%e4%bb%b6&u=https%3a%2f%2fruntus.top%2fposts%2f0120-%25E6%25B5%258F%25E8%25A7%2588%25E5%2599%25A8%25E4%25BA%258B%25E4%25BB%25B6%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg>
+</a>
 </div>
-</footer>
+</footer><div id=disqus_thread /div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://runtus-top.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<script id=dsq-count-scr src=//runtus-top.disqus.com/count.js async></script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 </article>
 </main>
 <footer class=footer>
@@ -324,7 +342,8 @@
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a> &
+        <a href=https://beian.miit.gov.cn/ target=_blank>蜀ICP备2021023118号-1</a>
 </span>
 </footer>
 <a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>

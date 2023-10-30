@@ -1,135 +1,121 @@
 {{- define "main" }}
 
-<link
-rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/normalize.css@8/normalize.min.css"
-/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8/normalize.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.js"></script>
 <script src="/index.js" type="module"></script>
+
 <style>
-html {
-  box-sizing: border-box;
-  background: #f1f3f4;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-html,
-body,
-ncmc-list {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 auto;
-}
-
-.big {
-  font-size: 38px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem;
-}
-
-.github-corner:hover .octo-arm {
-  animation: octocat-wave 560ms ease-in-out;
-}
-@keyframes octocat-wave {
-  0%,
-  100% {
-    transform: rotate(0);
+  html {
+    box-sizing: border-box;
+    background: #f1f3f4;
   }
-  20%,
-  60% {
-    transform: rotate(-25deg);
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
   }
-  40%,
-  80% {
-    transform: rotate(10deg);
+
+  html,
+  body,
+  ncmc-list {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
   }
-}
-@media (max-width: 500px) {
+
+  .big {
+    font-size: 38px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+  }
+
   .github-corner:hover .octo-arm {
-    animation: none;
-  }
-  .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
   }
-}
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+  @media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+      animation: none;
+    }
+    .github-corner .octo-arm {
+      animation: octocat-wave 560ms ease-in-out;
+    }
+  }
 </style>
 
-
 <header class="page-header">
-    {{- if .Description }}
-    <div class="post-description">
-        {{ .Description }}
-    </div>
-    {{- end }}
-    {{- if not (.Param "hideMeta") }}
-    <div class="post-meta">
-        {{- partial "translation_list.html" . -}}
-    </div>
-    {{- end }}
+  {{- if .Description }}
+  <div class="post-description">{{ .Description }}</div>
+  {{- end }} {{- if not (.Param "hideMeta") }}
+  <div class="post-meta">{{- partial "translation_list.html" . -}}</div>
+  {{- end }}
 </header>
 
 <ncmc-list id="ncmclist"><div class="big">Loading...</div></ncmc-list>
 <ncmc-audio></ncmc-audio>
 
 <script>
-// ncmc-list和屏幕一样宽
-window.addEventListener("load", () => {
+  // ncmc-list和屏幕一样宽
+  window.addEventListener("load", () => {
     const width = document.body.clientWidth;
     document.getElementById("ncmclist").style.width = `${width * 0.5}px`;
-    
-})
-
+  });
 </script>
 
 <style>
+  body {
+    background: var(--code-bg);
+  }
+  .friends_li {
+    list-style: none;
+    float: left;
+  }
 
-    body {
-        background: var(--code-bg);
-    }
-    .friends_li {
-        list-style: none;
-        float: left;
-    }
+  .friends_li a {
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 17px;
+    text-decoration: none;
+    background-color: rgba(6, 129, 208, 0.1);
+    color: #000;
+    border-radius: 6px;
+    margin-right: 40px;
+    margin-bottom: 20px;
+    transition: background-color 0.5s ease-in-out;
+  }
 
-    .friends_li a {
-        padding: 15px 25px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 17px;
-        text-decoration: none;
-        background-color: rgba(6,129,208,.1);
-        color: #000;
-        border-radius: 6px;
-        margin-right: 40px;
-        margin-bottom: 20px;
-        transition:background-color 0.5s ease-in-out;
-    }
+  .friends_li a:hover {
+    background-color: rgba(6, 129, 208, 0.3);
+  }
 
-    .friends_li a:hover {
-        background-color: rgba(6, 129, 208, .3);
-    }
-
-    
-
-    .friends_li a img {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
+  .friends_li a img {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
 </style>
-
 
 {{- end }}{{/* end main */}}
