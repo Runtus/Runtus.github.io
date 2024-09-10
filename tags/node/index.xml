@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>node on Runtus</title>
+    <title>Node on Runtus</title>
     <link>https://runtus.top/tags/node/</link>
-    <description>Recent content in node on Runtus</description>
+    <description>Recent content in Node on Runtus</description>
     <image>
       <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
@@ -18,15 +18,63 @@
       <pubDate>Sat, 09 Sep 2023 10:34:09 +0800</pubDate>
       
       <guid>https://runtus.top/posts/node-packages/</guid>
-      <description>之前一直被nodejs的模块执行规则所困扰，这种困扰来自于目前Commonjs和ESModule在Node端能够并存的情况，什么时候能够执行ESModule，什么时候不能执行；在引用第三方包node_modules，具体的包是根据什么来区分是ESModule还是Commonjs。
-通过阅读了Nodejs的原文档，这些问题也随之迎刃而解，所以特此在本篇做一做记录。
-注：以下内容都是基于Nodejs V20.5.0 进行编写。
-Nodejs中的模块系统 在Node环境下，如今共存着两种模块规范：ESModule和Commonjs，前者是ES6中提出模块化规范，所以为了统一整个Javascript的模块化规范，Nodejs也逐渐的由之前主流的Commonjs规范转变为ESModule，只不过为了兼容Nodejs老版本的代码，所以现在这两种模块在Node中是并存的关系，但是前者(ESModule)是趋势。 关于Commonjs和ESMoudle的模块技术细节，例如语法区别，加载规则等在本篇不会提到，接下来将会它们在nodejs中的设置以及引用规则。 模块的执行与加载 Node在执行代码前会先去判断代码是ES模块还是commonjs模块，Node会从三个角度依次判断代码的模块归属。 ES模块 对于ES模块，当出现以下情况时，Nodejs会将文件视为ES模块。 扩展名为.mjs的文件。 项目所归属的package.json的type字段的值为module，此时文件扩展名为.js的文件都视为ES模块。 字符串作为参数传入 --eval，或通过 STDIN 管道传输到 node，带有标志 --input-type=module。 .mjs扩展名的文件被视为ES模块的优先级是最高的，无论它身处何方，只要Node发现其是.mjs的文件，就会将其视作ES模块来执行。 commonjs模块 对于commonjs模块，当出现以下情况时，Nodejs会将文件视为commonjs模块。 扩展名为.cjs的文件。 项目所属的package.json的type字段的值为commonjs时，此时文件扩展名为.js的文件都视为commonjs模块。 字符串作为参数传入 --eval 或 --print，或通过 STDIN 管道传输到 node，带有标志 --input-type=commonjs。 和ES模块类似，如果文件扩展名为.cjs，那么Nodejs都会将其视作commonjs模块。 如果不设置type字段，那么该项目将会默认为commonjs语法的项目。 模块加载器 Nodejs有两种加载器用于分别解析说明符和加载ES模块和commonjs模块。
-commonjs模块加载器:
-🌟 处理require()调用，并且是同步加载模块的， 🌟 支持以文件夹作为模块。 🌟 不能用于加载`ECMAScript模块（ESModule）。 🌟 解析路径时，如果未找到完全匹配项，那么将尝试添加扩展名**.js,.json,.node，然后最后再尝试解析文件夹作为模块**。 将.json文件视为JSON文本文件，可以直接使用require加载。 特别注意上述的四个带🌟的规则，在平时日常开发中应该是能够经常遇见的。从第4点也能知道为什么使用require引用包时，可以不带文件的扩展名，因为node在解析路径时会自动添加。 ECMAScript模块加载器:
-🌟 处理import()和import表达式，并且是异步加载模块的。 🌟 只接收Javascript文本文件的.js,.mjs和.cjs扩展名。 🌟 可以加载JSON模块，但需要导入断言。 🌟 不支持文件夹作为模块，必须完全指定目录索引。(例如./dir/index.js)。 🌟 可以加载Javascript Commonjs模块，导入的cjs模块会通过cjs-module-lexer来尝试识别命名的导出，同时导入的CommonJS模块会将其URL转化为绝对路径，然后通过CommonJS模块加载器加载。 需要注意的是第五点：ESModule可以加载CommonJS模块的文件，这和Commonjs语法是不同的。 以.mjs结尾的文件总是加载为ESModule，不会管最近的package.json。
-以.cjs结尾的文件总是加载为commonjs，不会管最近的package.json。
-包入口点 package.json中定义了该node项目的包信息，那么如果该package想被另一个package所引用，正如我们开发时引用第三方包那样import xxx from &amp;quot;xxx&amp;quot;，那么需要在package中定义包的入口点，及入口文件。 main字段 main字段可以定义包的入口点，它适用于ES模块和CommonJS模块入口点，并且支持所有Nodejs版本。 但是它的缺点也显而易见，只能定义一个入口点，及包的主要入口点。 例如我们package的文件结构如下所示。 ├── package.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;之前一直被nodejs的模块执行规则所困扰，这种困扰来自于目前&lt;code&gt;Commonjs&lt;/code&gt;和&lt;code&gt;ESModule&lt;/code&gt;在Node端能够并存的情况，什么时候能够执行&lt;code&gt;ESModule&lt;/code&gt;，什么时候不能执行；在引用第三方包&lt;code&gt;node_modules&lt;/code&gt;，具体的包是根据什么来区分是&lt;code&gt;ESModule&lt;/code&gt;还是&lt;code&gt;Commonjs&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;通过阅读了Nodejs的原文档，这些问题也随之迎刃而解，所以特此在本篇做一做记录。&lt;/p&gt;
+&lt;p&gt;注：以下内容都是基于&lt;strong&gt;Nodejs V20.5.0&lt;/strong&gt; 进行编写。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;nodejs中的模块系统&#34;&gt;Nodejs中的模块系统&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;在&lt;code&gt;Node&lt;/code&gt;环境下，如今共存着两种模块规范：&lt;code&gt;ESModule&lt;/code&gt;和&lt;code&gt;Commonjs&lt;/code&gt;，前者是ES6中提出模块化规范，所以为了统一整个Javascript的模块化规范，Nodejs也逐渐的由之前主流的&lt;code&gt;Commonjs&lt;/code&gt;规范转变为&lt;code&gt;ESModule&lt;/code&gt;，只不过为了兼容&lt;code&gt;Nodejs&lt;/code&gt;老版本的代码，所以现在这两种模块在Node中是并存的关系，但是前者(&lt;code&gt;ESModule&lt;/code&gt;)是趋势。&lt;/li&gt;
+&lt;li&gt;关于&lt;code&gt;Commonjs&lt;/code&gt;和&lt;code&gt;ESMoudle&lt;/code&gt;的模块技术细节，例如语法区别，加载规则等在本篇不会提到，接下来将会它们在&lt;code&gt;nodejs&lt;/code&gt;中的设置以及引用规则。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模块的执行与加载&#34;&gt;模块的执行与加载&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Node在执行代码前会先去判断代码是&lt;code&gt;ES&lt;/code&gt;模块还是&lt;code&gt;commonjs&lt;/code&gt;模块，Node会从三个角度依次判断代码的模块归属。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;es模块&#34;&gt;ES模块&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;对于ES模块，当出现以下情况时，Nodejs会将文件视为ES模块。
+&lt;ol&gt;
+&lt;li&gt;扩展名为&lt;code&gt;.mjs&lt;/code&gt;的文件。&lt;/li&gt;
+&lt;li&gt;项目所归属的&lt;code&gt;package.json&lt;/code&gt;的&lt;code&gt;type&lt;/code&gt;字段的值为&lt;code&gt;module&lt;/code&gt;，此时文件扩展名为&lt;code&gt;.js&lt;/code&gt;的文件都视为&lt;code&gt;ES&lt;/code&gt;模块。&lt;/li&gt;
+&lt;li&gt;字符串作为参数传入 &lt;code&gt;--eval&lt;/code&gt;，或通过 &lt;code&gt;STDIN&lt;/code&gt; 管道传输到 &lt;code&gt;node&lt;/code&gt;，带有标志 &lt;code&gt;--input-type=module&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.mjs&lt;/code&gt;扩展名的文件被视为&lt;code&gt;ES&lt;/code&gt;模块的优先级是最高的，无论它身处何方，只要&lt;code&gt;Node&lt;/code&gt;发现其是&lt;code&gt;.mjs&lt;/code&gt;的文件，就会将其视作&lt;code&gt;ES&lt;/code&gt;模块来执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;commonjs模块&#34;&gt;commonjs模块&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;对于commonjs模块，当出现以下情况时，Nodejs会将文件视为&lt;code&gt;commonjs&lt;/code&gt;模块。
+&lt;ol&gt;
+&lt;li&gt;扩展名为&lt;code&gt;.cjs&lt;/code&gt;的文件。&lt;/li&gt;
+&lt;li&gt;项目所属的&lt;code&gt;package.json&lt;/code&gt;的type字段的值为&lt;code&gt;commonjs&lt;/code&gt;时，此时文件扩展名为&lt;code&gt;.js&lt;/code&gt;的文件都视为&lt;code&gt;commonjs&lt;/code&gt;模块。&lt;/li&gt;
+&lt;li&gt;字符串作为参数传入 &lt;code&gt;--eval&lt;/code&gt; 或 &lt;code&gt;--print&lt;/code&gt;，或通过 &lt;code&gt;STDIN&lt;/code&gt; 管道传输到 &lt;code&gt;node&lt;/code&gt;，带有标志 &lt;code&gt;--input-type=commonjs&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;和&lt;code&gt;ES&lt;/code&gt;模块类似，如果文件扩展名为&lt;code&gt;.cjs&lt;/code&gt;，那么Nodejs都会将其视作&lt;code&gt;commonjs&lt;/code&gt;模块。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果不设置type字段，那么该项目将会默认为&lt;code&gt;commonjs&lt;/code&gt;语法的项目&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;模块加载器&#34;&gt;模块加载器&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Nodejs有两种加载器用于分别解析说明符和加载&lt;code&gt;ES&lt;/code&gt;模块和&lt;code&gt;commonjs&lt;/code&gt;模块。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;commonjs&lt;/code&gt;模块加载器:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;🌟 处理&lt;code&gt;require()&lt;/code&gt;调用，并且是同步加载模块的，&lt;/li&gt;
+&lt;li&gt;🌟 支持&lt;strong&gt;以文件夹作为模块&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;🌟 不能用于加载`ECMAScript模块（ESModule）。&lt;/li&gt;
+&lt;li&gt;🌟 解析路径时，如果未找到&lt;strong&gt;完全匹配项&lt;/strong&gt;，那么将尝试添加扩展名**&lt;code&gt;.js&lt;/code&gt;,&lt;code&gt;.json&lt;/code&gt;,&lt;code&gt;.node&lt;/code&gt;&lt;strong&gt;，然后最后再尝试解析&lt;/strong&gt;文件夹作为模块**。&lt;/li&gt;
+&lt;li&gt;将&lt;code&gt;.json&lt;/code&gt;文件视为JSON文本文件，可以直接使用&lt;code&gt;require&lt;/code&gt;加载。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;特别注意上述的四个带🌟的规则，在平时日常开发中应该是能够经常遇见的。&lt;strong&gt;从第4点也能知道为什么使用&lt;code&gt;require&lt;/code&gt;引用包时，可以不带文件的扩展名，因为node在解析路径时会自动添加&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ECMAScript&lt;/code&gt;模块加载器&lt;/strong&gt;:&lt;/p&gt;</description>
     </item>
     
   </channel>

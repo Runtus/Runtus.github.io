@@ -18,8 +18,54 @@
       <pubDate>Thu, 23 Mar 2023 09:28:58 +0800</pubDate>
       
       <guid>https://runtus.top/posts/functional_program_3/</guid>
-      <description> 关于副作用以及外部引用与函数式编程的关系
-Pure Happiness with Pure Functions 禁止与外界交互 在第二章中也有说到，保持纯函数的关键在于不能与外界有直接交互，即直接引用。 这样有个好处是能让函数能够自给自足，从而能够只看函数本身就能更加轻松了解到函数本身的功能，而不需要借助外部变量来理解，例如以下的例子。 let minimum = 21 const checkAge = age =&amp;gt; age =&amp;gt; minium checkage依赖与外部变量minium，假如该变量声明的位置很远，当后续维护时会对这段代码返回的结果感到匪夷所思，不知道其值到底从何而来。 副作用 对于函数而言，函数的副作用就是函数执行时对外界环境产生了影响（无论是依赖还是修改）。 上述的与外界交互也算是副作用的一种，副作用在计算机领域并不是贬义的含义，只是对代码执行过程的一种结果的描述，只不过在函数式编程中，副作用被视为不好的程序过程执行。 下面列举了一些副作用的例子。 更改文件fs 数据库访问 发起http请求 DOM控制 获取系统状态 获取用户的输入 so on&amp;hellip;.. 并不是说在函数式编程中，我们要完全拒绝以上操作，而是要能控制这一系列操作。后续会介绍如何去进行这一个控制过程（柯里化），下面先介绍如何将纯函数从一个普通的函数中分离出来。 纯函数的分离 一个对外界依赖的函数要分离成纯函数，就必须要显式告知函数要依赖的对象是谁，即把要依赖的对象作为参数传递，从而将外部依赖改为内部依赖。 // 不纯函数，其没有显示告知函数依赖的对象是谁。 const signUp = (attrs) =&amp;gt; { const user = saveUser(attrs); welcomeUser(user); }; // pure -&amp;gt; 将DB，Email显示告知 const signUp = (Db, Email, attrs) =&amp;gt; () =&amp;gt; { const user = saveUser(Db, attrs); welcomeUser(Email, user); }; 这样做的好处不仅仅是让函数的依赖关系更加明确从而使得函数可读性增强，而且还让函数的复用性增强，一旦Db或Email有变化，只需要重新设置这两参数，再获取一个SignUp即可。 </description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;关于副作用以及外部引用与函数式编程的关系&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;pure-happiness-with-pure-functions&#34;&gt;Pure Happiness with Pure Functions&lt;/h2&gt;
+&lt;h3 id=&#34;禁止与外界交互&#34;&gt;禁止与外界交互&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在第二章中也有说到，保持纯函数的关键在于不能与外界有直接交互，即直接引用。&lt;/li&gt;
+&lt;li&gt;这样有个好处是能让函数能够自给自足，从而能够只看函数本身就能更加轻松了解到函数本身的功能，而不需要借助外部变量来理解，例如以下的例子。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;minimum&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;checkAge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;age&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;age&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;minium&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;checkage&lt;/code&gt;依赖与外部变量minium，假如该变量声明的位置很远，当后续维护时会对这段代码返回的结果感到匪夷所思，不知道其值到底从何而来。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;副作用&#34;&gt;副作用&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;对于函数而言，函数的副作用就是函数执行时对外界环境产生了影响（无论是依赖还是修改）。&lt;/li&gt;
+&lt;li&gt;上述的与外界交互也算是副作用的一种，副作用在计算机领域并不是贬义的含义，只是对代码执行过程的一种结果的描述，只不过&lt;strong&gt;在函数式编程中，副作用被视为不好的程序过程执行。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;下面列举了一些副作用的例子。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;更改文件&lt;code&gt;fs&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;数据库访问&lt;/li&gt;
+&lt;li&gt;发起http请求&lt;/li&gt;
+&lt;li&gt;DOM控制&lt;/li&gt;
+&lt;li&gt;获取系统状态&lt;/li&gt;
+&lt;li&gt;获取用户的输入&lt;/li&gt;
+&lt;li&gt;so on&amp;hellip;..&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;并不是说在函数式编程中，我们要&lt;strong&gt;完全&lt;/strong&gt;拒绝以上操作，而是要&lt;strong&gt;能控制这一系列&lt;/strong&gt;操作。后续会介绍如何去进行这一个控制过程（柯里化），下面先介绍如何将纯函数从一个普通的函数中分离出来。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;纯函数的分离&#34;&gt;纯函数的分离&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;一个对外界依赖的函数要分离成纯函数，就必须要显式告知函数要依赖的对象是谁，即把要依赖的对象作为参数传递，从而将&lt;strong&gt;外部依赖&lt;/strong&gt;改为&lt;strong&gt;内部依赖&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 不纯函数，其没有显示告知函数依赖的对象是谁。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;signUp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;attrs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;saveUser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;attrs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;welcomeUser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// pure -&amp;gt; 将DB，Email显示告知
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;signUp&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Email&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;attrs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;saveUser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;attrs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;welcomeUser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Email&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
     <item>
@@ -28,10 +74,21 @@ Pure Happiness with Pure Functions 禁止与外界交互 在第二章中也有�
       <pubDate>Tue, 21 Mar 2023 21:34:36 +0800</pubDate>
       
       <guid>https://runtus.top/posts/functional_program_2/</guid>
-      <description>读 Professor Frisby&amp;rsquo;s Mostly Adequate Guide to Functional Programming 记录
-Functional Programming原文链接
-本章主要简单介绍函数式编程中的一等公民，以及函数式编程的一些注意事项和好处。
-第二章: First Class Functions 在函数式编程中，函数是作为一等公民存在的，应该把函数和其他变量等同，即函数也是变量，变量的类型也可以是函数，函数的参数也可以是函数。 const hi = name =&amp;gt; `Hi, ${name}` const greeting = hi hi(&amp;#34;小明&amp;#34;); 常见的回调函数，其实就是把函数当作参数传递。 const callback = (...args) =&amp;gt; { // balabala } ajax(&amp;#34;/xianbei114514/1919810&amp;#34;, callback) 不要做无所谓的函数返回 在写代码时，有时会做无意义的操作，在一个函数中，将另一个函数返回。其实它们的功能都没有变化，只是换了个变量名而已。 // 不好的操作 const getServerStuff = callback =&amp;gt; ajaxCall(json =&amp;gt; callback(json)); 对于上述代码，getServerStuff本质就是想传递一个回调函数，并在回调函数中获取ajax请求得到的值，但完全没必要写那么多，它等同于下面代码实现。 // 好的操作 const getServerStuff = ajaxCall; 此时getServerStuff的功能也是传递一个回调函数并获取到ajax的值，这和上面有区别吗？没有区别。 减少代码冗余，增强代码可读性以及可维护性 继续拿上述的ajaxCall例子来说，假如我们传递的回调函数如下所示。 ajaxCall((json) =&amp;gt; callback(json)) 这只是一个调用，如果说有多处的ajaxCall都要进行如此的回调函数的传递，那么一旦我们的业务发生改变时，就会去修改每一处代码，并且每次都要写一遍回调函数的形式，显得非常冗余。 所以考虑将函数作为变量来传递。 const cb = (json) =&amp;gt; callback(json) ajaxCall(cb) 此时一旦遇到上述情况，直接去修改cb的内容即可，并且代码量也会减少。 禁止this的出现 在函数式编程中，要保证函数是够**“纯”（1，5！）的，即不能让函数内的任何行为影响到函数外，而this指针便是一个例子，this指向的是执行函数的作用域，一旦使用了this，便会导致函数和外界进行交互，从而不纯**。 但在实际生产过程中，有时的业务情况又不得不这样操作，所以不能完全循规蹈矩，而是要懂随机应变，少量的交互并不会影响整体的代码质量。再说一句，若要调用含有this指针的函数，最好先使用bind函数改变this指针指向，这样不仅能让代码更加易读，还能减少一些未来执行时可能遇见的错误。 // 借用网上的例子 // scary fs.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;读 Professor Frisby&amp;rsquo;s Mostly Adequate Guide to Functional Programming 记录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://mostly-adequate.gitbook.io/mostly-adequate-guide/&#34;&gt;Functional Programming原文链接&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本章主要简单介绍函数式编程中的一等公民，以及函数式编程的一些注意事项和好处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;第二章-first-class-functions&#34;&gt;第二章: First Class Functions&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;在函数式编程中，函数是作为&lt;strong&gt;一等公民&lt;/strong&gt;存在的，应该把函数和其他变量等同，即&lt;strong&gt;函数也是变量，变量的类型也可以是函数，函数的参数也可以是函数&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;hi&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`Hi, &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;greeting&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;hi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;hi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;小明&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
   </channel>

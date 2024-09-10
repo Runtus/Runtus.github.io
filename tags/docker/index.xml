@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>docker on Runtus</title>
+    <title>Docker on Runtus</title>
     <link>https://runtus.top/tags/docker/</link>
-    <description>Recent content in docker on Runtus</description>
+    <description>Recent content in Docker on Runtus</description>
     <image>
       <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
@@ -18,13 +18,47 @@
       <pubDate>Sat, 29 Jan 2022 11:10:01 +0000</pubDate>
       
       <guid>https://runtus.top/posts/%E5%86%8D%E6%8B%BEdocker/</guid>
-      <description> 记录docker的基本概念和用法，系统的再认识一次docker
-docker是什么 Docker是对Linux容器的一种封装，并提供简单易用的接口，同时它也是目前最流行的Linux容器解决方案。
-在docker出现之前，环境移植一直是非常麻烦的事情，当我们需要把项目从一台机器迁移到另一台机器时，不仅仅是迁移源代码，更重要的是要保证环境的一致性，而一次次环境的搭建则显得冗余且效率极低，所以在思考有没有一种方式能够把环境一起进行迁移。
-虚拟机的出现在一定程度上解决了这个问题，但接踵而至的问题是：
-虚拟机占用资源多，它本质就是一台完整的操作系统， 冗余步骤多，由于是完整的操作系统，一些系统级别的操作步骤不可避免。 启动慢。 所以Linux发展出了另一种虚拟化技术：Linux容器。而docker则是Linux容器的一种解决方案（也是最流行的）
-可以简单的将docker理解为一种非常轻量级的虚拟机。
-docker镜像（image文件） docker把应用程序及其依赖打包在image文件里，通过image文件，就会生成容器（后续会提到），即镜像文件其实就是容器的模版，而容器则是镜像文件的实例（可以一一对应类与对象） image文件是二进制文件。在实际开发中，我们会在别人写好的image文件上加一些自定义设置从而形成我们需要的image文件，而不是自己从零开发一个image文件（当然，有需求另说）。 # 有关image命令 docker image ls # 列出docker镜像 docker image rm [imageName] # 删除某镜像文件 容器文件 由image生成的容器实例，本身也是一个文件，称为容器文件。同时，当关闭容器时不会删除容器文件，只是让容器停止运行而已。 docker container ls # 本机正在运行的容器 docker container ls --all # 本机所有容器 每个容器都有一个唯一ID，如果需要终结容器的运行，需要使用kill命令docker container kill。 如需要删除容器文件，需要使用rm命令。 docker container rm [containerID] </description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记录docker的基本概念和用法，系统的再认识一次docker&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;docker是什么&#34;&gt;docker是什么&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Docker是对Linux容器的一种封装，并提供简单易用的接口，同时它也是目前最流行的Linux容器解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在docker出现之前，环境移植一直是非常麻烦的事情，当我们需要把项目从一台机器迁移到另一台机器时，不仅仅是迁移源代码，更重要的是要保证环境的一致性，而一次次环境的搭建则显得冗余且效率极低，所以在思考有没有一种方式能够把环境一起进行迁移。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;虚拟机&lt;/strong&gt;的出现在一定程度上解决了这个问题，但接踵而至的问题是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;虚拟机占用资源多，它本质就是一台完整的操作系统，&lt;/li&gt;
+&lt;li&gt;冗余步骤多，由于是完整的操作系统，一些系统级别的操作步骤不可避免。&lt;/li&gt;
+&lt;li&gt;启动慢。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所以Linux发展出了另一种&lt;strong&gt;虚拟化技术&lt;/strong&gt;：Linux容器。而docker则是Linux容器的一种解决方案（也是最流行的）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以简单的将docker理解为一种&lt;strong&gt;非常轻量级的虚拟机&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;docker镜像image文件&#34;&gt;docker镜像（image文件）&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;docker把&lt;strong&gt;应用程序及其依赖&lt;/strong&gt;打包在image文件里，通过image文件，就会生成&lt;strong&gt;容器（后续会提到）&lt;/strong&gt;，即镜像文件其实就是容器的模版，而容器则是镜像文件的实例（可以一一对应&lt;strong&gt;类与对象&lt;/strong&gt;）&lt;/li&gt;
+&lt;li&gt;image文件是二进制文件。在实际开发中，我们会在别人写好的image文件上加一些自定义设置从而形成我们需要的image文件，而不是自己从零开发一个image文件（当然，有需求另说）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 有关image命令&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker image ls &lt;span class=&#34;c1&#34;&gt;# 列出docker镜像&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker image rm &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;imageName&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 删除某镜像文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;容器文件&#34;&gt;容器文件&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;由image生成的容器实例，本身也是一个文件，称为&lt;strong&gt;容器文件&lt;/strong&gt;。同时，当关闭容器时不会删除容器文件，只是让容器停止运行而已。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker container ls &lt;span class=&#34;c1&#34;&gt;# 本机正在运行的容器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker container ls --all &lt;span class=&#34;c1&#34;&gt;# 本机所有容器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     
   </channel>
