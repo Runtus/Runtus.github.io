@@ -60,11 +60,8 @@ params:
   # profile-mode
   profileMode:
     enabled: true # needs to be explicitly set
-<<<<<<< HEAD
     title: Runtus's World
-=======
     title: World From Runtus
->>>>>>> refs/remotes/origin/main
     subtitle: "Record Daily Life"
     imageUrl: "/avatar.png"
     imageWidth: 120
