@@ -9,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    env:
+      HUGO_VERSION: 0.119.0
     steps:
       - uses: actions/checkout@v3
         with:
