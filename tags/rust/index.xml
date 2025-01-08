@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Rust on Runtus</title>
+    <title>rust on Runtus</title>
     <link>https://runtus.top/tags/rust/</link>
-    <description>Recent content in Rust on Runtus</description>
+    <description>Recent content in rust on Runtus</description>
     <image>
       <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
@@ -18,20 +18,8 @@
       <pubDate>Mon, 17 Jul 2023 20:09:43 +0800</pubDate>
       
       <guid>https://runtus.top/posts/rust-trait/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Rust中的特征Trait类似于其他语言中的接口，它定义了&lt;strong&gt;一组可以被共享的行为&lt;/strong&gt;，只要实现了特征，就能使用这组行为。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;特征-trait&#34;&gt;特征 Trait&lt;/h2&gt;
-&lt;h4 id=&#34;特征的定义&#34;&gt;特征的定义&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;通过&lt;code&gt;trait&lt;/code&gt;关键字对特征进行定义。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;pub&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;trait&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Student&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;GoClass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;LeaveClass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getClassRoom&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;-&amp;gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
+      <description>Rust中的特征Trait类似于其他语言中的接口，它定义了一组可以被共享的行为，只要实现了特征，就能使用这组行为。
+特征 Trait 特征的定义 通过trait关键字对特征进行定义。 pub trait Student { fn GoClass(&amp;amp;self); fn LeaveClass(&amp;amp;self); fn getClassRoom(&amp;amp;self) -&amp;gt; String; } 上述声明了**身为学生应该有的几个特征行为：**即上课，下课和获取教室房间号，那么其他具有学生性质的结构体（或者说为类）需要遵循该特征。 需要注意：特征只是坐函数签名，并不是真正的实现函数，函数的实现在绑定了该特征的类里实现，下面一节会提到。 类型实现特征 使用for关键字来为类实现特征。 pub struct Bob { pub year: String, pub sex: String } impl Student for Bob { // 实现特征 fn GoClass(&amp;amp;self){ // .... } fn LeaveClass(&amp;amp;self) { // ... } fn getClassRoom(&amp;amp;self) { // ... } } 在Bob类型中实现了Student特征声明的三个函数，这是必须的，除非在特征中有默认的实现。 如果特征中有默认的函数实现，那么绑定的类型可以不用再次实现函数，若实现了对应的函数，那么会覆盖默认的特征函数实现。如下所示。 pub trait Student { fn GoClass(&amp;amp;self){ println!(&amp;#34;this is student!&amp;#34;); } fn LeaveClass(&amp;amp;self); fn getClassRoom(&amp;amp;self) -&amp;gt; String; } impl Student for Bob { fn GoClass(&amp;amp;self){ println!</description>
     </item>
     
     <item>
@@ -40,21 +28,10 @@
       <pubDate>Wed, 26 Oct 2022 22:54:43 +0800</pubDate>
       
       <guid>https://runtus.top/posts/rust-%E5%80%9F%E7%94%A8%E5%92%8C%E5%BC%95%E7%94%A8/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;所有权系统和引用在Rust中是至关重要的，它的设计使得rust的GC机制与众不同，也让rust获得了性能上的回报。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;所有权&#34;&gt;所有权&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;所有权：一个数值只能被&lt;strong&gt;一个变量&lt;/strong&gt;所拥有，即该变量唯一拥有该数值，若变量离开了其作用域，数值也会被释放掉。&lt;/li&gt;
-&lt;li&gt;如果将一个变量赋值给另一个变量，则意味着对应的值的所有权会被移交出去，那么原先的变量将&lt;strong&gt;不再拥有值的所有权&lt;/strong&gt;，这也是为什么在rust中，变量的赋值也叫&lt;strong&gt;变量的绑定&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 例子
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;fn&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt;::&lt;span class=&#34;n&#34;&gt;from&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Hello&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 所有权移交 -&amp;gt; 即move
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;fm&#34;&gt;println!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{}&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 报错
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
+      <description>所有权系统和引用在Rust中是至关重要的，它的设计使得rust的GC机制与众不同，也让rust获得了性能上的回报。
+所有权 所有权：一个数值只能被一个变量所拥有，即该变量唯一拥有该数值，若变量离开了其作用域，数值也会被释放掉。 如果将一个变量赋值给另一个变量，则意味着对应的值的所有权会被移交出去，那么原先的变量将不再拥有值的所有权，这也是为什么在rust中，变量的赋值也叫变量的绑定。 // 例子 fn main(){ let s1 = String::from(&amp;#34;Hello&amp;#34;); let s2 = s1; // 所有权移交 -&amp;gt; 即move println!(&amp;#34;{}&amp;#34;, s1); // 报错 } 可以看到，上述例子的s1将所有权移交给s2后，自己便不再拥有对字符串Hello的控制。 从内存的视角观察 还是上述例子，在内存里表示出来，如下图所示。 可以看出，再进行变量绑定时，s2实际上是s1的浅拷贝结果，但唯一不同的是指针的移交操作，即指针不是单纯的拷贝，而是从s1上“移交”给了s2，这也是一个move的过程。
+如果不想让s1的所有权移交出去，则可以调用String的clone方法来实现深拷贝 ，在堆内存上再开辟一个空间，这样两个变量都有对应的值，这样就不会发生变量无法使用的情况了。
+let s1 = String::from(&amp;#34;hello&amp;#34;); let s2 = s1.clone(); // 直接重新开辟一个空间，尽量少用，会影响rust性能 println!(&amp;#34;s1 = {}, s2 = {}&amp;#34;, s1, s2); 需要注意的是，这并不能说明存储在堆内存中的数据只能有一个引用（即指针），这里只强调了move这个操作，即所有权的移交过程，而没有说明堆数据只能有一个引用。 Copy类型 之所以提到copy类型是因为它与上述的String类型有所不同，具有Copy属性的数据类型的数据都是直接存储于栈内存中的，即具有copy特征的数据在进行赋值时，旧变量依然可以使用。 fn main(){ let a = 1; let b = a; // 将 a 赋值给 b } 当赋值时，进行了浅拷贝操作，由于简单类型直接在栈上进行浅拷贝，开销小，两个1时存储在不同的栈内存空间里，所以两个变量都有与之对应的数值，所以不会像刚才的String类型一样，发生s1不可使用的情况。</description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Typescript on Runtus</title>
+    <title>typescript on Runtus</title>
     <link>https://runtus.top/tags/typescript/</link>
-    <description>Recent content in Typescript on Runtus</description>
+    <description>Recent content in typescript on Runtus</description>
     <image>
       <title>Runtus</title>
       <url>https://lao-lan-go.oss-cn-beijing.aliyuncs.com/highQua/pixiv34.JPG</url>
@@ -18,29 +18,7 @@
       <pubDate>Sun, 07 May 2023 11:21:13 +0800</pubDate>
       
       <guid>https://runtus.top/posts/node-typescript%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83/</guid>
-      <description>&lt;h3 id=&#34;使用rollup打包typscript-node项目为第三方库&#34;&gt;使用rollup打包typscript-node项目为第三方库&lt;/h3&gt;
-&lt;h4 id=&#34;tsc和rollup对比&#34;&gt;tsc和rollup对比&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;tsc是Typescript官方的编译器，本身也具有打包功能，但是其本质只是&lt;strong&gt;编译器&lt;/strong&gt;，它适合于打包&lt;strong&gt;直接运行的&lt;/strong&gt;大型项目文件，并不适合构建&lt;strong&gt;独立的第三方库或组件&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;rollup则是&lt;strong&gt;javascript打包器&lt;/strong&gt;，它可以将ES6模块打包称单个javascript文件，同时它本身也采用了&lt;a href=&#34;https://blog.csdn.net/weixin_42089660/article/details/118072554&#34;&gt;Tree Shaking&lt;/a&gt;优化算法，能使得打包文件大小得到进一步的优化。&lt;/li&gt;
-&lt;li&gt;另一方面，rollup支持插件功能，通过设置插件能满足大部分时候的打包需求，在下面即将要讲解的打包中，插件提供了很大的帮助。&lt;a href=&#34;https://github.com/rollup/awesome&#34;&gt;RollUp插件集合网站&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&#34;rollup打包流程&#34;&gt;rollup打包流程&lt;/h4&gt;
-&lt;h4 id=&#34;本地安装-rollup&#34;&gt;本地安装 rollup&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;就我个人而言，不推荐安装全局的rollup包，因为在协同工作时，这样会导致rollup版本&lt;strong&gt;得不到统一而产生打包错误&lt;/strong&gt;，所以推荐在本地安装rollup，本文使用的包管理工具为&lt;code&gt;yarn&lt;/code&gt;，安装命令如下:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;yarn add rollup
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;安装完毕后，在&lt;code&gt;package.json&lt;/code&gt;文件里设置对应的脚本，用于快速启动打包。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// package.json
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;scripts&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;rollup -c&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
+      <description>使用rollup打包typscript-node项目为第三方库 tsc和rollup对比 tsc是Typescript官方的编译器，本身也具有打包功能，但是其本质只是编译器，它适合于打包直接运行的大型项目文件，并不适合构建独立的第三方库或组件。 rollup则是javascript打包器，它可以将ES6模块打包称单个javascript文件，同时它本身也采用了Tree Shaking优化算法，能使得打包文件大小得到进一步的优化。 另一方面，rollup支持插件功能，通过设置插件能满足大部分时候的打包需求，在下面即将要讲解的打包中，插件提供了很大的帮助。RollUp插件集合网站 rollup打包流程 本地安装 rollup 就我个人而言，不推荐安装全局的rollup包，因为在协同工作时，这样会导致rollup版本得不到统一而产生打包错误，所以推荐在本地安装rollup，本文使用的包管理工具为yarn，安装命令如下: yarn add rollup 安装完毕后，在package.json文件里设置对应的脚本，用于快速启动打包。 // package.json { &amp;#34;scripts&amp;#34;: { &amp;#34;build&amp;#34;: &amp;#34;rollup -c&amp;#34; } } -c的意思是按照配置文件中设置的内容进行打包。 设置rollup.config.js文件 就如同tsconfig.json一样，rollup也是有一个对应的配置文件名为rollup.config.js，虽然其不是必须的，但配置文件强大且方便，所以在配置项目打包时基本都要用到配置文件。 在项目根目录创建对应的配置文件，在文件里根据自己的需求来编写对应的配置代码。 rollup.config.js是一个ES模块，它会根据文件内导出的内容来进行打包上的设置，如下所示。 // rollup.config.js export default { // 这里也可以是一个数组 input: [], output: [], external: [], plugins: [], // .... } 安装插件 需要三个插件： rollup-plugin-typescript2 =&amp;gt; 将typescript转移为javascript的插件 rollup/plugin-commonjs =&amp;gt; 将commonjs语法转换为es6 rollup-plugin-dts =&amp;gt; 生成声明文件d.ts文件 执行以下的命令 yarn add @rollup/plugin-commonjs rollup-plugin-typescript2 typescript tslib rollup-plugin-dts --dev 修改配置文件 关于配置文件的各个变量配置这里不赘述，如有需求，可查阅rollup官网的配置说明。 // rollup.</description>
     </item>
     
   </channel>
