@@ -18,7 +18,7 @@ minify:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Runtus
-  description: "daily life from Runtus"
+  description: "Daily Life from Runtus"
   keywords: [Life, Portfolio, PaperMod]
   author: Runtus
   # author: ["Me", "You"] # multiple authors
@@ -60,7 +60,11 @@ params:
   # profile-mode
   profileMode:
     enabled: true # needs to be explicitly set
+<<<<<<< HEAD
     title: Runtus's World
+=======
+    title: World From Runtus
+>>>>>>> refs/remotes/origin/main
     subtitle: "Record Daily Life"
     imageUrl: "/avatar.png"
     imageWidth: 120
