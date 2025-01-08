@@ -61,7 +61,7 @@ params:
   profileMode:
     enabled: true # needs to be explicitly set
     title: Runtus's World
-    title: World From Runtus
+    title: 杂货铺
     subtitle: "Record Daily Life"
     imageUrl: "/avatar.png"
     imageWidth: 120

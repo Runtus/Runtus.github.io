@@ -73,12 +73,31 @@
 {{- if (not site.Params.disableThemeToggle) }}
 <script>
     document.getElementById("theme-toggle").addEventListener("click", () => {
+        const targets = Array.from(document.getElementsByClassName("all-layer"));
+        const styles = Array.from(document.body.classList);
+        const beforeStyle = styles.includes("dark") ? "dark" : "light";
+        const darkModeTarget = targets[0], lightModeTarget = targets[1];
+
+
         if (document.body.className.includes("dark")) {
             document.body.classList.remove('dark');
+            document.body.classList.add('light');
             localStorage.setItem("pref-theme", 'light');
         } else {
             document.body.classList.add('dark');
+            document.body.classList.remove('light');
             localStorage.setItem("pref-theme", 'dark');
+        }
+
+        // opacity
+        if (window.location.pathname === "/") {
+            // 之前是dark，那么现在是light，取消dark，增强light
+            darkModeTarget.style.opacity = beforeStyle === "dark" ? 0 : 0.8;
+            lightModeTarget.style.opacity = beforeStyle === "light" ? 0 : 1;
+        } else {
+            // 之前是light，那么现在是dark，取消light，增强dark
+            darkModeTarget.style.opacity = beforeStyle === "dark" ? 0 : 0.4;    
+            lightModeTarget.style.opacity = beforeStyle === "light" ? 0 : 0.4;
         }
     })
 
@@ -134,3 +153,22 @@
     });
 </script>
 {{- end }}
+
+
+<!-- 事件监听 -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const targets = Array.from(document.getElementsByClassName("all-layer"));
+        const styles = Array.from(document.body.classList);
+
+        const nowStyle = styles.includes("dark") ? "dark" : "light";
+        const index = nowStyle === "dark" ? 0 : 1;
+
+        if (window.location.pathname === "/") {
+            targets[index].style.opacity = 0.8;
+        } else {
+            targets[index].style.opacity = 0.4;
+        }
+        
+    })
+</script>

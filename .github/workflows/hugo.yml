@@ -54,8 +54,7 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          hugo \
-            --minify 
+          hugo
       - name: SSH Server Deploy
         uses: kostya-ten/ssh-server-deploy@v4
         with:

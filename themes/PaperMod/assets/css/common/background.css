@@ -14,20 +14,34 @@
     width: 100%;
     pointer-events: none;
     position: fixed;
-
+    display: flex;
 }
 
-.l-paged__layer {
+
+
+.all-layer {
     height: 100%;
     width: 50vw;
-    background-image: url(/pagebg_intro.png);
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: 100% auto;
-    transition: opacity 0.5s ease-out, 2s ease-out;
-    opacity: 1;
+    transition: opacity 0.5s ease-out, 0.5s ease-out;
     transform: scale(1);
+    opacity: 0;
 }
+
+
+
+
+.light .r-paged__layer {
+    background-image:url(/pagebg.jpeg);
+}
+
+.dark .l-paged__layer {
+    background-image: url(/pagebg_intro.png);
+}
+
+
 
 .r-pagebd {
     max-width: 0 auto;
