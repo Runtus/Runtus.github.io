@@ -1,0 +1,103 @@
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -999;
+    width: 100vw;
+    height: 100vh;
+}
+
+.l-pagebd {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    position: fixed;
+
+}
+
+.l-paged__layer {
+    height: 100%;
+    width: 50vw;
+    background-image: url(/pagebg_intro.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    transition: opacity 0.5s ease-out, 2s ease-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.r-pagebd {
+    max-width: 0 auto;
+    max-width: 1408px;
+    padding: 0 64px;
+}
+
+.c-onpu {
+    height: 19.5vw;
+    width: 59.3vw;
+    position: fixed;
+    bottom: -5vw;
+    right: 0;
+}
+
+.c-onpu__layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 100%;
+    width: 100%;
+
+}
+
+.-layer1 {
+    background-image: url(/onpu_line.png);
+    opacity: 0.5;
+    transform-origin: 0 20%;
+    animation: oupnLineAnime 5s linear infinite alternate-reverse;
+}
+
+.-layer2 {
+    background-image: url(/onpu_item1.png);
+    animation: inpuAnime1 2s linear infinite alternate-reverse;
+}
+
+.-layer3 {
+    background-image: url(/onpu_item2.png);
+    animation: inpuAnime2 2s linear infinite alternate-reverse;
+}
+
+@keyframes oupnLineAnime {
+    0% {
+        transform: scaleY(1);
+    }
+
+    100% {
+        transform: scaleY(0.8);
+    }
+}
+
+
+@keyframes inpuAnime1 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(0, -10px);
+    }
+}
+
+@keyframes inpuAnime2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(0, 10px);
+    }
+}
